@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:icon="@mipmap/ic_bag"
+        android:id="@+id/item_shopping"
+        android:title="@string/Shopping"></item>
+    <item
+        android:icon="@mipmap/ic_heart"
+        android:id="@+id/item_following"
+        android:title="@string/Following"></item>
+    <item
+        android:icon="@mipmap/ic_cart"
+        android:id="@+id/item_card"
+        android:title="@string/Cart"
+        ></item>
+</menu>

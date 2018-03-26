@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Store</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="Shopping">Mua sắm</string>
+    <string name="Following">Theo dõi</string>
+    <string name="Cart">Giỏ hàng</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="mobile">Điện thoại</string>
+    <string name="book">Sách</string>
+    <string name="clothes">Quần áo</string>
+</resources>
