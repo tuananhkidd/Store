@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:scrollbars="none"
+    tools:showIn="@layout/activity_profile">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/txt_personal_info_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/edit_text_padding"
+                android:text="@string/personal_info"
+                android:textSize="@dimen/font_size_20sp"
+                android:textStyle="bold" />
+
+            <ImageButton
+                android:background="?selectableItemBackgroundBorderless"
+                android:id="@+id/btn_edit_user_profile"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="@dimen/floating_flat_button_size"
+                android:layout_height="@dimen/floating_flat_button_size"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_edit_gray" />
+
+            <ImageView
+                android:id="@+id/img_birthday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txt_personal_info_title"
+                android:layout_marginBottom="@dimen/personal_info_icon_space_bottom"
+                android:layout_marginEnd="@dimen/edit_text_padding"
+                android:layout_marginRight="@dimen/edit_text_padding"
+                android:src="@drawable/ic_calendar_dark_gray" />
+
+            <TextView
+                android:id="@+id/txt_birthday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/img_birthday"
+                android:layout_toEndOf="@id/img_birthday"
+                android:layout_toRightOf="@id/img_birthday"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="10/03/1997"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/font_size_16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_birthday"
+                android:layout_toEndOf="@+id/img_birthday"
+                android:layout_toRightOf="@+id/img_birthday"
+                android:text="@string/birthday"
+                android:textSize="@dimen/font_size_12sp"
+                android:textStyle="italic" />
+
+            <ImageView
+                android:id="@+id/img_gender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/img_birthday"
+                android:layout_marginBottom="@dimen/personal_info_icon_space_bottom"
+                android:layout_marginEnd="@dimen/edit_text_padding"
+                android:layout_marginRight="@dimen/edit_text_padding"
+                android:src="@drawable/ic_gender" />
+
+            <TextView
+                android:id="@+id/txt_gender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/img_gender"
+                android:layout_toEndOf="@id/img_gender"
+                android:layout_toRightOf="@id/img_gender"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="Nam"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/font_size_16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/txt_gender"
+                android:layout_alignStart="@id/txt_gender"
+                android:layout_below="@id/txt_gender"
+                android:text="@string/gender"
+                android:textSize="@dimen/font_size_12sp"
+                android:textStyle="italic" />
+
+            <ImageView
+                android:id="@+id/img_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/img_gender"
+                android:layout_marginBottom="@dimen/personal_info_icon_space_bottom"
+                android:layout_marginEnd="@dimen/edit_text_padding"
+                android:layout_marginRight="@dimen/edit_text_padding"
+                android:src="@drawable/ic_home_dark_gray" />
+
+            <TextView
+                android:id="@+id/txt_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/img_address"
+                android:layout_toEndOf="@id/img_address"
+                android:layout_toRightOf="@id/img_address"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="Vinh Tuong - Vinh Phuc"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/font_size_16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/txt_address"
+                android:layout_alignStart="@id/txt_address"
+                android:layout_below="@id/txt_address"
+                android:text="@string/address"
+                android:textSize="@dimen/font_size_12sp"
+                android:textStyle="italic" />
+
+            <ImageView
+                android:id="@+id/img_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/img_address"
+                android:layout_marginBottom="@dimen/personal_info_icon_space_bottom"
+                android:layout_marginEnd="@dimen/edit_text_padding"
+                android:layout_marginRight="@dimen/edit_text_padding"
+                android:src="@drawable/ic_email" />
+
+            <TextView
+                android:id="@+id/txt_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/img_email"
+                android:layout_toEndOf="@id/img_email"
+                android:layout_toRightOf="@id/img_email"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="tuananhkidd1996@gmail.com"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/font_size_16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/txt_email"
+                android:layout_alignStart="@id/txt_email"
+                android:layout_below="@id/txt_email"
+                android:text="@string/email"
+                android:textSize="@dimen/font_size_12sp"
+                android:textStyle="italic" />
+
+            <ImageView
+                android:id="@+id/img_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/img_email"
+                android:layout_marginBottom="@dimen/personal_info_icon_space_bottom"
+                android:layout_marginEnd="@dimen/edit_text_padding"
+                android:layout_marginRight="@dimen/edit_text_padding"
+                android:src="@drawable/ic_phone_gray" />
+
+            <TextView
+                android:id="@+id/txt_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/img_phone"
+                android:layout_toEndOf="@id/img_phone"
+                android:layout_toRightOf="@id/img_phone"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="0961569816"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/font_size_16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/txt_phone"
+                android:layout_alignStart="@id/txt_phone"
+                android:layout_below="@id/txt_phone"
+                android:text="@string/phone"
+                android:textSize="@dimen/font_size_12sp"
+                android:textStyle="italic" />
+
+            <ImageView
+                android:id="@+id/img_id_card"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/img_phone"
+                android:layout_marginEnd="@dimen/edit_text_padding"
+                android:layout_marginRight="@dimen/edit_text_padding"
+                android:src="@drawable/ic_id_card" />
+
+            <TextView
+                android:id="@+id/txt_id_card"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/img_id_card"
+                android:layout_toEndOf="@id/img_id_card"
+                android:layout_toRightOf="@id/img_id_card"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="017346352"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/font_size_16sp" />
+
+            <TextView
+                android:id="@+id/txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/txt_id_card"
+                android:layout_alignStart="@id/txt_id_card"
+                android:layout_below="@id/txt_id_card"
+                android:text="@string/id_card"
+                android:textSize="@dimen/font_size_12sp"
+                android:textStyle="italic" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#a6a3a3"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+        <TextView
+            android:id="@+id/txt_description_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/edit_text_padding"
+            android:text="@string/description"
+            android:textSize="@dimen/font_size_20sp"
+            android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/btn_edit_description"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="@dimen/floating_flat_button_size"
+                android:layout_height="@dimen/floating_flat_button_size"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:background="?selectableItemBackgroundBorderless"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_edit_gray" />
+
+            <TextView
+                android:text="-"
+                android:id="@+id/txt_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txt_description_title"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/font_size_16sp" />
+
+        </RelativeLayout>
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

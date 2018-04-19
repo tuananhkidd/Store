@@ -5,4 +5,12 @@
     <dimen name="nav_header_vertical_spacing">8dp</dimen>
     <dimen name="nav_header_height">176dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="large_avatar_size">128dp</dimen>
+    <dimen name="font_size_26sp">26dp</dimen>
+    <dimen name="font_size_16sp">16dp</dimen>
+    <dimen name="edit_text_padding">10dp</dimen>
+    <dimen name="font_size_20sp">20dp</dimen>
+    <dimen name="floating_flat_button_size">36dp</dimen>
+    <dimen name="personal_info_icon_space_bottom">30dp</dimen>
+    <dimen name="font_size_12sp">12dp</dimen>
 </resources>

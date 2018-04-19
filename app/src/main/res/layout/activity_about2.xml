@@ -1,0 +1,91 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:name="com.google.android.gms.maps.SupportMapFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        map:title="Liên hệ"
+        map:titleTextColor="#fff" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/background_textviw"
+            android:drawableLeft="@drawable/ic_home_red"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="Thuy Anh Mobile"
+            android:textColor="#0b15e2"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginVertical="4dp"
+            android:background="@drawable/background_textviw"
+            android:drawableLeft="@drawable/ic_phone_red"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="01694908085"
+            android:textColor="#0b15e2"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginVertical="4dp"
+            android:background="@drawable/background_textviw"
+            android:drawableLeft="@drawable/ic_email_red"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="thuyanhmobile@gmail.com"
+            android:textColor="#0b15e2"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="4dp"
+            android:background="@drawable/background_textviw"
+            android:drawableLeft="@drawable/ic_location_red"
+            android:gravity="center"
+            android:maxLines="1"
+            android:padding="8dp"
+            android:text="22 Phùng Hưng Hà Đông Hà Nội"
+            android:textColor="#0b15ce"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:map="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context="vn.edu.kidd.banhangonline.activity.ContactActivity" />
+    </LinearLayout>
+
+</LinearLayout>

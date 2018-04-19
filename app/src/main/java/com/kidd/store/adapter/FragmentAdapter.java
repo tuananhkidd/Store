@@ -20,7 +20,8 @@ import java.util.List;
 public class FragmentAdapter extends FragmentPagerAdapter {
     List<Fragment> lsFragment;
     Context context;
-    public FragmentAdapter(FragmentManager fm,Context context) {
+
+    public FragmentAdapter(FragmentManager fm, Context context) {
         super(fm);
         this.context = context;
         lsFragment = new ArrayList<>();
@@ -36,14 +37,14 @@ public class FragmentAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        switch (position){
-            case 0:{
+        switch (position) {
+            case 0: {
                 return context.getString(R.string.Shopping);
             }
-            case 1:{
+            case 1: {
                 return context.getString(R.string.Following);
             }
-            case 2:{
+            case 2: {
                 return context.getString(R.string.Cart);
             }
         }
@@ -53,5 +54,22 @@ public class FragmentAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         return lsFragment.size();
+    }
+
+    public static int getItemID(int position) {
+        switch (position) {
+            case 0: {
+                return R.id.item_shopping;
+            }
+            case 1: {
+                return R.id.item_following;
+            }
+            case 2: {
+                return R.id.item_card;
+            }
+            default:{
+                return -1;
+            }
+        }
     }
 }

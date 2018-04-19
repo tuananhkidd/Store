@@ -46,6 +46,7 @@ public class ShopFragment extends Fragment {
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         adapter = new ShopFragmentAdapter(getChildFragmentManager(),getActivity());
         viewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(viewPager);
     }
 
 }

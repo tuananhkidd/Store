@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_login"
+    tools:context="com.kidd.store_manager.view.account.LoginActivity">
+
+    <ImageView
+        android:id="@+id/img_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:src="@drawable/book_logo" />
+
+    <EditText
+        android:id="@+id/edt_user_name"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/img_logo"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="80dp"
+        android:background="@drawable/background_edittext"
+        android:hint="User Name"
+        android:paddingHorizontal="16dp"
+        android:textSize="20sp" />
+
+    <EditText
+        android:inputType="textPassword"
+        android:id="@+id/edt_pass"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/edt_user_name"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/background_edittext"
+        android:hint="Password"
+        android:paddingHorizontal="16dp"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/edt_pass"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/background_login_button"
+        android:text="Login"
+        android:textColor="#fff"
+        android:paddingHorizontal="16dp"
+        android:textSize="20sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/txt_signup"
+        android:layout_below="@+id/btn_login"
+        android:gravity="center"
+        android:textColor="#fff"
+        android:layout_marginTop="32dp"
+        android:text="Not a remember? Sign up now."/>
+
+    <ProgressBar
+        android:background="#f106ed"
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
+</RelativeLayout>
