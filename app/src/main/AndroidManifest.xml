@@ -49,7 +49,8 @@
         <activity
             android:name=".view.about.AboutActivity"
             android:label="@string/title_activity_about" />
-        <activity android:name=".view.rate.RateActivity"></activity>
+        <activity android:name=".view.rate.RateActivity" />
+        <activity android:name=".view.profile.update_description.UpdateDescriptionActivity"></activity>
     </application>
 
 </manifest>
