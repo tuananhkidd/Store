@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar_scrolling"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:fitsSystemWindows="true"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:scrimAnimationDuration="200"
+            app:titleEnabled="false">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/img_cover"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/wall_placeholder"
+                    android:tint="#5F000000" />
+
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/img_avatar"
+                    android:layout_width="@dimen/large_avatar_size"
+                    android:layout_height="@dimen/large_avatar_size"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="?actionBarSize"
+                    android:src="@drawable/avatar_placeholder"
+                    app:civ_border_color="@android:color/white"
+                    app:civ_border_width="3dp" />
+
+                <ImageButton
+                    android:id="@+id/btn_avatar"
+                    android:layout_width="@dimen/camera_button_size"
+                    android:layout_height="@dimen/camera_button_size"
+                    android:layout_alignBottom="@id/img_avatar"
+                    android:layout_alignEnd="@id/img_avatar"
+                    android:layout_alignRight="@id/img_avatar"
+                    android:background="@color/colorAccent"
+                    android:src="@drawable/ic_camera" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/img_cover"
+                    android:layout_marginBottom="@dimen/edit_text_padding"
+                    android:gravity="center_horizontal">
+
+                    <EditText
+                        android:id="@+id/edt_full_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:background="@drawable/background_edit_text"
+                        android:hint="@string/full_name"
+                        android:inputType="text"
+                        android:padding="8dp"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/font_size_20sp" />
+
+
+                </LinearLayout>
+            </RelativeLayout>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:focusable="true"
+                android:theme="@style/AppTheme"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context=".view.user.edit_user_profile.EditUserProfileActivity">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/img_cover"
+            android:orientation="vertical"
+            android:padding="@dimen/edit_text_space_bottom">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/edit_text_space_bottom"
+                android:baselineAligned="false"
+                android:orientation="horizontal"
+                android:weightSum="5">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/edit_text_space_bottom"
+                    android:layout_marginRight="@dimen/edit_text_space_bottom"
+                    android:layout_weight="3"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/editTextLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/birthday" />
+
+                    <EditText
+                        android:id="@+id/edt_birthday"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/background_edit_text"
+                        android:hint="Ngay sinh"
+                        android:padding="8dp"
+                        android:textSize="@dimen/font_size_20sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/editTextLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/gender" />
+
+                    <android.support.v7.widget.AppCompatSpinner
+                        android:padding="8dp"
+                        android:id="@+id/spinner_gender"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/spinner_background" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                style="@style/editTextLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/address" />
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/edt_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/edit_text_space_bottom"
+                android:background="@drawable/background_edit_text"
+                android:clickable="true"
+                android:ellipsize="end"
+                android:focusable="false"
+                android:hint="@string/address"
+                android:inputType="text"
+                android:longClickable="false"
+                android:padding="8dp"
+                android:textSize="@dimen/font_size_20sp" />
+
+            <TextView
+                style="@style/editTextLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/email" />
+
+            <EditText
+                android:id="@+id/edt_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/edit_text_space_bottom"
+                android:background="@drawable/background_edit_text"
+                android:hint="@string/email"
+                android:padding="8dp"
+                android:textSize="@dimen/font_size_20sp" />
+
+            <TextView
+                style="@style/editTextLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/phone" />
+
+            <EditText
+                android:id="@+id/edt_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/edit_text_space_bottom"
+                android:background="@drawable/background_edit_text"
+                android:hint="@string/phone"
+                android:inputType="phone"
+                android:padding="8dp"
+                android:textSize="@dimen/font_size_20sp" />
+
+            <TextView
+                style="@style/editTextLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/id_card" />
+
+            <EditText
+                android:id="@+id/edt_id_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_edit_text"
+                android:hint="@string/id_card"
+                android:inputType="number"
+                android:padding="8dp"
+                android:textSize="@dimen/font_size_20sp" />
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.design.widget.CoordinatorLayout>

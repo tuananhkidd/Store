@@ -1,8 +1,11 @@
 package com.kidd.store.view.profile;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.kidd.store.GlideApp;
@@ -28,7 +31,9 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView {
     TextView txt_phone;
     TextView txt_card;
     TextView txt_description;
+    ImageButton btn_edit_user_profile;
     Toolbar toolbar;
+    Profile profile;
 
     ProfilePresenter presenter;
 
@@ -51,15 +56,24 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView {
         txt_phone = findViewById(R.id.txt_phone);
         txt_card = findViewById(R.id.txt_id_card);
         txt_description = findViewById(R.id.txt_description);
+        btn_edit_user_profile = findViewById(R.id.btn_edit_user_profile);
         toolbar = findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_back);
-        toolbar.setNavigationOnClickListener(v->{
+        toolbar.setNavigationOnClickListener(v -> {
             finish();
         });
-        presenter = new ProfilePresenterImpl(this,this);
+
+
+        presenter = new ProfilePresenterImpl(this, this);
         presenter.getProfile(Utils.getSharePreferenceValues(this, Constants.CUSTOMER_ID));
+
+        btn_edit_user_profile.setOnClickListener(v -> {
+            Intent intent = new Intent();
+            intent.putExtra(Constants.PROFILE, profile);
+            startActivity(intent);
+        });
     }
 
     @Override
@@ -73,7 +87,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView {
     }
 
     @Override
-    public void showProfile(Profile profile) {
+    public void showProfile(Profile prof) {
+        profile = prof;
         GlideApp.with(this)
                 .load(profile.getAvatarUrl())
                 .placeholder(R.drawable.avatar_placeholder)
@@ -86,5 +101,6 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView {
         txt_phone.setText(profile.getPhone() == null ? "-" : profile.getPhone());
         txt_card.setText(profile.getIdentityCard() == null ? "-" : profile.getIdentityCard());
         txt_description.setText(profile.getDescription() == null ? "-" : profile.getDescription());
+        txt_email.setText(profile.getEmail() == null ? "-" : profile.getEmail());
     }
 }

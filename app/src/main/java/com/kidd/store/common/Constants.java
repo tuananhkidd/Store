@@ -17,5 +17,8 @@ public class Constants {
     public static final String PRE_FULL_NAME = "PRE_FULL_NAME";
     public static final String PRE_EMAIL = "PRE_EMAIL";
     public static final String HEADER_PROFILE = "HEADER_PROFILE";
+    public static final String PROFILE = "PROFILE";
     public static int RESULT_CODE_SIGNUP = 2;
+    public static String SALE = "Ưu đãi";
+    public static String SERVICE = "Dịch vụ";
 }

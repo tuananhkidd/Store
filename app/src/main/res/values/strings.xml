@@ -52,4 +52,9 @@
     <string name="enter_message">Nhập lời nhắn</string>
     <string name="note">* Chúng tôi mong muốn nhận được những nhận xét từ các bạn để tiếp tục xây dựng và phát triển cửa hàng</string>
     <string name="must_not_empty">Rỗng</string>
+    <string name="sale">Ưu đãi</string>
+    <string name="service">Dịch vụ</string>
+    <string name="enter_option">Góp ý thêm</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="full_name">Họ tên</string>
 </resources>
