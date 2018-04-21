@@ -57,4 +57,7 @@
     <string name="enter_option">Góp ý thêm</string>
     <string name="title_activity_maps">Map</string>
     <string name="full_name">Họ tên</string>
+    <string name="update_description">Cập nhật mô tả</string>
+    <string name="enter_des">Nhập mô tả</string>
+    <string name="update">Cập nhật</string>
 </resources>

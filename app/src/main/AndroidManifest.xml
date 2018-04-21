@@ -50,10 +50,14 @@
             android:name=".view.about.AboutActivity"
             android:label="@string/title_activity_about" />
         <activity android:name=".view.rate.RateActivity" />
+<<<<<<< HEAD
         <activity
             android:name=".view.map.MapsActivity"
             android:label="@string/title_activity_maps" />
         <activity android:name=".view.profile.edit.EditProfileActivity"></activity>
+=======
+        <activity android:name=".view.profile.update_description.UpdateDescriptionActivity"></activity>
+>>>>>>> da9fc95a1e034cdbcaa9d6b7b42afda2eabe227a
     </application>
 
 </manifest>
