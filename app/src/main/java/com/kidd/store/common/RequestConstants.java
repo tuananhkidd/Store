@@ -5,9 +5,9 @@ package com.kidd.store.common;
  */
 
 public class RequestConstants {
-//    public static final String BASE_URL = "http://192.168.0.100:1995";
-    public static final String BASE_URL = "http://192.168.0.103:1995";
-//    public static final String BASE_URL = "http://192.168.0.101:1995";
+//    public static final String BASE_URL = "http://192.168.0.103:1995";
+//    public static final String BASE_URL = "http://192.168.1.11:1995";
+    public static final String BASE_URL = "http://192.168.0.101:1995";
 //    public static final String BASE_URL = "http://192.168.43.6:1995";
     public static final String AUTHORIZATION = "Authorization";
     public static final String BASIC_PREFIX = "Basic ";

@@ -60,4 +60,7 @@
     <string name="update_description">Cập nhật mô tả</string>
     <string name="enter_des">Nhập mô tả</string>
     <string name="update">Cập nhật</string>
+    <string name="selected">Đã chọn</string>
+    <string name="pick_avatar">Chọn ảnh</string>
+    <string name="must_pick_one_image">Chỉ được chọn duy nhất 1 ảnh</string>
 </resources>

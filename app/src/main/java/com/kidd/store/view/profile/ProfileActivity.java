@@ -19,8 +19,10 @@ import com.kidd.store.models.response.Profile;
 import com.kidd.store.presenter.profile.ProfilePresenter;
 import com.kidd.store.presenter.profile.ProfilePresenterImpl;
 import com.kidd.store.services.event_bus.DescriptionChangeEvent;
+import com.kidd.store.services.event_bus.ProfileChangeEvent;
 import com.kidd.store.services.event_bus.UserAuthorizationChangedEvent;
 import com.kidd.store.view.profile.update_description.UpdateDescriptionActivity;
+import com.kidd.store.view.profile.update_profile.UpdateProfileActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -83,7 +85,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView, V
         presenter.getProfile(Utils.getSharePreferenceValues(this, Constants.CUSTOMER_ID));
 
         btn_edit_profile.setOnClickListener(v -> {
-            Intent intent = new Intent();
+            Intent intent = new Intent(this, UpdateProfileActivity.class);
             intent.putExtra(Constants.PROFILE, profile);
             startActivity(intent);
         });
@@ -107,14 +109,14 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView, V
 
     @Override
     public void showProfile(Profile prof) {
-        profile = prof;
+        this.profile = prof;
         GlideApp.with(this)
                 .load(profile.getAvatarUrl())
                 .placeholder(R.drawable.avatar_placeholder)
                 .into(img_avt);
 
         txt_name.setText(profile.getFullName() == null ? "-" : profile.getFullName());
-        txt_birthday.setText(Utils.getDateFromMilliseconds(profile.getBirthday()));
+        txt_birthday.setText(profile.getBirthday() == -1 ? "-" : Utils.getDateFromMilliseconds(profile.getBirthday()));
         txt_gender.setText(profile.getGender() == 1 ? "Nam" : "Nữ");
         txt_address.setText(profile.getAddress() == null ? "-" : profile.getAddress());
         txt_phone.setText(profile.getPhone() == null ? "-" : profile.getPhone());
@@ -126,6 +128,11 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView, V
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUpdateDescriptionChangedEvent(DescriptionChangeEvent descriptionChangeEvent) {
         txt_description.setText(descriptionChangeEvent.getDescription());
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onUpdateProfileChangedEvent(ProfileChangeEvent profileChangeEvent) {
+        showProfile(profileChangeEvent.getProfile());
     }
 
     @Override

@@ -1,15 +1,32 @@
 package com.kidd.store.view.map;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -21,18 +38,33 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.kidd.store.R;
+import com.kidd.store.adapter.StoreBranchAdapter;
 import com.kidd.store.custom.LoadingDialog;
+import com.kidd.store.models.SingleShotLocationProvider;
+import com.kidd.store.models.body.LatLngBody;
+import com.kidd.store.models.response.StoreBranchViewModel;
+import com.kidd.store.presenter.map.MapsActivityPresenter;
+import com.kidd.store.presenter.map.MapsActivityPresenterImpl;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, GoogleMap.OnMarkerClickListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
+        GoogleMap.OnMapClickListener,
+        GoogleMap.OnMarkerClickListener,
+        MapsActivityView {
 
+    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private Toolbar toolbar;
     private GoogleMap mMap;
     private LoadingDialog loadingDialog;
-    ImageView img;
+
     List<Marker> lsMarker;
+    List<StoreBranchViewModel> storeBranchViewModels;
+    StoreBranchAdapter adapter;
+    MapsActivityPresenter presenter;
+    RecyclerView rcv_branch;
+    LatLngBody latLngBody;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,48 +74,56 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         toolbar = findViewById(R.id.toolbar);
-        img = findViewById(R.id.img);
+        rcv_branch = findViewById(R.id.rcv_branch);
         lsMarker = new ArrayList<>();
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(v -> {
             finish();
         });
         loadingDialog = new LoadingDialog(this);
-        loadingDialog.show();
+        presenter = new MapsActivityPresenterImpl(this, this);
+        storeBranchViewModels = new ArrayList<>();
+        adapter = new StoreBranchAdapter(this, storeBranchViewModels);
+        LinearLayoutManager ll = new LinearLayoutManager(this) {
+
+        };
+        ll.setOrientation(LinearLayoutManager.HORIZONTAL);
+        rcv_branch.setLayoutManager(ll);
+        rcv_branch.setAdapter(adapter);
+        rcv_branch.setEnabled(false);
         mapFragment.getMapAsync(this);
+        checkPermission();
+
+
     }
 
-    public void loadMarker(LatLng latLng, String address,int src) {
+    public void loadMarker(StoreBranchViewModel sbv, int pos) {
         MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(latLng);
-        markerOptions.title(address);
+        markerOptions.position(new LatLng(sbv.getLat(), sbv.getLng()));
+        markerOptions.title(sbv.getAddress());
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
         Marker marker = mMap.addMarker(markerOptions);
-        marker.setTag(src);
+        marker.setTag(pos+1);
         lsMarker.add(marker);
+        if(pos==0){
+            CameraPosition cameraPosition = new CameraPosition.Builder().target(marker.getPosition()).zoom(15).build();
+            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        }
+
     }
 
     public void drawCircle(LatLng latLng) {
-//        Bitmap.Config conf = Bitmap.Config.ARGB_8888;
-//        Bitmap bmp = Bitmap.createBitmap(100, 100, conf);
-//        Canvas canvas1 = new Canvas(bmp);
-//
-//        Paint color = new Paint();
-//        color.setColor(Color.BLUE);
-//        color.setStyle(Paint.Style.FILL);
-//
-//        canvas1.drawCircle(0, 0, 50, color);
-
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
-        markerOptions.title("Cở sở chính");
+        markerOptions.title("Bạn đang ở đây");
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
         Marker currLocationMarker = mMap.addMarker(markerOptions);
-        currLocationMarker.setTag(R.drawable.br1);
+
+        currLocationMarker.setTag(0);
         lsMarker.add(currLocationMarker);
         currLocationMarker.showInfoWindow();
-        CameraPosition cameraPosition = new CameraPosition.Builder().target(latLng).zoom(15).build();
-        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+//        CameraPosition cameraPosition = new CameraPosition.Builder().target(latLng).zoom(15).build();
+//        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
         mMap.addCircle(new CircleOptions()
                 .center(latLng)
@@ -92,42 +132,88 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .fillColor(R.color.tab_background_light));
     }
 
+    private void checkPermission() {
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this,
+                        Manifest.permission.ACCESS_COARSE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED
+                ) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION},
+                    1001);
+        } else {
+            SingleShotLocationProvider.getCurrentLocation(this, location -> {
+                if (location != null) {
+                    LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                    drawCircle(latLng);
+                    latLngBody = new LatLngBody(latLng);
+                    presenter.getStoreBranch(latLngBody);
+                } else {
+                    latLngBody = null;
+                    presenter.getStoreBranch(latLngBody);
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
+                }
+
+            });
+        }
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == 1001) {
+            if (grantResults[0] !=
+                    PackageManager.PERMISSION_GRANTED ||
+                    grantResults[1] != PackageManager.PERMISSION_GRANTED) {
+                checkPermission();
+            } else {
+
+            }
+        }
+    }
+
+    Location location;
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         loadingDialog.hide();
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-//        LatLng sydney = new LatLng(-34, 151);
-//        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-        LatLng mylocation = new LatLng(20.9697655, 105.7831244);
-        drawCircle(mylocation);
         mMap.setOnMarkerClickListener(this);
-        mMap.setOnMapClickListener(this);
-
-        branch1 = new LatLng(20.9681212, 105.785195);
-        branch2 = new LatLng(20.9688524, 105.7781892);
 
 
-        loadMarker(branch1, "Cơ sở 1",R.drawable.br2);
-        loadMarker(branch2, "Cơ sở 2",R.drawable.br3);
-
-        Log.i("maplog", "onMapReady: "+lsMarker.size());
     }
 
-    LatLng branch1;
-    LatLng branch2;
+//    private GoogleMap.OnMyLocationClickListener onMyLocationClickListener =
+//            new GoogleMap.OnMyLocationClickListener() {
+//                @Override
+//                public void onMyLocationClick(@NonNull Location location) {
+//
+//                    LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+//                    mMap.setMinZoomPreference(12);
+//
+//                    MarkerOptions markerOptions = new MarkerOptions();
+//                    markerOptions.position(latLng);
+//                    markerOptions.title("Ban dang o day!");
+//                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+//                    Marker currLocationMarker = mMap.addMarker(markerOptions);
+//                    currLocationMarker.showInfoWindow();
+//                    CameraPosition cameraPosition = new CameraPosition.Builder().target(latLng).zoom(15).build();
+//                    mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+//
+//                    CircleOptions circleOptions = new CircleOptions();
+//                    circleOptions.center(latLng);
+//
+//                    circleOptions.radius(200);
+//                    circleOptions.fillColor(Color.RED);
+//                    circleOptions.strokeWidth(6);
+//
+//                    mMap.addCircle(circleOptions);
+//                }
+//            };
 
     @Override
     public void onMapClick(LatLng latLng) {
@@ -137,8 +223,35 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public boolean onMarkerClick(Marker marker) {
         int src = (int) marker.getTag();
-        Log.d("maplog", "onMarkerClick: "+src);
-        img.setImageResource(src);
+        if (lsMarker.size() == storeBranchViewModels.size())
+            rcv_branch.smoothScrollToPosition(src);
+        else {
+            if (src != 0)
+                rcv_branch.smoothScrollToPosition(src - 1);
+        }
+
         return false;
     }
+
+    @Override
+    public void showLoadingDialog() {
+        loadingDialog.show();
+    }
+
+    @Override
+    public void hideLoadingDialog() {
+        loadingDialog.hide();
+    }
+
+    @Override
+    public void getAllStoreBrach(List<StoreBranchViewModel> storeBranchViewModels) {
+        this.storeBranchViewModels.addAll(storeBranchViewModels);
+        adapter.notifyDataSetChanged();
+        for (int i = 0; i < storeBranchViewModels.size(); i++) {
+            loadMarker(storeBranchViewModels.get(i), i);
+        }
+        Log.i("size111", "onMarkerClick: "+lsMarker.size()+"  "+storeBranchViewModels.size());
+
+    }
+
 }

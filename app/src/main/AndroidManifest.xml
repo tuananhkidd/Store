@@ -3,7 +3,11 @@
     package="com.kidd.store">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -45,19 +49,20 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
         <activity
             android:name=".view.about.AboutActivity"
             android:label="@string/title_activity_about" />
         <activity android:name=".view.rate.RateActivity" />
-<<<<<<< HEAD
         <activity
             android:name=".view.map.MapsActivity"
             android:label="@string/title_activity_maps" />
-        <activity android:name=".view.profile.edit.EditProfileActivity"></activity>
-=======
-        <activity android:name=".view.profile.update_description.UpdateDescriptionActivity"></activity>
->>>>>>> da9fc95a1e034cdbcaa9d6b7b42afda2eabe227a
+        <activity android:name=".view.profile.edit.EditProfileActivity" />
+        <activity android:name=".view.profile.update_description.UpdateDescriptionActivity" />
+        <activity android:name=".view.profile.update_profile.UpdateProfileActivity"></activity>
     </application>
 
 </manifest>
