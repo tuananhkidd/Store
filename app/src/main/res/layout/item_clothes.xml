@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rlItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/edit_text_padding">
+
+        <ImageView
+            android:id="@+id/img_avatar"
+            android:layout_width="@dimen/medium_avatar_size"
+            android:layout_height="@dimen/medium_avatar_size"
+            android:layout_marginEnd="@dimen/edit_text_padding"
+            android:layout_marginRight="@dimen/edit_text_padding"
+            android:src="@drawable/book_logo" />
+
+        <ImageView
+            android:id="@+id/img_save"
+            android:layout_width="@dimen/small_icon_size"
+            android:layout_height="@dimen/small_icon_size"
+
+            android:layout_toLeftOf="@+id/tv_acount_save"
+            android:src="@drawable/ic_save" />
+        <TextView
+            android:id="@+id/tv_acount_save"
+            android:text="(0)"
+            android:layout_margin="3dp"
+            android:textColor="@android:color/holo_red_light"
+            android:textSize="@dimen/font_size_16sp"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_full_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/icon_padding"
+            android:layout_toEndOf="@id/img_avatar"
+            android:layout_toRightOf="@id/img_avatar"
+            android:layout_marginRight="@dimen/text_margin_right"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:minLines="1"
+            android:text="ABCDEFsdfasdfasdfsadfsdfsafdfas"
+            android:layout_alignRight="@id/img_save"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/font_size_20sp" />
+
+        <TextView
+            android:id="@+id/tv_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_full_name"
+            android:layout_toEndOf="@+id/img_avatar"
+            android:layout_toRightOf="@+id/img_avatar"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Type" />
+
+        <TextView
+            android:id="@+id/tv_cost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/tv_type"
+            android:text="Gia"
+            android:textColor="@android:color/holo_red_light"
+            android:textSize="@dimen/font_size_20sp" />
+    </RelativeLayout>
+    <View
+        android:background="@color/light_gray"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+</LinearLayout>

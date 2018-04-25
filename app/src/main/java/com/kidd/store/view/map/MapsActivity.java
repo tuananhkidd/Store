@@ -129,7 +129,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .center(latLng)
                 .radius(1000)
                 .strokeColor(R.color.md_red_700)
-                .fillColor(R.color.tab_background_light));
+                .fillColor(R.color.md_blue_700));
     }
 
     private void checkPermission() {

@@ -1,25 +1,48 @@
 package com.kidd.store.view.shop;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.kidd.store.R;
-import com.kidd.store.adapter.ShopFragmentAdapter;
+import com.kidd.store.adapter.ClothesPreviewAdapter;
+import com.kidd.store.adapter.EndlessLoadingRecyclerViewAdapter;
+import com.kidd.store.adapter.RecyclerViewAdapter;
+import com.kidd.store.common.Constants;
+import com.kidd.store.models.ClothesPreview;
+import com.kidd.store.models.PageList;
+import com.kidd.store.presenter.shop.list_clothes.GetClothesPresenter;
+import com.kidd.store.presenter.shop.list_clothes.GetClothesPresenterImpl;
+import com.kidd.store.view.shop.clothes_detail.ClothesDetailActivity;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShopFragment extends Fragment {
+public class ShopFragment extends Fragment implements ShopFragmentView,
+ RecyclerViewAdapter.OnItemClickListener,
+        SwipeRefreshLayout.OnRefreshListener,
+        EndlessLoadingRecyclerViewAdapter.OnLoadingMoreListener{
+    @BindView(R.id.rc_posts)
+    RecyclerView mRecycleView;
+    @BindView(R.id.swipe_refresh)
+    SwipeRefreshLayout swipeRefreshLayout;
 
-    ViewPager viewPager;
-    TabLayout tabLayout;
-    ShopFragmentAdapter adapter;
+    ClothesPreviewAdapter adapter;
+    GetClothesPresenter presenter;
 
     public ShopFragment() {
         // Required empty public constructor
@@ -31,22 +54,89 @@ public class ShopFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_shop, container, false);
-        initView(view);
-        setupViewPager();
+        ButterKnife.bind(this,view);
         return view;
     }
 
-    public void initView(View rootView){
-        viewPager = rootView.findViewById(R.id.view_pager_product);
-        tabLayout = rootView.findViewById(R.id.tab_layout);
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        presenter= new GetClothesPresenterImpl(getContext(), this);
+        initData();
+    }
+    private void initData(){
+        Context context = getActivity();
+        adapter = new ClothesPreviewAdapter(context);
+        adapter.addOnItemClickListener(this);
+        adapter.setLoadingMoreListener(this);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+        mRecycleView.setLayoutManager(linearLayoutManager);
+        mRecycleView.addItemDecoration(new DividerItemDecoration(context, linearLayoutManager.getOrientation()));
+        mRecycleView.setHasFixedSize(true);
+        mRecycleView.setAdapter(adapter);
+
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimaryLight, R.color.colorPrimary, R.color.colorPrimaryDark);
+        swipeRefreshLayout.setOnRefreshListener(this);
+
+        presenter.refreshClothesPreviews();
+    }
+    @Override
+    public void showLoadMoreProgress() {
+        adapter.showLoadingItem(true);
     }
 
-    public void setupViewPager(){
-        viewPager.setCurrentItem(0);
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        adapter = new ShopFragmentAdapter(getChildFragmentManager(),getActivity());
-        viewPager.setAdapter(adapter);
-        tabLayout.setupWithViewPager(viewPager);
+    @Override
+    public void hideLoadMoreProgress() {
+        adapter.hideLoadingItem();
     }
 
+    @Override
+    public void enableLoadMore(boolean enable) {
+        adapter.enableLoadingMore(enable);
+    }
+
+    @Override
+    public void enableRefreshing(boolean enable) {
+        swipeRefreshLayout.setEnabled(enable);
+    }
+
+    @Override
+    public void showRefreshingProgress() {
+        swipeRefreshLayout.setRefreshing(true);
+    }
+
+    @Override
+    public void hideRefreshingProgress() {
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void addClothesPreviews(PageList<ClothesPreview> clothesPreviewPageList) {
+        adapter.addModels(clothesPreviewPageList.getResults(), false);
+    }
+
+    @Override
+    public void refreshClothesPreview(PageList<ClothesPreview> clothesPreviewPageList) {
+        adapter.refresh(clothesPreviewPageList.getResults());
+    }
+
+    @Override
+    public void onRefresh() {
+        presenter.refreshClothesPreviews();
+    }
+
+    @Override
+    public void onLoadMore() {
+        presenter.loadMoreClothesPreviews();
+    }
+
+    @Override
+    public void onItemClick(RecyclerView.Adapter adapter, RecyclerView.ViewHolder viewHolder, int viewType, int position) {
+        Context context = getActivity();
+        ClothesPreview clothesPreview = this.adapter.getItem(position, ClothesPreview.class);
+        Intent intent = new Intent(context, ClothesDetailActivity.class);
+        intent.putExtra(Constants.KEY_CLOTHES_ID, clothesPreview.getId());
+        context.startActivity(intent);
+    }
 }

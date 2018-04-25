@@ -18,6 +18,9 @@ import com.kidd.store.MainActivity;
 import com.kidd.store.models.response.HeaderProfile;
 
 import java.text.ParseException;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -85,6 +88,13 @@ public class Utils {
             Log.i("timeerro", "milliseconds: "+ignored.toString());
             return 0;
         }
+    }
+    public static String formatNumberMoney(double salary) {
+        DecimalFormat formatter = (DecimalFormat) NumberFormat.getInstance(Locale.US);
+        DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
+        symbols.setGroupingSeparator('.');
+        formatter.setDecimalFormatSymbols(symbols);
+        return formatter.format(salary);
     }
     public static String getDateFromMilliseconds(long milliSeconds) {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
