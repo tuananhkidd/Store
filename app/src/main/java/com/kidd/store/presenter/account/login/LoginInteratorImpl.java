@@ -8,10 +8,9 @@ import com.kidd.store.common.ResponseCode;
 import com.kidd.store.models.response.HeaderProfile;
 import com.kidd.store.models.response.ResponseBody;
 import com.kidd.store.services.ApiClient;
-import com.kidd.store.services.retrofit.login.LoginServices;
+import com.kidd.store.services.retrofit.account.LoginServices;
 
 import io.reactivex.Observable;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -52,10 +51,7 @@ public class LoginInteratorImpl implements LoginInterator {
                                     listener.onError(context.getString(R.string.api_not_found));
                                     break;
                                 }
-                                default: {
-                                    listener.onError(context.getString(R.string.server_error));
-                                    break;
-                                }
+
                             }
                         },
                         error -> {

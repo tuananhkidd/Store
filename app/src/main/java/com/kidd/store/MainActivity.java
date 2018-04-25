@@ -39,6 +39,8 @@ import com.kidd.store.services.event_bus.HeaderProfileEvent;
 import com.kidd.store.services.event_bus.UserAuthorizationChangedEvent;
 import com.kidd.store.view.about.AboutActivity;
 import com.kidd.store.view.account.login.LoginActivity;
+import com.kidd.store.view.account.password.change_password.ChangePasswordActivity;
+import com.kidd.store.view.account.password.reset_password.ForgetPasswordActivity;
 import com.kidd.store.view.account.register.RegisterActivity;
 import com.kidd.store.view.feedback.FeedbackActivity;
 import com.kidd.store.view.map.MapsActivity;
@@ -92,8 +94,8 @@ public class MainActivity extends AppCompatActivity
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.initWithSaveInstanceState(savedInstanceState);
         bottomNavigationView.setSpaceOnClickListener(mOnNavigationItemSelectedListener);
-        bottomNavigationView.addSpaceItem(new SpaceItem(getString(R.string.Shopping),R.mipmap.ic_bag));
-        bottomNavigationView.addSpaceItem(new SpaceItem(getString(R.string.Following),R.mipmap.ic_heart));
+        bottomNavigationView.addSpaceItem(new SpaceItem(getString(R.string.Shopping), R.mipmap.ic_bag));
+        bottomNavigationView.addSpaceItem(new SpaceItem(getString(R.string.Following), R.mipmap.ic_heart));
         bottomNavigationView.setCentreButtonIcon(R.drawable.ic_location_red);
 //        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
         adapter = new FragmentAdapter(getSupportFragmentManager(), this);
@@ -142,13 +144,13 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         public void onItemClick(int itemIndex, String itemName) {
-            switch (itemIndex){
-                case 0:{
+            switch (itemIndex) {
+                case 0: {
                     toolbar.setTitle(R.string.Shopping);
                     viewPager.setCurrentItem(0);
                     break;
                 }
-                case 1:{
+                case 1: {
                     toolbar.setTitle(R.string.Following);
                     viewPager.setCurrentItem(1);
                     break;
@@ -298,6 +300,22 @@ public class MainActivity extends AppCompatActivity
                     Intent i = new Intent(Intent.ACTION_VIEW);
                     i.setData(Uri.parse(url));
                     startActivity(i);
+                } else {
+                    Toast.makeText(this, getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
+                }
+                break;
+            }
+            case R.id.nav_change_password: {
+                if (Utils.checkNetwork(this)) {
+                    startActivity(new Intent(this, ChangePasswordActivity.class));
+                } else {
+                    Toast.makeText(this, getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
+                }
+                break;
+            }
+            case R.id.nav_forget_password: {
+                if (Utils.checkNetwork(this)) {
+                    startActivity(new Intent(this, ForgetPasswordActivity.class));
                 } else {
                     Toast.makeText(this, getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
                 }

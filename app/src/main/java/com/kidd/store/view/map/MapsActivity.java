@@ -154,7 +154,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 } else {
                     latLngBody = null;
                     presenter.getStoreBranch(latLngBody);
-
                 }
 
             });
@@ -179,41 +178,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        loadingDialog.hide();
         mMap = googleMap;
-
         mMap.setOnMarkerClickListener(this);
-
-
     }
-
-//    private GoogleMap.OnMyLocationClickListener onMyLocationClickListener =
-//            new GoogleMap.OnMyLocationClickListener() {
-//                @Override
-//                public void onMyLocationClick(@NonNull Location location) {
-//
-//                    LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-//                    mMap.setMinZoomPreference(12);
-//
-//                    MarkerOptions markerOptions = new MarkerOptions();
-//                    markerOptions.position(latLng);
-//                    markerOptions.title("Ban dang o day!");
-//                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-//                    Marker currLocationMarker = mMap.addMarker(markerOptions);
-//                    currLocationMarker.showInfoWindow();
-//                    CameraPosition cameraPosition = new CameraPosition.Builder().target(latLng).zoom(15).build();
-//                    mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-//
-//                    CircleOptions circleOptions = new CircleOptions();
-//                    circleOptions.center(latLng);
-//
-//                    circleOptions.radius(200);
-//                    circleOptions.fillColor(Color.RED);
-//                    circleOptions.strokeWidth(6);
-//
-//                    mMap.addCircle(circleOptions);
-//                }
-//            };
 
     @Override
     public void onMapClick(LatLng latLng) {
@@ -250,7 +217,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         for (int i = 0; i < storeBranchViewModels.size(); i++) {
             loadMarker(storeBranchViewModels.get(i), i);
         }
-        Log.i("size111", "onMarkerClick: "+lsMarker.size()+"  "+storeBranchViewModels.size());
 
     }
 

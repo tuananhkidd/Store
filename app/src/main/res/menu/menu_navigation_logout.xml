@@ -15,24 +15,14 @@
                     android:id="@+id/nav_register"
                     android:icon="@drawable/ic_key_gray"
                     android:title="Đăng ký" />
-
+                <item
+                    android:id="@+id/nav_forget_password"
+                    android:icon="@drawable/ic_forget"
+                    android:title="Quên mật khẩu" />
 
             </menu>
         </item>
 
-
-        <!--<item android:title="@string/supply_knowledge">-->
-            <!--<menu>-->
-                <!--<item-->
-                    <!--android:id="@+id/nav_soft_skill"-->
-                    <!--android:icon="@drawable/ic_menu_share"-->
-                    <!--android:title="@string/soft_skill" />-->
-                <!--<item-->
-                    <!--android:id="@+id/nav_review_work"-->
-                    <!--android:icon="@drawable/ic_menu_send"-->
-                    <!--android:title="@string/review_work" />-->
-            <!--</menu>-->
-        <!--</item>-->
         <item android:title="@string/other">
             <menu>
                 <item

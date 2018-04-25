@@ -1,4 +1,4 @@
-package com.kidd.store.services.retrofit.login;
+package com.kidd.store.services.retrofit.account;
 
 import com.kidd.store.common.RequestConstants;
 import com.kidd.store.models.response.HeaderProfile;
