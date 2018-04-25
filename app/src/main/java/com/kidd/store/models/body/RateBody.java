@@ -3,6 +3,7 @@ package com.kidd.store.models.body;
 public class RateBody {
     private int rating;
     private String cmt;
+    private String reason;
 
     public int getRating() {
         return rating;
@@ -20,8 +21,9 @@ public class RateBody {
         this.cmt = cmt;
     }
 
-    public RateBody(int rating, String cmt) {
+    public RateBody(int rating, String cmt,String reason) {
         this.rating = rating;
         this.cmt = cmt;
+        this.reason = reason;
     }
 }

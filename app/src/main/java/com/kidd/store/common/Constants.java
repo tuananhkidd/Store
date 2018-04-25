@@ -17,7 +17,14 @@ public class Constants {
     public static final String PRE_FULL_NAME = "PRE_FULL_NAME";
     public static final String PRE_EMAIL = "PRE_EMAIL";
     public static final String HEADER_PROFILE = "HEADER_PROFILE";
+    public static final String PROFILE = "PROFILE";
+    public static final int RESULT_CODE_UPDATE_DESCRIPTION = 4;
+    public static final String DES = "DES";
     public static int RESULT_CODE_SIGNUP = 2;
+
     public static final int PAGE_SIZE = 10;
     public static String KEY_CLOTHES_ID="KEY_CLOTHES_ID";
+    public static String SALE = "Ưu đãi";
+    public static String SERVICE = "Dịch vụ";
+
 }

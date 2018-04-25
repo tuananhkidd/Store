@@ -5,11 +5,15 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorPrimaryLight">#69CBEB</color>
     <color name="transparent_black">#3F000000</color>
-    <color name="light_gray">#EFEFEF</color>
+
     <color name="dark_gray">#4C4C4C</color>
+
     <color name="green_light">#89B700</color>
     <color name="disable_color">#42000000</color>
     <color name="map_circle_stroke_color">#E629B5E3</color>
     <color name="map_circle_background_color">#4029B5E3</color>
     <color name="gray">#C0C0C0</color>
+
+    <color name="light_gray">#EFEFEF</color>
+
 </resources>

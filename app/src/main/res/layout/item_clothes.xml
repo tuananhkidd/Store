@@ -22,7 +22,7 @@
             android:id="@+id/img_save"
             android:layout_width="@dimen/small_icon_size"
             android:layout_height="@dimen/small_icon_size"
-            android:layout_marginLeft="@dimen/view_margin"
+
             android:layout_toLeftOf="@+id/tv_acount_save"
             android:src="@drawable/ic_save" />
         <TextView
@@ -42,10 +42,12 @@
             android:layout_marginBottom="@dimen/icon_padding"
             android:layout_toEndOf="@id/img_avatar"
             android:layout_toRightOf="@id/img_avatar"
+            android:layout_marginRight="@dimen/text_margin_right"
             android:ellipsize="end"
             android:maxLines="2"
             android:minLines="1"
-            android:text="ABC DEF"
+            android:text="ABCDEFsdfasdfasdfsadfsdfsafdfas"
+            android:layout_alignRight="@id/img_save"
             android:textColor="@android:color/black"
             android:textSize="@dimen/font_size_20sp" />
 

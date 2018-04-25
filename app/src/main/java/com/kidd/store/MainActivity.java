@@ -41,6 +41,7 @@ import com.kidd.store.view.about.AboutActivity;
 import com.kidd.store.view.account.login.LoginActivity;
 import com.kidd.store.view.account.register.RegisterActivity;
 import com.kidd.store.view.feedback.FeedbackActivity;
+import com.kidd.store.view.map.MapsActivity;
 import com.kidd.store.view.profile.ProfileActivity;
 import com.kidd.store.view.rate.RateActivity;
 import com.kidd.store.view.shop.book.BookFragmentView;
@@ -141,11 +142,16 @@ public class MainActivity extends AppCompatActivity
                 }
                 break;
 
-                case R.id.item_card: {
-                    toolbar.setTitle(R.string.Cart);
-                    viewPager.setCurrentItem(2);
+                case R.id.item_location:{
+                    startActivity(new Intent(MainActivity.this, MapsActivity.class));
+                    break;
                 }
-                break;
+
+//                case R.id.item_card: {
+//                    toolbar.setTitle(R.string.Cart);
+//                    viewPager.setCurrentItem(2);
+//                }
+//                break;
 
 
                 default: {

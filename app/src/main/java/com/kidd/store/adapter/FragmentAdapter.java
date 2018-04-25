@@ -27,7 +27,7 @@ public class FragmentAdapter extends FragmentPagerAdapter {
         lsFragment = new ArrayList<>();
         lsFragment.add(new ShopFragment());
         lsFragment.add(new FollowingFragment());
-        lsFragment.add(new CartFragment());
+//        lsFragment.add(new CartFragment());
     }
 
     @Override
@@ -44,9 +44,9 @@ public class FragmentAdapter extends FragmentPagerAdapter {
             case 1: {
                 return context.getString(R.string.Following);
             }
-            case 2: {
-                return context.getString(R.string.Cart);
-            }
+//            case 2: {
+//                return context.getString(R.string.Cart);
+//            }
         }
         return super.getPageTitle(position);
     }
@@ -64,9 +64,9 @@ public class FragmentAdapter extends FragmentPagerAdapter {
             case 1: {
                 return R.id.item_following;
             }
-            case 2: {
-                return R.id.item_card;
-            }
+//            case 2: {
+//                return R.id.item_card;
+//            }
             default:{
                 return -1;
             }

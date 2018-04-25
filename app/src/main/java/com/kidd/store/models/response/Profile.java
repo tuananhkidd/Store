@@ -11,9 +11,19 @@ public class Profile implements Serializable {
     private String avatarUrl;
     private int gender;
     private long birthday;
+    private String email;
 
-    public Profile(String fullName, String phone, String address, String identityCard, String description, String avatarUrl, int gender, long birthday) {
+    public Profile(String fullName,
+                   String phone,
+                   String address,
+                   String identityCard,
+                   String description,
+                   String avatarUrl,
+                   int gender,
+                   long birthday,
+                   String email) {
         this.fullName = fullName;
+        this.email = email;
         this.phone = phone;
         this.address = address;
         this.identityCard = identityCard;
@@ -21,6 +31,14 @@ public class Profile implements Serializable {
         this.avatarUrl = avatarUrl;
         this.gender = gender;
         this.birthday = birthday;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getFullName() {
