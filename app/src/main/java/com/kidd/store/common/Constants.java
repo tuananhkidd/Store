@@ -18,4 +18,6 @@ public class Constants {
     public static final String PRE_EMAIL = "PRE_EMAIL";
     public static final String HEADER_PROFILE = "HEADER_PROFILE";
     public static int RESULT_CODE_SIGNUP = 2;
+    public static final int PAGE_SIZE = 10;
+    public static String KEY_CLOTHES_ID="KEY_CLOTHES_ID";
 }

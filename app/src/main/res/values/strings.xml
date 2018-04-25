@@ -52,4 +52,6 @@
     <string name="enter_message">Nhập lời nhắn</string>
     <string name="note">* Chúng tôi mong muốn nhận được những nhận xét từ các bạn để tiếp tục xây dựng và phát triển cửa hàng</string>
     <string name="must_not_empty">Rỗng</string>
+    <string name="error_message"><![CDATA[<stCó lỗi xảy ra. Vui lòng thử lại]]></string>
+    <string name="clothes_detail">Chi tiết sản phẩm</string>
 </resources>

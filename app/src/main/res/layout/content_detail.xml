@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/nestedScrollView"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.kidd.store.view.shop.clothes_detail.ClothesDetailActivity"
+    tools:showIn="@layout/activity_clothes_detail">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFF"
+        android:padding="@dimen/pading_left">
+
+        <TextView
+            android:id="@+id/tv_name_product"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/text_margin"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="Áo thu đông đôi"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_cost_product"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_name_product"
+            android:layout_marginBottom="@dimen/text_margin"
+            android:text="200.000.000 đ"
+            android:textColor="@color/md_red_500"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <me.zhanghai.android.materialratingbar.MaterialRatingBar
+            android:id="@+id/rating_product"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/rating_height"
+            android:layout_below="@+id/tv_cost_product"
+            android:layout_margin="4dp"
+            android:isIndicator="true"
+            android:rating="5"
+            app:mrb_fillBackgroundStars="true"
+            app:mrb_progressTint="@color/md_yellow_700" />
+
+        <TextView
+            android:id="@+id/tv_acount_rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_cost_product"
+            android:layout_toEndOf="@+id/rating_product"
+            android:layout_toRightOf="@+id/rating_product"
+            android:text="số lượt đánh giá (5)"
+            android:textColor="@color/md_red_500"
+            android:textSize="16sp" />
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray"
+        android:layout_marginBottom="@dimen/view_margin"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFF"
+        android:padding="@dimen/pading_left">
+        <TextView
+            android:id="@+id/tv_detail_title"
+            android:text="Chi tiết sản phẩm"
+            android:textStyle="bold"
+            android:textSize="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/text_margin"/>
+        <TextView
+            android:id="@+id/tv_detail_product"
+            android:text="13rfsdfhksdhfakfkasjdfkasdfhksfjd"
+            android:padding="@dimen/pading_left"
+            android:layout_below="@+id/tv_detail_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_background_textview"/>
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray"
+        android:layout_marginBottom="@dimen/view_margin"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFF"
+        android:padding="@dimen/pading_left">
+        <TextView
+            android:id="@+id/tv_rate_title"
+            android:text="Đánh giá"
+            android:textStyle="bold"
+            android:textSize="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/text_margin"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rc_customer_rate"
+            android:layout_below="@+id/tv_rate_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray"
+        android:layout_marginBottom="@dimen/view_margin"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFF"
+        android:padding="@dimen/pading_left">
+    <TextView
+        android:id="@+id/tv_similar_title"
+        android:text="Những sản phẩm liên quan"
+        android:textStyle="bold"
+        android:textSize="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/text_margin"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rc_product_similar"
+        android:layout_below="@+id/tv_similar_title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </android.support.v7.widget.RecyclerView>
+        <ProgressBar
+            android:id="@+id/progress_loading_similar_clothes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone"/>
+    </RelativeLayout>
+</LinearLayout>
+
+
+</android.support.v4.widget.NestedScrollView>
