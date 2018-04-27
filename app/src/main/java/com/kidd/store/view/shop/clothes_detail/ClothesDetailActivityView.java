@@ -2,6 +2,7 @@ package com.kidd.store.view.shop.clothes_detail;
 
 import com.kidd.store.models.Clothes;
 import com.kidd.store.models.ClothesPreview;
+import com.kidd.store.models.response.ClothesViewModel;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
 public interface ClothesDetailActivityView {
     void showProgress();
     void hideProgress();
-    void showClothesDetail(Clothes clothes);
+    void showClothesDetail(ClothesViewModel clothesViewModel);
     void showErrorLoading(String message);
 
     void showProgressSimilarClothes();

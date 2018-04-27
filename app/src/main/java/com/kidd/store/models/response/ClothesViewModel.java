@@ -16,11 +16,12 @@ public class ClothesViewModel implements Serializable{
     private String name;
     private int price;
     private String description;
-    private Date createdDate;
+    private long createdDate;
     private String logoUrl;
     private Category category;
     private List<RateClothesViewModel> rateClothesViewModels;
     private int numberSave;
+    private boolean isSaved;
 
     public String getId() {
         return id;
@@ -54,11 +55,11 @@ public class ClothesViewModel implements Serializable{
         this.description = description;
     }
 
-    public Date getCreatedDate() {
+    public long getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createdDate) {
+    public void setCreatedDate(long createdDate) {
         this.createdDate = createdDate;
     }
 
@@ -84,6 +85,14 @@ public class ClothesViewModel implements Serializable{
 
     public void setRateClothesViewModels(List<RateClothesViewModel> rateClothesViewModels) {
         this.rateClothesViewModels = rateClothesViewModels;
+    }
+
+    public boolean isSaved() {
+        return isSaved;
+    }
+
+    public void setSaved(boolean saved) {
+        isSaved = saved;
     }
 
     public int getNumberSave() {

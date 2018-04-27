@@ -32,7 +32,7 @@ public class ClothesDetailInteractorImpl implements ClothesDetailInteractor{
     @Override
     public void getClothesDetail(String clothesID, OnGetClothesDetailCompleteListener listener) {
         Disposable disposable = ApiClient.getClient().create(ClothesService.class)
-                .getClothes(clothesID)
+                .getClothesViewModel(clothesID)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(response -> {
@@ -58,18 +58,38 @@ public class ClothesDetailInteractorImpl implements ClothesDetailInteractor{
     }
 
     @Override
-    public void saveJob(String jobID, OnRequestCompleteListener listener) {
+    public void saveClothes(String clothesID, OnRequestCompleteListener listener) {
 
     }
 
     @Override
-    public void deleteSavedJob(String jobID, OnRequestCompleteListener listener) {
+    public void deleteSavedClothes(String clothesID, OnRequestCompleteListener listener) {
 
     }
 
     @Override
-    public void getSimilarJobs(String jobID, int pageIndex, int pageSize, OnGetPageClothesPreviewCompleteListener listener) {
-
+    public void getSimilarClothes(String clothesID, int pageIndex, int pageSize,
+                                  OnGetPageClothesPreviewCompleteListener listener) {
+        Disposable disposable = ApiClient.getClient().create(ClothesService.class)
+                .getSimilarClothesPreview(clothesID, pageIndex, pageSize)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(response -> {
+                    switch (response.code()) {
+                        case ResponseCode.OK: {
+                            listener.onGetPageClothesPreviewsSuccess(response.body().getData());
+                            break;
+                        }
+                        case ResponseCode.NOT_FOUND: {
+                            listener.onMessageEror(response.message());
+                            break;
+                        }
+                    }
+                }, error -> {
+                    listener.onMessageEror(context.getString(R.string.server_error));
+                });
+        compositeDisposable.add(disposable);
     }
+
 
 }

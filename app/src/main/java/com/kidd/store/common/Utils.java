@@ -69,6 +69,20 @@ public class Utils {
         return headerProfile;
     }
 
+    public static String getTimeAndDate(long time) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(time);
+        return calendar.get(Calendar.HOUR) +
+                ":" +
+                calendar.get(Calendar.MINUTE) +
+                "  " +
+                calendar.get(Calendar.DAY_OF_MONTH) +
+                "/" +
+                calendar.get(Calendar.MONTH) +
+                "/" +
+                calendar.get(Calendar.YEAR);
+    }
+
     public static void dialogShowDate(Activity activity, String title, DatePickerDialog.OnDateSetListener dateChangedListener) {
         Calendar now = Calendar.getInstance();
         DatePickerDialog dpd = new DatePickerDialog(activity,
