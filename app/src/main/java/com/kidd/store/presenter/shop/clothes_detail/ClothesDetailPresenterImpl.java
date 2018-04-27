@@ -41,6 +41,7 @@ public class ClothesDetailPresenterImpl implements ClothesDetailPresenter {
 
             @Override
             public void onMessageEror(String msg) {
+                clothesDetailActivityView.hideProgress();
                 clothesDetailActivityView.showErrorLoading(msg);
             }
         });

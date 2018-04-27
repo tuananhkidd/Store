@@ -73,4 +73,6 @@
     <string name="forge_pass">Mật khẩu mới sẽ được gửi tới email. Vui lòng nhập đúng đia chỉ email</string>
     <string name="forget_pass">Quên mật khẩu</string>
     <string name="invalid_email">Email không đúng định dạng</string>
+    <string name="no_save">Bạn chưa theo dõi sản phẩm nào</string>
+    <string name="function_request_login">Tính năng yêu cầu đăng nhập</string>
 </resources>

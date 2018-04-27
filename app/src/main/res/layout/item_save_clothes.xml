@@ -20,21 +20,12 @@
             android:src="@drawable/book_logo" />
 
         <ImageView
+            android:layout_alignParentRight="true"
             android:id="@+id/img_save"
             android:layout_width="@dimen/small_icon_size"
             android:layout_height="@dimen/small_icon_size"
-
-            android:layout_toLeftOf="@+id/tv_acount_save"
             android:src="@drawable/ic_save" />
-        <TextView
-            android:id="@+id/tv_acount_save"
-            android:text="(0)"
-            android:layout_margin="3dp"
-            android:textColor="@android:color/holo_red_light"
-            android:textSize="@dimen/font_size_16sp"
-            android:layout_alignParentRight="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+
 
         <TextView
             android:id="@+id/tv_full_name"
@@ -53,7 +44,7 @@
             android:textSize="@dimen/font_size_20sp" />
 
         <TextView
-            android:id="@+id/tv_type"
+            android:id="@+id/tv_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_full_name"
@@ -61,17 +52,19 @@
             android:layout_toRightOf="@+id/img_avatar"
             android:ellipsize="end"
             android:maxLines="1"
+            android:textSize="@dimen/font_size_20sp"
+            android:textColor="@android:color/holo_red_light"
             android:text="Type" />
 
         <TextView
-            android:id="@+id/tv_cost"
+            android:textColor="@color/colorPrimary"
+            android:id="@+id/tv_created_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_below="@id/tv_type"
-            android:text="Gia"
-            android:textColor="@android:color/holo_red_light"
-            android:textSize="@dimen/font_size_20sp" />
+            android:layout_below="@id/tv_price"
+            android:text="12/12/2018"
+            android:textSize="@dimen/font_size_16sp" />
     </RelativeLayout>
     <View
         android:background="@color/light_gray"

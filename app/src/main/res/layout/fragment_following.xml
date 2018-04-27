@@ -1,13 +1,42 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.kidd.store.view.follow.FollowingFragment">
+    tools:context="com.kidd.store.view.follow.SaveClothesFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
 
-</FrameLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rc_save_clothes"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_no_result"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/img_logo"
+            android:layout_centerInParent="true"
+            android:src="@drawable/heart"
+            android:layout_width="150dp"
+            android:layout_height="200dp" />
+        <TextView
+            android:id="@+id/txt_result"
+            android:textStyle="bold"
+            android:textSize="@dimen/font_size_20sp"
+            android:textColor="@color/centre"
+            android:layout_below="@+id/img_logo"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_save"/>
+    </RelativeLayout>
+
+
+</RelativeLayout>

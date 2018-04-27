@@ -59,8 +59,8 @@ public class GetClothesPresenterImpl implements GetClothesPresenter{
 
     @Override
     public void refreshClothesPreviews() {
-        shopFragmentView.showLoadMoreProgress();
-        shopFragmentView.enableRefreshing(false);
+        shopFragmentView.showRefreshingProgress();
+        shopFragmentView.enableRefreshing(true);
         getClothesInteractor.getClothesPreviews(0, Constants.PAGE_SIZE,
                 new OnGetClothesSuccessListener() {
                     @Override
@@ -76,7 +76,7 @@ public class GetClothesPresenterImpl implements GetClothesPresenter{
 
                     @Override
                     public void onMessageEror(String msg) {
-                        shopFragmentView.hideLoadMoreProgress();
+                        shopFragmentView.hideRefreshingProgress();
                         shopFragmentView.enableRefreshing(true);
                         ToastUtils.quickToast(context, R.string.error_message);
                     }

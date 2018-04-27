@@ -45,6 +45,11 @@ public class ClothesDetailInteractorImpl implements ClothesDetailInteractor{
                             listener.onMessageEror(response.message());
                             break;
                         }
+                        default:{
+                            listener.onMessageEror(response.message());
+                            break;
+                        }
+
                     }
                 }, error -> {
                     listener.onMessageEror(context.getString(R.string.server_error));
