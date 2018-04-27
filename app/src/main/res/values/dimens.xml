@@ -26,6 +26,8 @@
     <dimen name="rating_height">16dp</dimen>
     <dimen name="camera_button_size">38dp</dimen>
     <dimen name="text_margin_right">40dp</dimen>
-
+    <dimen name="small_avatar_size">56dp</dimen>
+    <dimen name="font_size_18sp">18sp</dimen>
+    <dimen name="font_size_14sp">14sp</dimen>
 
 </resources>

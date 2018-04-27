@@ -64,5 +64,7 @@
     <string name="update_description">Cập nhật mô tả</string>
     <string name="enter_des">Nhập mô tả</string>
     <string name="update">Cập nhật</string>
+    <string name="error_happened">Có lỗi xảy ra</string>
+    <string name="retry">Thử lại</string>
 
 </resources>
