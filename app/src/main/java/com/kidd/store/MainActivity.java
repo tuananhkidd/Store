@@ -39,12 +39,17 @@ import com.kidd.store.services.event_bus.HeaderProfileEvent;
 import com.kidd.store.services.event_bus.UserAuthorizationChangedEvent;
 import com.kidd.store.view.about.AboutActivity;
 import com.kidd.store.view.account.login.LoginActivity;
+import com.kidd.store.view.account.password.change_password.ChangePasswordActivity;
+import com.kidd.store.view.account.password.reset_password.ForgetPasswordActivity;
 import com.kidd.store.view.account.register.RegisterActivity;
 import com.kidd.store.view.feedback.FeedbackActivity;
 import com.kidd.store.view.map.MapsActivity;
 import com.kidd.store.view.profile.ProfileActivity;
 import com.kidd.store.view.rate.RateActivity;
 import com.kidd.store.view.shop.book.BookFragmentView;
+import com.luseen.spacenavigation.SpaceItem;
+import com.luseen.spacenavigation.SpaceNavigationView;
+import com.luseen.spacenavigation.SpaceOnClickListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -60,7 +65,7 @@ public class MainActivity extends AppCompatActivity
     NavigationView navigationView;
     FragmentAdapter adapter;
     ViewPager viewPager;
-    BottomNavigationView bottomNavigationView;
+    SpaceNavigationView bottomNavigationView;
     Toolbar toolbar;
     LoadingDialog loadingDialog;
     View userHeaderView;
@@ -87,8 +92,12 @@ public class MainActivity extends AppCompatActivity
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
+        bottomNavigationView.initWithSaveInstanceState(savedInstanceState);
+        bottomNavigationView.setSpaceOnClickListener(mOnNavigationItemSelectedListener);
+        bottomNavigationView.addSpaceItem(new SpaceItem(getString(R.string.Shopping), R.mipmap.ic_bag));
+        bottomNavigationView.addSpaceItem(new SpaceItem(getString(R.string.Following), R.mipmap.ic_heart));
+        bottomNavigationView.setCentreButtonIcon(R.drawable.ic_location_red);
+//        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
         adapter = new FragmentAdapter(getSupportFragmentManager(), this);
         viewPager.setCurrentItem(0);
         viewPager.setAdapter(adapter);
@@ -101,7 +110,8 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onPageSelected(int position) {
-                bottomNavigationView.setSelectedItemId(FragmentAdapter.getItemID(position));
+//                bottomNavigationView.setSelectedItemId(FragmentAdapter.getItemID(position));
+                bottomNavigationView.changeCurrentItem(position);
             }
 
             @Override
@@ -124,42 +134,69 @@ public class MainActivity extends AppCompatActivity
         EventBus.getDefault().unregister(this);
     }
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+    private SpaceOnClickListener mOnNavigationItemSelectedListener
+            = new SpaceOnClickListener() {
 
         @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.item_shopping: {
+        public void onCentreButtonClick() {
+            startActivity(new Intent(MainActivity.this, MapsActivity.class));
+        }
+
+        @Override
+        public void onItemClick(int itemIndex, String itemName) {
+            switch (itemIndex) {
+                case 0: {
                     toolbar.setTitle(R.string.Shopping);
                     viewPager.setCurrentItem(0);
-                }
-                break;
-
-                case R.id.item_following: {
-                    toolbar.setTitle(R.string.Following);
-                    viewPager.setCurrentItem(1);
-                }
-                break;
-
-                case R.id.item_location:{
-                    startActivity(new Intent(MainActivity.this, MapsActivity.class));
                     break;
                 }
-
-//                case R.id.item_card: {
-//                    toolbar.setTitle(R.string.Cart);
-//                    viewPager.setCurrentItem(2);
-//                }
-//                break;
-
-
-                default: {
-                    return false;
+                case 1: {
+                    toolbar.setTitle(R.string.Following);
+                    viewPager.setCurrentItem(1);
+                    break;
                 }
             }
-            return true;
+
         }
+
+        @Override
+        public void onItemReselected(int itemIndex, String itemName) {
+
+        }
+
+//        @Override
+//        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//            switch (item.getItemId()) {
+//                case R.id.item_shopping: {
+//                    toolbar.setTitle(R.string.Shopping);
+//                    viewPager.setCurrentItem(0);
+//                }
+//                break;
+//
+//                case R.id.item_following: {
+//                    toolbar.setTitle(R.string.Following);
+//                    viewPager.setCurrentItem(1);
+//                }
+//                break;
+//
+//                case R.id.item_location:{
+//                    startActivity(new Intent(MainActivity.this, MapsActivity.class));
+//                    break;
+//                }
+//
+////                case R.id.item_card: {
+////                    toolbar.setTitle(R.string.Cart);
+////                    viewPager.setCurrentItem(2);
+////                }
+////                break;
+//
+//
+//                default: {
+//                    return false;
+//                }
+//            }
+//            return true;
+//        }
     };
 
     @Override
@@ -195,7 +232,7 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_logout: {
                 Utils.setSharePreferenceValues(this, Constants.STATUS_LOGIN, Constants.LOGIN_FAIL);
                 Utils.setSharePreferenceValues(this, Constants.USER_NAME, null);
-                Utils.saveHeaderProfile(this,  null);
+                Utils.saveHeaderProfile(this, null);
                 EventBus.getDefault().post(new UserAuthorizationChangedEvent());
                 break;
             }
@@ -208,33 +245,33 @@ public class MainActivity extends AppCompatActivity
                 break;
             }
             case R.id.nav_account: {
-                if(Utils.checkNetwork(this)){
+                if (Utils.checkNetwork(this)) {
                     startActivity(new Intent(this, ProfileActivity.class));
-                }else {
+                } else {
                     Toast.makeText(this, getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
                 }
                 break;
             }
             case R.id.nav_feedback: {
-                if(Utils.checkNetwork(this)){
+                if (Utils.checkNetwork(this)) {
                     startActivity(new Intent(this, FeedbackActivity.class));
-                }else {
+                } else {
                     Toast.makeText(this, getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
                 }
                 break;
             }
             case R.id.nav_rate: {
-                if(Utils.checkNetwork(this)){
+                if (Utils.checkNetwork(this)) {
                     startActivity(new Intent(this, RateActivity.class));
-                }else {
+                } else {
                     Toast.makeText(this, getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
                 }
                 break;
             }
             case R.id.nav_about_store: {
-                if(Utils.checkNetwork(this)){
+                if (Utils.checkNetwork(this)) {
                     startActivity(new Intent(this, AboutActivity.class));
-                }else {
+                } else {
                     Toast.makeText(this, getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
                 }
                 break;
@@ -257,13 +294,29 @@ public class MainActivity extends AppCompatActivity
                 Utils.rateApp(this);
                 break;
             }
-            case R.id.nav_facebook:{
-                if(Utils.checkNetwork(this)){
+            case R.id.nav_facebook: {
+                if (Utils.checkNetwork(this)) {
                     String url = "https://www.facebook.com/TuanAnhKidd";
                     Intent i = new Intent(Intent.ACTION_VIEW);
                     i.setData(Uri.parse(url));
                     startActivity(i);
-                }else {
+                } else {
+                    Toast.makeText(this, getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
+                }
+                break;
+            }
+            case R.id.nav_change_password: {
+                if (Utils.checkNetwork(this)) {
+                    startActivity(new Intent(this, ChangePasswordActivity.class));
+                } else {
+                    Toast.makeText(this, getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
+                }
+                break;
+            }
+            case R.id.nav_forget_password: {
+                if (Utils.checkNetwork(this)) {
+                    startActivity(new Intent(this, ForgetPasswordActivity.class));
+                } else {
                     Toast.makeText(this, getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
                 }
                 break;

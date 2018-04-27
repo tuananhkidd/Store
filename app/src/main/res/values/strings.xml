@@ -16,7 +16,7 @@
     <string name="clothes">Quần áo</string>
     <string name="server_error">Có lỗi xảy ra !</string>
     <string name="account_not_verify">Tài khoản chưa được kích hoạt</string>
-    <string name="api_not_found">api not found</string>
+    <string name="api_not_found">Tài khoản không tồn tại</string>
     <string name="wrong_password_or_email">Tài khoản hoặc mật khẩu không chính xác</string>
     <string name="main_function">Chức năng chính</string>
     <string name="other">Khác</string>
@@ -64,7 +64,19 @@
     <string name="update_description">Cập nhật mô tả</string>
     <string name="enter_des">Nhập mô tả</string>
     <string name="update">Cập nhật</string>
+
     <string name="error_happened">Có lỗi xảy ra</string>
     <string name="retry">Thử lại</string>
+
+
+    <string name="selected">Đã chọn</string>
+    <string name="pick_avatar">Chọn ảnh</string>
+    <string name="must_pick_one_image">Chỉ được chọn duy nhất 1 ảnh</string>
+    <string name="reset_password">Đổi mật khẩu</string>
+    <string name="not_match">Không khớp</string>
+    <string name="change_pass_success">Đổi mật khẩu thành công</string>
+    <string name="forge_pass">Mật khẩu mới sẽ được gửi tới email. Vui lòng nhập đúng đia chỉ email</string>
+    <string name="forget_pass">Quên mật khẩu</string>
+    <string name="invalid_email">Email không đúng định dạng</string>
 
 </resources>

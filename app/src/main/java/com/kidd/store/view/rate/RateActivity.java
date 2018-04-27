@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kidd.store.R;
@@ -35,6 +36,8 @@ public class RateActivity extends AppCompatActivity implements RateView, View.On
     RateBody rateBody;
     Toolbar toolbar;
     String reason = "";
+    int click1 = 0;
+    int click2 = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +59,7 @@ public class RateActivity extends AppCompatActivity implements RateView, View.On
         img_select_service = findViewById(R.id.img_select_service);
         loadingDialog = new LoadingDialog(this);
 
+
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(v -> {
@@ -69,15 +73,18 @@ public class RateActivity extends AppCompatActivity implements RateView, View.On
                     ll_parent_reason.setVisibility(View.VISIBLE);
                 } else {
                     ll_parent_reason.setVisibility(View.GONE);
-                    reason = "";
-                    img_select_sale.setVisibility(View.GONE);
-                    img_select_service.setVisibility(View.GONE);
+                    changeImageState(ll_parent_sale,img_select_sale,1);
+                    changeImageState(ll_parent_service,img_select_service,1);
                 }
             }
         });
 
         presenter = new RatePresenterImpl(this, this);
         btn_rate.setOnClickListener(this);
+        ll_parent_service.setOnClickListener(this);
+        ll_parent_sale.setOnClickListener(this);
+        ll_parent_sale.getBackground().setLevel(0);
+        ll_parent_sale.getBackground().setLevel(0);
     }
 
     @Override
@@ -104,16 +111,26 @@ public class RateActivity extends AppCompatActivity implements RateView, View.On
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_parent_sale: {
-                Toast.makeText(this, "hihi", Toast.LENGTH_SHORT).show();
-                img_select_sale.setVisibility(View.VISIBLE);
-                reason += Constants.SALE + ",";
+                changeImageState(ll_parent_sale, img_select_sale, ll_parent_sale.getBackground().getLevel());
+
+//                if (ll_parent_sale.getBackground().getLevel() == 0) {
+//                    img_select_sale.setVisibility(View.VISIBLE);
+//                    ll_parent_sale.getBackground().setLevel(1);
+//                } else {
+//                    ll_parent_sale.getBackground().setLevel(0);
+//                    img_select_sale.setVisibility(View.GONE);
+//                }
                 break;
             }
             case R.id.ll_parent_service: {
-                Toast.makeText(this, "hihi111", Toast.LENGTH_SHORT).show();
-
-                img_select_service.setVisibility(View.VISIBLE);
-                reason += Constants.SERVICE + ",";
+                changeImageState(ll_parent_service, img_select_service, ll_parent_service.getBackground().getLevel());
+//                if (ll_parent_service.getBackground().getLevel() == 0) {
+//                    img_select_service.setVisibility(View.VISIBLE);
+//                    ll_parent_service.getBackground().setLevel(1);
+//                } else {
+//                    ll_parent_service.getBackground().setLevel(0);
+//                    img_select_service.setVisibility(View.GONE);
+//                }
                 break;
             }
             case R.id.llParentReason: {
@@ -122,6 +139,12 @@ public class RateActivity extends AppCompatActivity implements RateView, View.On
             }
             case R.id.btn_rate: {
                 if (Utils.checkNetwork(this)) {
+                    if (getLevel(ll_parent_service) == 1) {
+                        reason += " " + Constants.SERVICE;
+                    }
+                    if (getLevel(ll_parent_sale) == 1) {
+                        reason += " " + Constants.SALE;
+                    }
                     rateBody = new RateBody((int) ratingBar.getRating(), edt_cmt.getText().toString(), reason);
                     presenter.validateCmt(edt_cmt.getText().toString(), rateBody);
                 } else {
@@ -131,5 +154,20 @@ public class RateActivity extends AppCompatActivity implements RateView, View.On
                 break;
             }
         }
+    }
+
+
+    private void changeImageState(RelativeLayout relativeLayout, ImageView imageView, int level) {
+        if (level == 0) {
+            relativeLayout.getBackground().setLevel(1);
+            imageView.setVisibility(View.VISIBLE);
+        } else {
+            relativeLayout.getBackground().setLevel(0);
+            imageView.setVisibility(View.GONE);
+        }
+    }
+
+    private int getLevel(RelativeLayout rl) {
+        return rl.getBackground().getLevel();
     }
 }

@@ -132,6 +132,8 @@
                         android:text="@string/birthday" />
 
                     <EditText
+                        android:clickable="true"
+                        android:editable="false"
                         android:id="@+id/edt_birthday"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

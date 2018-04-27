@@ -63,7 +63,7 @@ public class ClothesDetailPresenterImpl implements ClothesDetailPresenter {
     @Override
     public void firstFetchSimilarClothes(String clothesID) {
 
-//        clothesDetailActivityView.showProgressSimilarClothes();
+        clothesDetailActivityView.showProgressSimilarClothes();
         clothesDetailActivityView.hideErrorSimilarClothes();
         clothesDetailInteractor.getSimilarClothes(clothesID,0,
                 Constants.PAGE_SIZE,  new OnGetPageClothesPreviewCompleteListener() {
@@ -92,7 +92,7 @@ public class ClothesDetailPresenterImpl implements ClothesDetailPresenter {
 
     @Override
     public void loadMoreSimilarClothes(String clothesID) {
-//        clothesDetailActivityView.s();
+        clothesDetailActivityView.showProgressSimilarClothes();
         clothesDetailInteractor.getSimilarClothes(clothesID, currentPage + 1,
                 Constants.PAGE_SIZE, new OnGetPageClothesPreviewCompleteListener() {
                     @Override

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--<color name="colorPrimary">#5BBD2A</color>-->
+    <!--<color name="colorPrimaryDark">#e621df5a</color>-->
     <color name="colorPrimary">#29B5E3</color>
     <color name="colorPrimaryDark">#89B700</color>
     <color name="colorAccent">#FF4081</color>
@@ -15,5 +17,5 @@
     <color name="gray">#C0C0C0</color>
 
     <color name="light_gray">#EFEFEF</color>
-
+    <color name="centre">#EE0000</color>
 </resources>

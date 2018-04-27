@@ -46,6 +46,13 @@ public class HeaderProfile implements Serializable{
 
     }
 
+    public HeaderProfile(String customerID, String fullName, String avatarUrl, String email) {
+        this.customerID = customerID;
+        this.fullName = fullName;
+        this.avatarUrl = avatarUrl;
+        this.email = email;
+    }
+
     public HeaderProfile() {
 
     }

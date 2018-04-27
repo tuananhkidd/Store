@@ -6,20 +6,24 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.kidd.store.MainActivity;
 import com.kidd.store.models.response.HeaderProfile;
 
+import java.text.ParseException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -64,6 +68,7 @@ public class Utils {
         headerProfile.setEmail(preferences.getString(Constants.PRE_EMAIL, null));
         return headerProfile;
     }
+
     public static String getTimeAndDate(long time) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(time);
@@ -79,19 +84,24 @@ public class Utils {
     }
 
     public static void dialogShowDate(Activity activity, String title, DatePickerDialog.OnDateSetListener dateChangedListener) {
-//        Calendar now = Calendar.getInstance();
-//        DatePickerDialog dpd = DatePickerDialog.Builder(
-//                dateChangedListener,
-//                now.get(Calendar.YEAR),
-//                now.get(Calendar.MONTH),
-//                now.get(Calendar.DAY_OF_MONTH)
-//        );
-//        dpd.showYearPickerFirst(true);
-//        dpd.dismissOnPause(true);
-//        dpd.vibrate(true);
-//        dpd.setTitle(title);
-//        dpd.setAccentColor(Color.parseColor("#4CAF50"));
-//        dpd.show(activity.getFragmentManager(), "Datepickerdialog");
+        Calendar now = Calendar.getInstance();
+        DatePickerDialog dpd = new DatePickerDialog(activity,
+                dateChangedListener,
+                now.get(Calendar.YEAR),
+                now.get(Calendar.MONTH) + 1,
+                now.get(Calendar.DAY_OF_MONTH));
+        dpd.setTitle(title);
+        dpd.show();
+    }
+    public static long milliseconds(String date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+        try {
+            Date mDate = sdf.parse(date);
+            return mDate.getTime();
+        } catch (ParseException ignored) {
+            Log.i("timeerro", "milliseconds: "+ignored.toString());
+            return 0;
+        }
     }
     public static String formatNumberMoney(double salary) {
         DecimalFormat formatter = (DecimalFormat) NumberFormat.getInstance(Locale.US);
