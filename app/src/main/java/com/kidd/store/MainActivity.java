@@ -232,6 +232,7 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_logout: {
                 Utils.setSharePreferenceValues(this, Constants.STATUS_LOGIN, Constants.LOGIN_FAIL);
                 Utils.setSharePreferenceValues(this, Constants.USER_NAME, null);
+                Utils.setSharePreferenceValues(this, Constants.CUSTOMER_ID, null);
                 Utils.saveHeaderProfile(this, null);
                 EventBus.getDefault().post(new UserAuthorizationChangedEvent());
                 break;

@@ -5,13 +5,13 @@ package com.kidd.store.common;
  */
 
 public class RequestConstants {
-    public static final String BASE_URL = "http://192.168.0.102:1995";
+//    public static final String BASE_URL = "http://192.168.0.102:1995";
 //    public static final String BASE_URL = "http://192.168.43.11:1995";
 //    public static final String BASE_URL = "http://192.168.0.103:1995";
 //    public static final String BASE_URL = "http://192.168.11.102:1995";
 //    public static final String BASE_URL = "http://192.168.0.101:1995";
 //    public static final String BASE_URL = "http://192.168.43.6:1995";
-//    public static final String BASE_URL = "http://192.168.0.100:1995";
+    public static final String BASE_URL = "http://192.168.1.10:1995";
 
 //    public static final String BASE_URL = "http://192.168.11.102:1995";
 

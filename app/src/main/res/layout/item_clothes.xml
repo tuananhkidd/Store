@@ -23,7 +23,6 @@
             android:id="@+id/img_save"
             android:layout_width="@dimen/small_icon_size"
             android:layout_height="@dimen/small_icon_size"
-
             android:layout_toLeftOf="@+id/tv_acount_save"
             android:src="@drawable/ic_save" />
         <TextView

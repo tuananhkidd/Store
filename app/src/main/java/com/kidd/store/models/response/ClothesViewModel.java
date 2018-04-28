@@ -1,10 +1,8 @@
 package com.kidd.store.models.response;
 
 import com.kidd.store.models.Category;
-import com.kidd.store.models.RateClothesViewModel;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 /**

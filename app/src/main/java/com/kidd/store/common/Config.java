@@ -1,5 +1,5 @@
 package com.kidd.store.common;
 
 public class Config {
-    public static final String CLIENT_ID = "AQzDwl6VNJFove_xt7p6ofHR-f4BZAsF6iTvYOzPEmOcZp8KcshD1bOxWEF2tDwBWb1OiA353iCMcBgH";
+    public static final String CLIENT_ID = "ARj1fRRuPCYbE-n3bHdj2XBZnQi3xP3M_MlkL8dDfF3Rq9KwbIwTleIU0-QWkSS4OvwiFIO8L-CMPnhf";
 }

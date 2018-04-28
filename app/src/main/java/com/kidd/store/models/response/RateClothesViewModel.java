@@ -1,44 +1,18 @@
-package com.kidd.store.models;
+package com.kidd.store.models.response;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
-
-/**
- * Created by KingIT on 4/25/2018.
- */
-
-public class RateClothesViewModel implements Serializable{
-    private String id;
-    private String name;
-    private String address;
+public class RateClothesViewModel {
+    private String customerName;
     private String logoUrl;
     private long rateDate;
     private String message;
     private int rating;
 
-    public String getId() {
-        return id;
+    public String getCustomerName() {
+        return customerName;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
     }
 
     public String getLogoUrl() {

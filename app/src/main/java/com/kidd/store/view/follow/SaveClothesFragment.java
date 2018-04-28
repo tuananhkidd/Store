@@ -29,6 +29,7 @@ import com.kidd.store.presenter.follow.following.SaveClothesPresenter;
 import com.kidd.store.presenter.follow.following.SaveClothesPresenterImpl;
 import com.kidd.store.presenter.follow.unfollowing.UnSaveClothesPresenter;
 import com.kidd.store.presenter.follow.unfollowing.UnSaveClothesPresenterImpl;
+import com.kidd.store.services.event_bus.OnSaveClothesEvent;
 import com.kidd.store.services.event_bus.UserAuthorizationChangedEvent;
 import com.kidd.store.view.shop.clothes_detail.ClothesDetailActivity;
 
@@ -92,6 +93,11 @@ public class SaveClothesFragment extends Fragment implements SaveClothesView,
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onReceivedSaveClothesEvent(OnSaveClothesEvent saveClothesEvent) {
+       presenter.refreshSaveClothes();
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -120,7 +126,7 @@ public class SaveClothesFragment extends Fragment implements SaveClothesView,
             hideNoResult();
             presenter.refreshSaveClothes();
             txt_result.setText(getString(R.string.no_save));
-        }else {
+        } else {
             showNoResult();
             txt_result.setText(getString(R.string.function_request_login));
         }

@@ -1,5 +1,6 @@
 package com.kidd.store.presenter.shop.clothes_detail;
 
+import com.kidd.store.models.body.RateClothesBody;
 import com.kidd.store.presenter.BasePresenter;
 
 /**
@@ -12,4 +13,6 @@ public interface ClothesDetailPresenter extends BasePresenter{
     void deleteSavedClothes(String clothesID);
     void firstFetchSimilarClothes(String clothesID);
     void loadMoreSimilarClothes(String clothesID);
+    void rateClothes(String clothesID, RateClothesBody rateClothesBody);
+    void getAllRateClothes(String clothesID);
 }

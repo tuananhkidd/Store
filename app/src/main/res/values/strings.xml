@@ -80,4 +80,5 @@
     <string name="invalid_email">Email không đúng định dạng</string>
     <string name="no_save">Bạn chưa theo dõi sản phẩm nào</string>
     <string name="function_request_login">Tính năng yêu cầu đăng nhập</string>
+    <string name="rate_product">Đánh giá sản phẩm</string>
 </resources>
