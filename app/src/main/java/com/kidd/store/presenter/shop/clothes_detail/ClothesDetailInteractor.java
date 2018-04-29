@@ -8,7 +8,7 @@ import com.kidd.store.presenter.OnRequestCompleteListener;
  */
 
 public interface ClothesDetailInteractor extends BaseInteractor{
-    void getClothesDetail(String clothesID, OnGetClothesDetailCompleteListener listener);
+    void getClothesDetail(String customerID, String clothesID, OnGetClothesDetailCompleteListener listener);
     void saveClothes(String clothesID, OnRequestCompleteListener listener);
     void deleteSavedClothes(String clothesID, OnRequestCompleteListener listener);
     void getSimilarClothes(String clothesID, int pageIndex, int pageSize, OnGetPageClothesPreviewCompleteListener listener);

@@ -34,9 +34,9 @@ public class ClothesDetailPresenterImpl implements ClothesDetailPresenter {
     }
 
     @Override
-    public void fetchClothesDetail(String clothesID) {
+    public void fetchClothesDetail(String customerID, String clothesID) {
         clothesDetailActivityView.showProgress();
-        clothesDetailInteractor.getClothesDetail(clothesID, new OnGetClothesDetailCompleteListener() {
+        clothesDetailInteractor.getClothesDetail(customerID, clothesID, new OnGetClothesDetailCompleteListener() {
             @Override
             public void onGetClothesDetailComplete(ClothesViewModel clothesViewModel) {
                 clothesDetailActivityView.showClothesDetail(clothesViewModel);

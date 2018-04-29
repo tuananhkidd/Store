@@ -30,9 +30,9 @@ public class ClothesDetailInteractorImpl implements ClothesDetailInteractor{
         this.compositeDisposable.clear();
     }
     @Override
-    public void getClothesDetail(String clothesID, OnGetClothesDetailCompleteListener listener) {
+    public void getClothesDetail(String customerID, String clothesID, OnGetClothesDetailCompleteListener listener) {
         Disposable disposable = ApiClient.getClient().create(ClothesService.class)
-                .getClothesViewModel(clothesID)
+                .getClothesViewModel(customerID, clothesID)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(response -> {
@@ -66,7 +66,7 @@ public class ClothesDetailInteractorImpl implements ClothesDetailInteractor{
     public void getSimilarClothes(String clothesID, int pageIndex, int pageSize,
                                   OnGetPageClothesPreviewCompleteListener listener) {
         Disposable disposable = ApiClient.getClient().create(ClothesService.class)
-                .getSimilarClothesPreview(clothesID, pageIndex, pageSize)
+                .getSimilarClothesPreview(clothesID, pageIndex, pageSize, null, null)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(response -> {

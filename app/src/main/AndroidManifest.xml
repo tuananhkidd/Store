@@ -64,11 +64,9 @@
         <activity android:name=".view.profile.update_description.UpdateDescriptionActivity" />
         <activity android:name=".view.profile.update_profile.UpdateProfileActivity" />
         <activity android:name=".view.account.password.change_password.ChangePasswordActivity" />
-        <activity android:name=".view.account.password.reset_password.ForgetPasswordActivity"></activity>
-
-        <activity android:name=".view.shop.clothes_detail.ClothesDetailActivity"></activity>
-
-
+        <activity android:name=".view.account.password.reset_password.ForgetPasswordActivity" />
+        <activity android:name=".view.shop.clothes_detail.ClothesDetailActivity" />
+        <activity android:name=".view.cart.CartActivity"></activity>
     </application>
 
 </manifest>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:clickable="true">
+
+    <RelativeLayout
+        android:id="@+id/rlItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/edit_text_padding">
+
+        <ImageView
+            android:id="@+id/img_avatar"
+            android:layout_width="@dimen/medium_avatar_size"
+            android:layout_height="@dimen/large_avatar_size"
+            android:layout_marginEnd="@dimen/edit_text_padding"
+            android:layout_marginRight="@dimen/edit_text_padding"
+            android:src="@drawable/book_logo" />
+
+        <ImageView
+            android:id="@+id/img_close"
+            android:layout_width="@dimen/small_icon_size"
+            android:layout_height="@dimen/small_icon_size"
+            android:layout_alignParentRight="true"
+            android:layout_toLeftOf="@+id/tv_acount_save"
+            android:src="@drawable/ic_close" />
+
+        <TextView
+            android:id="@+id/tv_full_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@id/img_save"
+            android:layout_marginBottom="@dimen/icon_padding"
+            android:layout_marginRight="@dimen/text_margin_right"
+            android:layout_toEndOf="@id/img_avatar"
+            android:layout_toRightOf="@id/img_avatar"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:minLines="1"
+            android:text="ABCDEFsdfasdfasdfsadfsdfsafdfas"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/font_size_20sp" />
+
+        <TextView
+            android:id="@+id/tv_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_full_name"
+            android:layout_toEndOf="@+id/img_avatar"
+            android:layout_toRightOf="@+id/img_avatar"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Size: " />
+
+        <TextView
+            android:id="@+id/tv_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/tv_color_select"
+            android:layout_alignBottom="@+id/tv_color_select"
+            android:layout_toEndOf="@+id/img_avatar"
+            android:layout_toRightOf="@+id/img_avatar"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Màu: " />
+
+        <TextView
+            android:id="@+id/tv_color_select"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_below="@+id/tv_size"
+            android:layout_toRightOf="@+id/tv_color"
+            android:background="@color/md_red_500" />
+
+        <LinearLayout
+            android:id="@+id/ll_select_count"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_color"
+            android:layout_marginBottom="@dimen/margin_bottom"
+            android:layout_toEndOf="@+id/img_avatar"
+            android:layout_toRightOf="@+id/img_avatar"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Số lượng:"
+                android:textSize="@dimen/font_size_16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_sub_count"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@drawable/ic_sub_count" />
+
+            <TextView
+                android:id="@+id/tv_count"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_edit_text"
+                android:textSize="@dimen/font_size_16sp" />
+
+            <TextView
+                android:id="@+id/tv_add_count"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@drawable/ic_sub_count" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_cost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/ll_select_count"
+            android:text="Gia"
+            android:textColor="@android:color/holo_red_light"
+            android:textSize="@dimen/font_size_20sp" />
+
+    </RelativeLayout>
+    <View
+        android:background="@color/light_gray"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+</LinearLayout>

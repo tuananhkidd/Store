@@ -38,13 +38,13 @@ public class SimilarClothesAdapter  extends EndlessLoadingRecyclerViewAdapter{
 
     @Override
     protected RecyclerView.ViewHolder initNormalViewHolder(ViewGroup parent) {
-        View view = getInflater().inflate(R.layout.item_clothes, parent, false);
-        return new SimilarClothesAdapter.ClothesPreviewHodel(view);
+        View view = getInflater().inflate(R.layout.item_similar_clothes, parent, false);
+        return new ClothesPreviewHodel(view);
     }
 
     @Override
     protected void bindNormalViewHolder(NormalViewHolder holder, int position) {
-        ClothesPreviewAdapter.ClothesPreviewHodel clothesPreviewHodel= (ClothesPreviewAdapter.ClothesPreviewHodel) holder;
+        ClothesPreviewHodel clothesPreviewHodel= (ClothesPreviewHodel) holder;
         ClothesPreview clothesPreview= getItem(position, ClothesPreview.class);
         Glide.with(getContext()).load(clothesPreview.getLogoUrl()).apply(new RequestOptions().placeholder(R.drawable.book_logo)).into(clothesPreviewHodel.imgAvatar);
         clothesPreviewHodel.tvAcountSave.setText("("+clothesPreview.getNumberSave()+")");

@@ -28,7 +28,7 @@ public class GetClothesInteratorImpl implements GetClothesInteractor{
     @Override
     public void getClothesPreviews(int pageIndex, int pageSize, OnGetClothesSuccessListener listener) {
         Disposable disposable = ApiClient.getClient().create(ClothesService.class)
-                .getClothesPreview(pageIndex, pageSize)
+                .getClothesPreview(pageIndex, pageSize,null, null)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(response -> {

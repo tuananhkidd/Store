@@ -25,6 +25,7 @@ import com.kidd.store.adapter.RateClothesAdapter;
 import com.kidd.store.adapter.RecyclerViewAdapter;
 import com.kidd.store.adapter.SimilarClothesAdapter;
 import com.kidd.store.common.Constants;
+import com.kidd.store.common.UserAuth;
 import com.kidd.store.common.Utils;
 import com.kidd.store.custom.LoadingDialog;
 import com.kidd.store.models.Clothes;
@@ -120,7 +121,7 @@ public class ClothesDetailActivity extends AppCompatActivity implements ClothesD
         btPay.setOnClickListener(this);
         clothesID= getIntent().getStringExtra(Constants.KEY_CLOTHES_ID);
         if(clothesID!=null) {
-            clothesDetailPresenter.fetchClothesDetail(clothesID);
+            clothesDetailPresenter.fetchClothesDetail(Utils.getSharePreferenceValues(this, Constants.CUSTOMER_ID),clothesID);
         }
         rcClothesSimilar.setVisibility(View.VISIBLE);
         similarClothesAdapter = new SimilarClothesAdapter(this);
@@ -159,7 +160,7 @@ public class ClothesDetailActivity extends AppCompatActivity implements ClothesD
         tvDescriptionCLothes.setText(clothes.getDescription());
         tvAcountRate.setText("số lượt đánh giá ("+ clothes.getRateClothesViewModels().size()+")");
         rateClothesAdapter = new RateClothesAdapter(this);
-        fabSave.setBackgroundResource(clothes.isSaved() ? R.drawable.ic_save : R.drawable.ic_nosave);
+        fabSave.setBackgroundResource(R.drawable.ic_nosave);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this) {
             @Override
             public boolean canScrollVertically() {
@@ -242,7 +243,7 @@ public class ClothesDetailActivity extends AppCompatActivity implements ClothesD
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.fab_save:{
-
+                break;
             }
         }
     }

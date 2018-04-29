@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/view_margin">
+<TextView
+    android:text="Chọn size sản phẩm:"
+    android:textStyle="bold"
+    android:textSize="@dimen/font_size_16sp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textColor="@color/md_red_500"/>
+    <RadioGroup
+        android:id="@+id/rg_size_clothes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="@dimen/margin_bottom">
+        <RadioButton
+            android:id="@+id/size24"
+            android:text="24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:id="@+id/size26"
+            android:text="26"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:id="@+id/size28"
+            android:text="28"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:id="@+id/size30"
+            android:text="30"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:id="@+id/size32"
+            android:text="32"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:id="@+id/size34"
+            android:text="34"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RadioGroup>
+    <TextView
+        android:text="Chọn color sản phẩm:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/font_size_16sp"
+        android:textStyle="bold"
+        android:textColor="@color/md_red_500"/>
+    <RadioGroup
+        android:id="@+id/rg_color_clothes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="@dimen/margin_bottom">
+        <RadioButton
+            android:id="@+id/red"
+            android:text="đỏ"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/md_red_500"/>
+        <RadioButton
+            android:id="@+id/green"
+            android:text="xanh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/md_green_500"/>
+        <RadioButton
+            android:id="@+id/blue"
+            android:text="lam"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/md_blue_500"/>
+
+        <RadioButton
+            android:id="@+id/yellow"
+            android:text="vàng"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/md_yellow_500"/>
+    </RadioGroup>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="@dimen/margin_bottom">
+        <TextView
+            android:text="Số lượng:"
+            android:textSize="@dimen/font_size_16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="@color/md_red_500"/>
+        <ImageButton
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_sub_count"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_edit_text"/>
+        <ImageButton
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_sub_count"/>
+    </LinearLayout>
+    <Button
+        android:id="@+id/bt_complete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_buttom"
+        android:text="hoàn tất"
+        android:textColor="@color/colorMaterialWhite"/>
+
+</LinearLayout>
