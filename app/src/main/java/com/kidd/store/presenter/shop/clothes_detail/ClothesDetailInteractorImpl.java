@@ -8,6 +8,7 @@ import com.kidd.store.common.ResponseCode;
 import com.kidd.store.common.Utils;
 import com.kidd.store.models.ClothesPreview;
 import com.kidd.store.models.PageList;
+import com.kidd.store.models.body.OrderBody;
 import com.kidd.store.models.body.RateClothesBody;
 import com.kidd.store.models.response.ResponseBody;
 import com.kidd.store.presenter.OnRequestCompleteListener;
@@ -121,7 +122,7 @@ public class ClothesDetailInteractorImpl implements ClothesDetailInteractor {
                                     listener.onServerError(response.message());
                                     break;
                                 }
-                                default:{
+                                default: {
                                     listener.onServerError(response.message());
                                     break;
                                 }
@@ -136,9 +137,9 @@ public class ClothesDetailInteractorImpl implements ClothesDetailInteractor {
     }
 
     @Override
-    public void getAllRateClothes(String clothesID,OnGetPageRateClothesSuccessListener listener) {
+    public void getAllRateClothes(String clothesID, OnGetPageRateClothesSuccessListener listener) {
         Disposable disposable = ApiClient.getClient().create(ClothesService.class)
-                .getAllRateClothes(clothesID,null,null)
+                .getAllRateClothes(clothesID, null, null)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(
@@ -152,7 +153,7 @@ public class ClothesDetailInteractorImpl implements ClothesDetailInteractor {
                                     listener.onError(response.message());
                                     break;
                                 }
-                                default:{
+                                default: {
                                     listener.onError(response.message());
                                     break;
                                 }
@@ -228,5 +229,38 @@ public class ClothesDetailInteractorImpl implements ClothesDetailInteractor {
         compositeDisposable.add(disposable);
     }
 
+    @Override
+    public void orderClothes(String clothesID, OrderBody orderBody, OnRequestCompleteListener listener) {
+        String customerID = Utils.getSharePreferenceValues(context, Constants.CUSTOMER_ID);
+        Observable<Response<ResponseBody<String>>> observable = ApiClient.getClient().create(ClothesService.class)
 
+                .orderClothes(customerID, clothesID, orderBody);
+
+        Disposable disposable = observable.subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        response -> {
+                            switch (response.code()) {
+                                case ResponseCode.OK: {
+                                    listener.onSuccess();
+                                    break;
+                                }
+                                case ResponseCode.NOT_FOUND: {
+                                    listener.onServerError(response.message());
+                                    break;
+                                }
+                                default: {
+                                    listener.onServerError(response.message());
+                                    break;
+                                }
+                            }
+                        },
+                        error -> {
+                            listener.onServerError(error.getMessage());
+                        }
+                );
+
+        compositeDisposable.add(disposable);
+
+    }
 }

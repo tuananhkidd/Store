@@ -4,6 +4,7 @@ import com.kidd.store.common.RequestConstants;
 import com.kidd.store.models.Clothes;
 import com.kidd.store.models.ClothesPreview;
 import com.kidd.store.models.PageList;
+import com.kidd.store.models.body.OrderBody;
 import com.kidd.store.models.body.RateClothesBody;
 import com.kidd.store.models.response.ClothesViewModel;
 import com.kidd.store.models.response.RateClothesViewModel;
@@ -58,5 +59,9 @@ public interface ClothesService {
                                                            @Path("id") String clothesID,
                                                            @Body RateClothesBody body);
 
+    @POST("/api/customers/{customerID}/orders/{clothesID}")
+    Observable<Response<ResponseBody<String>>> orderClothes(@Path("customerID") String customerID,
+                                                           @Path("clothesID") String clothesID,
+                                                           @Body OrderBody body);
 
 }

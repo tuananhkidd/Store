@@ -81,4 +81,6 @@
     <string name="no_save">Bạn chưa theo dõi sản phẩm nào</string>
     <string name="function_request_login">Tính năng yêu cầu đăng nhập</string>
     <string name="rate_product">Đánh giá sản phẩm</string>
+    <string name="message">Chúng tôi sẽ giao hàng sớm nhất có thể !Xin cảm ơn !</string>
+    <string name="no_order">Bạn chưa mua sản phẩm nào</string>
 </resources>

@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -17,6 +18,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -28,6 +30,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.kidd.store.R;
+import com.kidd.store.adapter.SpinnerColorAdapter;
+import com.kidd.store.adapter.SpinnerSizeAdapter;
 import com.kidd.store.common.Config;
 import com.kidd.store.adapter.EndlessLoadingRecyclerViewAdapter;
 import com.kidd.store.adapter.RateClothesAdapter;
@@ -39,19 +43,20 @@ import com.kidd.store.custom.LoadingDialog;
 import com.kidd.store.custom.RatingDialog;
 import com.kidd.store.models.Clothes;
 import com.kidd.store.models.ClothesPreview;
+import com.kidd.store.models.body.OrderBody;
 import com.kidd.store.models.body.RateClothesBody;
 import com.kidd.store.models.response.ClothesViewModel;
 import com.kidd.store.models.response.RateClothesViewModel;
 import com.kidd.store.presenter.shop.clothes_detail.ClothesDetailPresenter;
 import com.kidd.store.presenter.shop.clothes_detail.ClothesDetailPresenterImpl;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
-//import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalPayment;
 import com.paypal.android.sdk.payments.PayPalService;
 import com.paypal.android.sdk.payments.PaymentActivity;
 import com.paypal.android.sdk.payments.PaymentConfirmation;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -63,7 +68,7 @@ public class ClothesDetailActivity extends AppCompatActivity implements
         View.OnClickListener,
         EndlessLoadingRecyclerViewAdapter.OnLoadingMoreListener,
         RecyclerViewAdapter.OnItemClickListener,
-        RatingDialog.onClickRateButton{
+        RatingDialog.onClickRateButton {
 
     @BindView(R.id.nestedScrollView)
     NestedScrollView nestedScrollView;
@@ -72,13 +77,15 @@ public class ClothesDetailActivity extends AppCompatActivity implements
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.fab_save)
-    ImageButton fabSave;
+    TextView fabSave;
     @BindView(R.id.tv_name_product)
     TextView tvNameClothes;
     @BindView(R.id.tv_cost_product)
     TextView tvCostClothes;
     @BindView(R.id.rating_product)
     MaterialRatingBar ratingClothes;
+    @BindView(R.id.tv_avarage_rate)
+    TextView tv_avarage_rate;
     @BindView(R.id.tv_acount_rate)
     TextView tvAcountRate;
     @BindView(R.id.tv_detail_product)
@@ -180,28 +187,35 @@ public class ClothesDetailActivity extends AppCompatActivity implements
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case Constants.REQUEST_CODE_PAYPAL: {
-                PaymentConfirmation confirmation = data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
-                if(confirmation !=null){
-                    try {
-                        String paymentDetail = confirmation.toJSONObject().toString();
-                        Log.i( "onActivityResult: 11",paymentDetail);
-                    }catch (Exception e){
-                        e.printStackTrace();
+                if(data!=null){
+                    PaymentConfirmation confirmation = data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
+                    if (confirmation != null) {
+                        try {
+
+                            clothesDetailPresenter.orderClothes(clothesID,orderBody);
+                            String paymentDetail = confirmation.toJSONObject().toString();
+                            Log.i("onActivityResult: 11", paymentDetail);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+//                        Log.i("onActivityResult: 11", e.getCause().toString());
+
+                        }
                     }
                 }
+
                 break;
             }
         }
 
     }
 
-    public void processPayment() {
-        PayPalPayment payPalPayment = new PayPalPayment(new BigDecimal(10), "USD", "Checkout for Kidd Store",
+    public void processPayment(int value) {
+        PayPalPayment payPalPayment = new PayPalPayment(new BigDecimal(value), "USD", "Checkout for Kidd Store",
                 PayPalPayment.PAYMENT_INTENT_SALE);
         Intent intent = new Intent(this, PaymentActivity.class);
         intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, configuration);
         intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payPalPayment);
-        startActivityForResult(intent,Constants.REQUEST_CODE_PAYPAL);
+        startActivityForResult(intent, Constants.REQUEST_CODE_PAYPAL);
     }
 
     @Override
@@ -233,13 +247,16 @@ public class ClothesDetailActivity extends AppCompatActivity implements
         tvCostClothes.setText(Utils.formatNumberMoney(clothes.getPrice()) + " đ");
         tvDescriptionCLothes.setText(clothes.getDescription());
         tvAcountRate.setText("số lượt đánh giá (" + clothes.getRateClothesViewModels().size() + ")");
-        fabSave.setImageResource(clothes.isSaved() ? R.drawable.ic_save : R.drawable.ic_nosave);
+        fabSave.setBackgroundResource(clothes.isSaved() ? R.drawable.ic_save : R.drawable.ic_nosave);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this) {
             @Override
             public boolean canScrollVertically() {
                 return true;
             }
         };
+        ratingClothes.setRating(clothes.getAvarageOfRate());
+        tv_avarage_rate.setText(String.format("(%.1f/5)", clothes.getAvarageOfRate()));
+
 
         rateClothesAdapter = new RateClothesAdapter(ClothesDetailActivity.this);
         rcCustomerRate.setLayoutManager(linearLayoutManager);
@@ -302,13 +319,13 @@ public class ClothesDetailActivity extends AppCompatActivity implements
 
     @Override
     public void switchButtonSaveJobToSaved() {
-        fabSave.setImageResource(R.drawable.ic_save);
+        fabSave.setBackgroundResource(R.drawable.ic_save);
         clothesViewModel.setSaved(true);
     }
 
     @Override
     public void switchButtonSaveJobToUnSaved() {
-        fabSave.setImageResource(R.drawable.ic_nosave);
+        fabSave.setBackgroundResource(R.drawable.ic_nosave);
         clothesViewModel.setSaved(false);
     }
 
@@ -330,8 +347,24 @@ public class ClothesDetailActivity extends AppCompatActivity implements
     @Override
     public void getAllRateClothes(List<RateClothesViewModel> rateClothesViewModelList) {
         rateClothesAdapter.clear();
-        rateClothesAdapter.addModels(rateClothesViewModelList,false);
+        rateClothesAdapter.addModels(rateClothesViewModelList, false);
         rateClothesAdapter.notifyDataSetChanged();
+        tvAcountRate.setText("số lượt đánh giá (" + rateClothesViewModelList.size() + ")");
+        ratingClothes.setRating(getAvarageRating(rateClothesViewModelList));
+        tv_avarage_rate.setText(String.format("(%.1f/5)", getAvarageRating(rateClothesViewModelList)));
+    }
+
+    @Override
+    public void payAndBackToHomeScreen() {
+        finish();
+    }
+
+    float getAvarageRating(List<RateClothesViewModel> rateClothesViewModelList) {
+        int sum = 0;
+        for (RateClothesViewModel r : rateClothesViewModelList) {
+            sum += r.getRating();
+        }
+        return (float) sum / rateClothesViewModelList.size();
     }
 
 
@@ -339,7 +372,8 @@ public class ClothesDetailActivity extends AppCompatActivity implements
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bt_pay: {
-                processPayment();
+//                processPayment();
+                showPayDialog();
                 break;
             }
             case R.id.fab_save: {
@@ -360,7 +394,7 @@ public class ClothesDetailActivity extends AppCompatActivity implements
                 }
                 break;
             }
-            case R.id.img_rate:{
+            case R.id.img_rate: {
 //                ratingDialog.show();
 //                ratingDialog.setClickRateButton(this);
 //                ratingDialog.setTitle(getString(R.string.rate));
@@ -375,8 +409,8 @@ public class ClothesDetailActivity extends AppCompatActivity implements
                 edt_msg = dialogRating.findViewById(R.id.edt_cmt);
                 btn_submit = dialogRating.findViewById(R.id.btn_rate);
 
-                btn_submit.setOnClickListener(v1->{
-                    clothesDetailPresenter.rateClothes(clothesID,new RateClothesBody(edt_msg.getText().toString(),
+                btn_submit.setOnClickListener(v1 -> {
+                    clothesDetailPresenter.rateClothes(clothesID, new RateClothesBody(edt_msg.getText().toString(),
                             (int) ratingBar.getRating()));
 
                 });
@@ -386,6 +420,105 @@ public class ClothesDetailActivity extends AppCompatActivity implements
             }
         }
 
+    }
+
+    int total;
+    String size = "M";
+    String color = "Đỏ";
+    OrderBody orderBody;
+
+    void showPayDialog() {
+        total = 1;
+        Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.order_dialog);
+
+        AppCompatSpinner spinner_color;
+        AppCompatSpinner spinner_size;
+        TextView txt_sub;
+        TextView txt_add;
+        EditText edt_quanlity;
+        EditText edt_total;
+        Button btn_pay;
+        SpinnerColorAdapter spinnerColorAdapter;
+        SpinnerSizeAdapter spinnerSizeAdapter;
+
+        spinner_color = dialog.findViewById(R.id.spinner_color);
+        spinner_size = dialog.findViewById(R.id.spinner_size);
+        txt_sub = dialog.findViewById(R.id.txt_sub);
+        txt_add = dialog.findViewById(R.id.txt_add);
+        edt_quanlity = dialog.findViewById(R.id.edt_quanlity);
+        edt_total = dialog.findViewById(R.id.edt_total);
+        btn_pay = dialog.findViewById(R.id.btn_pay);
+
+        List<String> lsSize = new ArrayList<>();
+        List<String> lsColor = new ArrayList<>();
+        initOrderDialog(lsSize, lsColor);
+        spinnerColorAdapter = new SpinnerColorAdapter(this, -1, lsColor);
+        spinnerSizeAdapter = new SpinnerSizeAdapter(this, -1, lsSize);
+        spinner_color.setAdapter(spinnerColorAdapter);
+        spinner_size.setAdapter(spinnerSizeAdapter);
+
+        txt_sub.setOnClickListener(v -> {
+            if (total >= 2) {
+                total--;
+                edt_quanlity.setText(total + "");
+                edt_total.setText(Utils.formatNumberMoney(clothesViewModel.getPrice() * total));
+            }
+        });
+
+        txt_add.setOnClickListener(v -> {
+            total++;
+            edt_quanlity.setText(total + "");
+            edt_total.setText(Utils.formatNumberMoney(clothesViewModel.getPrice() * total));
+        });
+
+        spinner_color.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                color = lsColor.get(i);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        spinner_size.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                size = lsSize.get(i);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+
+        btn_pay.setOnClickListener(v -> {
+            orderBody = new OrderBody(color,size,total,clothesViewModel.getPrice());
+            processPayment(total * clothesViewModel.getPrice());
+
+        });
+
+
+        dialog.show();
+    }
+
+
+    void initOrderDialog(List<String> lsSize, List<String> lsColor) {
+        lsColor.add("Đỏ");
+        lsColor.add("Xanh");
+        lsColor.add("Cam");
+
+        lsSize.add("M");
+        lsSize.add("X");
+        lsSize.add("L");
+        lsSize.add("XL");
+        lsSize.add("XXL");
+        lsSize.add("XXXL");
     }
 
 

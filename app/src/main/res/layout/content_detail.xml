@@ -31,6 +31,15 @@
             android:textStyle="bold" />
 
         <TextView
+            android:layout_alignParentRight="true"
+            android:id="@+id/fab_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/fab_margin"
+            android:layout_gravity="right"
+            android:background="@drawable/ic_save" />
+
+        <TextView
             android:id="@+id/tv_cost_product"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -53,12 +62,23 @@
             app:mrb_progressTint="@android:color/holo_orange_light" />
 
         <TextView
-            android:id="@+id/tv_acount_rate"
+            android:id="@+id/tv_avarage_rate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_cost_product"
             android:layout_toEndOf="@+id/rating_product"
             android:layout_toRightOf="@+id/rating_product"
+            android:text="(2/5)"
+            android:layout_marginHorizontal="4dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="16sp" />
+        <TextView
+            android:id="@+id/tv_acount_rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_cost_product"
+            android:layout_toEndOf="@+id/tv_avarage_rate"
+            android:layout_toRightOf="@+id/tv_avarage_rate"
             android:text="số lượt đánh giá (5)"
             android:textColor="@android:color/holo_red_light"
             android:textSize="16sp" />

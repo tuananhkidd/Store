@@ -40,4 +40,6 @@ public interface ClothesDetailActivityView {
     void hideRatingDialog();
 
     void getAllRateClothes(List<RateClothesViewModel> rateClothesViewModelList);
+
+    void payAndBackToHomeScreen();
 }

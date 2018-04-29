@@ -20,6 +20,15 @@ public class ClothesViewModel implements Serializable{
     private List<RateClothesViewModel> rateClothesViewModels;
     private int numberSave;
     private boolean isSaved;
+    private float avarageOfRate;
+
+    public float getAvarageOfRate() {
+        return avarageOfRate;
+    }
+
+    public void setAvarageOfRate(float avarageOfRate) {
+        this.avarageOfRate = avarageOfRate;
+    }
 
     public String getId() {
         return id;

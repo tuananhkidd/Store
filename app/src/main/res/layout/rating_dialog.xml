@@ -24,7 +24,7 @@
         android:layout_below="@+id/tv_cost_product"
         android:layout_margin="4dp"
         android:isIndicator="true"
-        android:rating="1"
+        android:rating="3"
         android:focusable="true"
         android:clickable="true"
         android:max="5"

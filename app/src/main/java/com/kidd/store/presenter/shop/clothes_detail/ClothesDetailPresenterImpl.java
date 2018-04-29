@@ -3,10 +3,12 @@ package com.kidd.store.presenter.shop.clothes_detail;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.kidd.store.R;
 import com.kidd.store.common.Constants;
 
 import com.kidd.store.models.ClothesPreview;
 import com.kidd.store.models.PageList;
+import com.kidd.store.models.body.OrderBody;
 import com.kidd.store.models.body.RateClothesBody;
 import com.kidd.store.models.response.ClothesViewModel;
 
@@ -98,8 +100,8 @@ public class ClothesDetailPresenterImpl implements ClothesDetailPresenter {
     @Override
     public void firstFetchSimilarClothes(String clothesID) {
         clothesDetailActivityView.showProgressSimilarClothes();
-        clothesDetailInteractor.getSimilarClothes(clothesID,0,
-                Constants.PAGE_SIZE,  new OnGetPageClothesPreviewCompleteListener() {
+        clothesDetailInteractor.getSimilarClothes(clothesID, 0,
+                Constants.PAGE_SIZE, new OnGetPageClothesPreviewCompleteListener() {
                     @Override
                     public void onGetPageClothesPreviewsSuccess(PageList<ClothesPreview> clothesPreviewPageList) {
                         if (clothesPreviewPageList.getTotalItem() == 0) {
@@ -156,6 +158,7 @@ public class ClothesDetailPresenterImpl implements ClothesDetailPresenter {
                 clothesDetailActivityView.hideRatingDialog();
                 getAllRateClothes(clothesID);
             }
+
             @Override
             public void onServerError(String message) {
                 Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
@@ -179,5 +182,23 @@ public class ClothesDetailPresenterImpl implements ClothesDetailPresenter {
         });
     }
 
+    @Override
+    public void orderClothes(String clothesID, OrderBody orderBody) {
+        clothesDetailActivityView.showProgress();
+        clothesDetailInteractor.orderClothes(clothesID, orderBody, new OnRequestCompleteListener() {
+            @Override
+            public void onSuccess() {
+                clothesDetailActivityView.hideProgress();
+                Toast.makeText(context, context.getString(R.string.message), Toast.LENGTH_LONG).show();
+                clothesDetailActivityView.payAndBackToHomeScreen();
+            }
 
+            @Override
+            public void onServerError(String message) {
+                clothesDetailActivityView.hideProgress();
+                Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
 }
