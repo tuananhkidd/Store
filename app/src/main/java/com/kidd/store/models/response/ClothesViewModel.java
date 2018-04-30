@@ -1,10 +1,8 @@
 package com.kidd.store.models.response;
 
 import com.kidd.store.models.Category;
-import com.kidd.store.models.RateClothesViewModel;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,6 +20,15 @@ public class ClothesViewModel implements Serializable{
     private List<RateClothesViewModel> rateClothesViewModels;
     private int numberSave;
     private boolean isSaved;
+    private float avarageOfRate;
+
+    public float getAvarageOfRate() {
+        return avarageOfRate;
+    }
+
+    public void setAvarageOfRate(float avarageOfRate) {
+        this.avarageOfRate = avarageOfRate;
+    }
 
     public String getId() {
         return id;

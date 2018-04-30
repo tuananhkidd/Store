@@ -3,6 +3,7 @@ package com.kidd.store.view.shop.clothes_detail;
 import com.kidd.store.models.Clothes;
 import com.kidd.store.models.ClothesPreview;
 import com.kidd.store.models.response.ClothesViewModel;
+import com.kidd.store.models.response.RateClothesViewModel;
 
 import java.util.List;
 
@@ -27,11 +28,18 @@ public interface ClothesDetailActivityView {
 
     void enableLoadingMore(boolean enable);
 
-    void addSimilarClothes(List<ClothesPreview> similarClothes);
+    void refreshSimilarClothes(List<ClothesPreview> similarClothes);
+    void loadmoreSimilarClothes(List<ClothesPreview> similarClothes);
 
     void switchButtonSaveJobToSaved();
     void switchButtonSaveJobToUnSaved();
 
     void showListSimilarClothes();
     void hideListSimilarClothes();
+
+    void hideRatingDialog();
+
+    void getAllRateClothes(List<RateClothesViewModel> rateClothesViewModelList);
+
+    void payAndBackToHomeScreen();
 }

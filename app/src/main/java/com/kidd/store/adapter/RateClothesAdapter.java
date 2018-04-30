@@ -9,7 +9,9 @@ import android.widget.TextView;
 import com.kidd.store.GlideApp;
 import com.kidd.store.R;
 import com.kidd.store.common.Utils;
-import com.kidd.store.models.RateClothesViewModel;
+import com.kidd.store.models.response.RateClothesViewModel;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,7 +23,6 @@ import me.zhanghai.android.materialratingbar.MaterialRatingBar;
  */
 
 public class RateClothesAdapter  extends RecyclerViewAdapter{
-
     public RateClothesAdapter(Context context) {
         super(context, false);
     }
@@ -34,14 +35,14 @@ public class RateClothesAdapter  extends RecyclerViewAdapter{
 
     @Override
     protected void bindNormalViewHolder(NormalViewHolder holder, int position) {
-        RateClothesViewModel  rateClothesViewModel= (RateClothesViewModel) getItem(position, RateClothesViewModel.class);
+        RateClothesViewModel  rateClothesViewModel=  getItem(position, RateClothesViewModel.class);
         RateClothesViewHolder viewHolder= (RateClothesViewHolder) holder;
         GlideApp.with(getContext())
                 .load(rateClothesViewModel.getLogoUrl())
                 .placeholder(R.drawable.avatar_placeholder)
                 .into(viewHolder.imgCustomerAvatar);
 
-        viewHolder.txtCustomerName.setText(rateClothesViewModel.getLogoUrl());
+        viewHolder.txtCustomerName.setText(rateClothesViewModel.getCustomerName());
         viewHolder.txtTime.setText(Utils.getTimeAndDate(rateClothesViewModel.getRateDate()));
         viewHolder.txtComment.setText(rateClothesViewModel.getMessage());
         viewHolder.ratingAttitude.setRating(rateClothesViewModel.getRating());

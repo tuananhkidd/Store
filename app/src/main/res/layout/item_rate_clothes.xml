@@ -20,6 +20,7 @@
             android:layout_marginEnd="@dimen/edit_text_padding" />
 
         <TextView
+            android:layout_toLeftOf="@id/rating_product"
             android:id="@+id/txt_customer_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

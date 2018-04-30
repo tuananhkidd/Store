@@ -41,6 +41,10 @@ public class GetClothesInteratorImpl implements GetClothesInteractor{
                             listener.onMessageEror(response.message());
                             break;
                         }
+                        default:{
+                            listener.onMessageEror(response.message());
+                            break;
+                        }
                     }
         }, error -> {
             listener.onMessageEror(context.getString(R.string.server_error));

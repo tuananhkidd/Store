@@ -78,5 +78,11 @@
     <string name="forge_pass">Mật khẩu mới sẽ được gửi tới email. Vui lòng nhập đúng đia chỉ email</string>
     <string name="forget_pass">Quên mật khẩu</string>
     <string name="invalid_email">Email không đúng định dạng</string>
-
+    <string name="no_save">Bạn chưa theo dõi sản phẩm nào</string>
+    <string name="function_request_login">Tính năng yêu cầu đăng nhập</string>
+    <string name="rate_product">Đánh giá sản phẩm</string>
+    <string name="message">Chúng tôi sẽ giao hàng sớm nhất có thể !Xin cảm ơn !</string>
+    <string name="no_order">Bạn chưa mua sản phẩm nào</string>
+    <string name="cart_clothes">Giỏ hàng sản phẩm</string>
+    <string name="submit">Xác nhận</string>
 </resources>

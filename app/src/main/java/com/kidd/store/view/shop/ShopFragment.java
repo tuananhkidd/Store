@@ -33,9 +33,9 @@ import butterknife.ButterKnife;
  * A simple {@link Fragment} subclass.
  */
 public class ShopFragment extends Fragment implements ShopFragmentView,
- RecyclerViewAdapter.OnItemClickListener,
+        RecyclerViewAdapter.OnItemClickListener,
         SwipeRefreshLayout.OnRefreshListener,
-        EndlessLoadingRecyclerViewAdapter.OnLoadingMoreListener{
+        EndlessLoadingRecyclerViewAdapter.OnLoadingMoreListener {
     @BindView(R.id.rc_posts)
     RecyclerView mRecycleView;
     @BindView(R.id.swipe_refresh)
@@ -54,17 +54,18 @@ public class ShopFragment extends Fragment implements ShopFragmentView,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_shop, container, false);
-        ButterKnife.bind(this,view);
+        ButterKnife.bind(this, view);
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        presenter= new GetClothesPresenterImpl(getContext(), this);
+        presenter = new GetClothesPresenterImpl(getContext(), this);
         initData();
     }
-    private void initData(){
+
+    private void initData() {
         Context context = getActivity();
         adapter = new ClothesPreviewAdapter(context);
         adapter.addOnItemClickListener(this);
@@ -81,6 +82,7 @@ public class ShopFragment extends Fragment implements ShopFragmentView,
 
         presenter.refreshClothesPreviews();
     }
+
     @Override
     public void showLoadMoreProgress() {
         adapter.showLoadingItem(true);

@@ -6,7 +6,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.kidd.store.R;
-import com.kidd.store.view.follow.FollowingFragment;
+
+
+
+import com.kidd.store.view.follow.SaveClothesFragment;
+
 import com.kidd.store.view.shop.ShopFragment;
 
 import java.util.ArrayList;
@@ -25,7 +29,7 @@ public class FragmentAdapter extends FragmentPagerAdapter {
         this.context = context;
         lsFragment = new ArrayList<>();
         lsFragment.add(new ShopFragment());
-        lsFragment.add(new FollowingFragment());
+        lsFragment.add(new SaveClothesFragment());
 //        lsFragment.add(new CartFragment());
     }
 

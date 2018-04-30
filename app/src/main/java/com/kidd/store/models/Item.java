@@ -1,5 +1,9 @@
 package com.kidd.store.models;
 
+import android.os.Parcelable;
+
+import com.kidd.store.models.response.ClothesViewModel;
+
 import java.io.Serializable;
 
 /**
@@ -7,7 +11,7 @@ import java.io.Serializable;
  */
 
 public class Item implements Serializable{
-    private Clothes clothes;
+    private ClothesViewModel clothes;
     private int count;
     private String color;
     private String size;
@@ -15,18 +19,18 @@ public class Item implements Serializable{
     public Item() {
     }
 
-    public Item(Clothes clothes, int count, String color, String size) {
+    public Item(ClothesViewModel clothes, int count, String color, String size) {
         this.clothes = clothes;
         this.count = count;
         this.color = color;
         this.size = size;
     }
 
-    public Clothes getClothes() {
+    public ClothesViewModel getClothes() {
         return clothes;
     }
 
-    public void setClothes(Clothes clothes) {
+    public void setClothes(ClothesViewModel clothes) {
         this.clothes = clothes;
     }
 
@@ -52,5 +56,10 @@ public class Item implements Serializable{
 
     public void setSize(String size) {
         this.size = size;
+    }
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Item && ((Item) obj).getClothes().getId().equals(this.getClothes().getId()) && ((Item) obj).getSize().equals(this.getSize())
+                && ((Item) obj).getColor().equals(this.getColor());
     }
 }

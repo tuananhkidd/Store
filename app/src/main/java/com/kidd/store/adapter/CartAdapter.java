@@ -3,6 +3,7 @@ package com.kidd.store.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -21,11 +22,13 @@ import butterknife.ButterKnife;
  * Created by KingIT on 4/29/2018.
  */
 
-public class CartAdapter extends RecyclerViewAdapter{
+public class CartAdapter extends RecyclerViewAdapter implements RecyclerViewAdapter.OnItemClickListener, RecyclerViewAdapter.OnItemSelectionChangedListener {
+    private ClickChangeCount clickChangeCount;
 
-
-    public CartAdapter(Context context, boolean enableSelectedMode) {
-        super(context, enableSelectedMode);
+    public CartAdapter(Context context, ClickChangeCount clickChangeCount) {
+        super(context, false);
+        setOnItemSelectionChangeListener(this);
+        this.clickChangeCount=clickChangeCount;
     }
 
     @Override
@@ -33,42 +36,86 @@ public class CartAdapter extends RecyclerViewAdapter{
         View view = getInflater().inflate(R.layout.item_cart_clothes, parent, false);
         return new CartAdapterHodel(view);
     }
+    @Override
+    public void setSelectedMode(boolean isSelected) {
+        super.setSelectedMode(isSelected);
+        if (isSelected) {
+            backup();
+            addOnItemClickListener(this);
+            notifyItemRangeChanged(0, getItemCount());
+        } else {
+            removeOnItemClickListener(this);
+        }
+    }
 
-    @SuppressLint("ResourceAsColor")
+
     @Override
     protected void bindNormalViewHolder(NormalViewHolder holder, int position) {
         CartAdapterHodel cartAdapterHodel= (CartAdapterHodel) holder;
         Item item= getItem(position, Item.class);
-        Glide.with(getContext()).load(item.getClothes().getLogoUrl()).apply(new RequestOptions().placeholder(R.drawable.book_logo)).into(clothesPreviewHodel.imgAvatar);
+        Glide.with(getContext()).load(item.getClothes().getLogoUrl()).apply(new RequestOptions().placeholder(R.drawable.book_logo)).into(cartAdapterHodel.imgAvatar);
         cartAdapterHodel.tvName.setText(item.getClothes().getName());
-        cartAdapterHodel.tvSize.setText(cartAdapterHodel.tvSize.getText().toString()+ item.getSize());
+        cartAdapterHodel.tvSize.setText("Size: "+ item.getSize());
         switch (item.getColor()){
-            case 1:{
-                cartAdapterHodel.tvColorSelect.setBackgroundColor(R.color.md_red_500);
+            case "Đỏ":{
+                cartAdapterHodel.tvColorSelect.setBackgroundColor(getContext().getResources()
+                        .getColor(R.color.md_red_500));
                 break;
             }
-            case 2:{
-                cartAdapterHodel.tvColorSelect.setBackgroundColor(R.color.md_green_500);
+            case "Xanh":{
+                cartAdapterHodel.tvColorSelect.setBackgroundColor(getContext().getResources()
+                        .getColor(R.color.md_green_500));
                 break;
             }
-            case 3:{
-                cartAdapterHodel.tvColorSelect.setBackgroundColor(R.color.md_blue_500);
+            case "Cam":{
+                cartAdapterHodel.tvColorSelect.setBackgroundColor(getContext().getResources()
+                        .getColor(R.color.md_orange_500));
                 break;
             }
-            case 4:{
-                cartAdapterHodel.tvColorSelect.setBackgroundColor(R.color.md_yellow_500);
-                break;
-            }
+
         }
 //        DecimalFormat decimalFormat= new DecimalFormat("###.###.###");
         cartAdapterHodel.tvCost.setText(Utils.formatNumberMoney(item.getClothes().getPrice())+" đ");
-        cartAdapterHodel.tvCount.setText(item.getCount());
-        cartAdapterHodel.imgClose.setOnClickListener(new View.OnClickListener() {
+        cartAdapterHodel.tvCount.setText(item.getCount()+"");
+        cartAdapterHodel.tvSubCount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(item.getCount()>1) {
+                    clickChangeCount.clickSubCount(position);
+                }
+            }
+        });
+        cartAdapterHodel.tvAddCount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                clickChangeCount.clickAddCount(position);
             }
         });
+    }
+    @Override
+    public void onItemClick(RecyclerView.Adapter adapter, RecyclerView.ViewHolder viewHolder, int viewType, int position) {
+        if (isInSelectedMode() && viewType == VIEW_TYPE_NORMAL) {
+            setSelectedItem(position, !isItemSelected(position));
+        }
+    }
+
+    @Override
+    public void onItemSelectionChanged(RecyclerView.ViewHolder viewHolder, int viewType, boolean isSelected) {
+        if (viewType == VIEW_TYPE_NORMAL) {
+            CartAdapterHodel cartAdapterHodel = (CartAdapterHodel) viewHolder;
+            if (isSelected) {
+                cartAdapterHodel.itemView
+                        .setBackgroundColor(getContext().getResources()
+                                .getColor(R.color.light_gray));
+                cartAdapterHodel.imgDeleteMark.setVisibility(View.VISIBLE);
+            } else {
+                TypedValue outValue = new TypedValue();
+                getContext().getTheme().resolveAttribute(android.R.attr.selectableItemBackground, outValue, true);
+                cartAdapterHodel.itemView.setBackgroundResource(outValue.resourceId);
+                cartAdapterHodel.imgDeleteMark.setVisibility(View.GONE);
+            }
+        }
     }
     class CartAdapterHodel extends NormalViewHolder{
         @BindView(R.id.img_avatar)
@@ -87,11 +134,18 @@ public class CartAdapter extends RecyclerViewAdapter{
         TextView tvSubCount;
         @BindView(R.id.tv_add_count)
         TextView tvAddCount;
-        @BindView(R.id.tv_count)
+        @BindView(R.id.tv_total_count)
         TextView tvCount;
+        @BindView(R.id.img_delete_mark)
+        ImageView imgDeleteMark;
         public CartAdapterHodel(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+
+    }
+    public interface ClickChangeCount{
+        public void clickAddCount(int possition);
+        public void clickSubCount(int possition);
     }
 }

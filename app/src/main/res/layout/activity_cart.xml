@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     android:orientation="vertical"
     tools:context="com.kidd.store.view.cart.CartActivity">
     <android.support.design.widget.AppBarLayout
@@ -30,6 +32,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="right"
+        android:background="@color/md_green_50"
         android:padding="@dimen/pading_bottom">
         <TextView
             android:text="Tổng tiền: "
@@ -55,3 +58,4 @@
             android:background="@drawable/custom_buttom"/>
     </LinearLayout>
 </LinearLayout>
+

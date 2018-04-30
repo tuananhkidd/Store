@@ -10,7 +10,10 @@ import com.kidd.store.R;
 import com.kidd.store.common.Constants;
 import com.kidd.store.common.Utils;
 import com.kidd.store.models.response.HeaderProfile;
+import com.kidd.store.services.event_bus.UserAuthorizationChangedEvent;
 import com.kidd.store.view.account.login.LoginView;
+
+import org.greenrobot.eventbus.EventBus;
 
 public class LoginPresenterImpl implements LoginPresenter {
     private Context context;
@@ -42,6 +45,7 @@ public class LoginPresenterImpl implements LoginPresenter {
                 Utils.setSharePreferenceValues(context, Constants.CUSTOMER_ID,headerProfile.getCustomerID());
                 Utils.saveHeaderProfile(context,headerProfile);
                 loginView.hideLoadingDialog();
+                EventBus.getDefault().post(new UserAuthorizationChangedEvent());
                 loginView.backToHomeScreen(headerProfile,Activity.RESULT_OK);
             }
 

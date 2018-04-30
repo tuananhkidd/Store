@@ -34,16 +34,16 @@ public class Cart implements Serializable{
 
     public void plusToCart(Item item){
         for (int i = 0; i < items.size(); i++) {
-            if(items.get(i).getClothes().getId()==item.getClothes().getId()){
+            if(items.get(i).equals(item)){
                 items.get(i).setCount(items.get(i).getCount()+1);
                 return;
             }
         }
         items.add(item);
     }
-    public void subToCart(String id){
+    public void subToCart(Item item){
         for (int i = 0; i < items.size(); i++) {
-            if(items.get(i).getClothes().getId()==id){
+            if(items.get(i).equals(item)){
                 if(items.get(i).getCount()>1){
                     items.get(i).setCount(items.get(i).getCount()-1);
                     return;
@@ -53,9 +53,9 @@ public class Cart implements Serializable{
             }
         }
     }
-    public void removeToCart(String id){
+    public void removeToCart(Item item){
         for (int i = 0; i < items.size(); i++) {
-            if(items.get(i).getClothes().getId()==id){
+            if(items.get(i).equals(item)){
                 items.remove(i);
                 break;
             }
@@ -64,7 +64,7 @@ public class Cart implements Serializable{
     public int totalCart(){
         int tong=0;
         for (int i = 0; i < items.size(); i++) {
-            tong+= items.get(i).getColor()* items.get(i).getClothes().getPrice();
+            tong+= items.get(i).getCount()* items.get(i).getClothes().getPrice();
         }
         return tong;
     }
