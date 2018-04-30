@@ -83,4 +83,5 @@
     <string name="rate_product">Đánh giá sản phẩm</string>
     <string name="message">Chúng tôi sẽ giao hàng sớm nhất có thể !Xin cảm ơn !</string>
     <string name="no_order">Bạn chưa mua sản phẩm nào</string>
+    <string name="history_order">Lịch sử mua hàng</string>
 </resources>

@@ -5,8 +5,8 @@ public class OrderViewModel {
     private String name;
     private int price;
     private String logoUrl;
-    private int numberSave;
     private long createdDate;
+    private int amount;
 
     public String getId() {
         return id;
@@ -40,19 +40,19 @@ public class OrderViewModel {
         this.logoUrl = logoUrl;
     }
 
-    public int getNumberSave() {
-        return numberSave;
-    }
-
-    public void setNumberSave(int numberSave) {
-        this.numberSave = numberSave;
-    }
-
     public long getCreatedDate() {
         return createdDate;
     }
 
     public void setCreatedDate(long createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 }

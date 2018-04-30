@@ -43,6 +43,7 @@ import com.kidd.store.view.account.password.change_password.ChangePasswordActivi
 import com.kidd.store.view.account.password.reset_password.ForgetPasswordActivity;
 import com.kidd.store.view.account.register.RegisterActivity;
 import com.kidd.store.view.feedback.FeedbackActivity;
+import com.kidd.store.view.history_order.HistoryOrderActivity;
 import com.kidd.store.view.map.MapsActivity;
 import com.kidd.store.view.profile.ProfileActivity;
 import com.kidd.store.view.rate.RateActivity;
@@ -248,6 +249,14 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_account: {
                 if (Utils.checkNetwork(this)) {
                     startActivity(new Intent(this, ProfileActivity.class));
+                } else {
+                    Toast.makeText(this, getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
+                }
+                break;
+            }
+            case R.id.nav_history: {
+                if (Utils.checkNetwork(this)) {
+                    startActivity(new Intent(this, HistoryOrderActivity.class));
                 } else {
                     Toast.makeText(this, getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
                 }

@@ -9,6 +9,10 @@
                 android:id="@+id/nav_account"
                 android:icon="@drawable/ic_account"
                 android:title="@string/account" />
+            <item
+                android:id="@+id/nav_history"
+                android:icon="@drawable/ic_history_order"
+                android:title="@string/history_order" />
 
             <item
                 android:id="@+id/nav_rate"
@@ -36,9 +40,10 @@
                 android:id="@+id/nav_facebook"
                 android:icon="@drawable/ic_menu_send"
                 android:title="@string/connect_fb" />
-            <item android:id="@+id/nav_change_password"
-                android:title="@string/reset_password"
-                android:icon="@drawable/ic_reset"/>
+            <item
+                android:id="@+id/nav_change_password"
+                android:icon="@drawable/ic_reset"
+                android:title="@string/reset_password" />
         </menu>
     </item>
 

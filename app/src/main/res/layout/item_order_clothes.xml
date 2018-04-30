@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:padding="10dp">
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/img_avatar"
+        android:layout_width="@dimen/medium_avatar_size"
+        android:layout_height="@dimen/medium_avatar_size"
+        android:layout_marginEnd="@dimen/edit_text_padding"
+        android:layout_marginRight="@dimen/edit_text_padding"
+        android:src="@mipmap/ic_launcher"
+        app:civ_border_color="@android:color/darker_gray"
+        app:civ_border_width="1dp" />
+
+    <ImageView
+        android:id="@+id/img_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/img_avatar"
+        android:layout_alignEnd="@id/img_avatar"
+        android:layout_alignRight="@id/img_avatar"
+        android:scaleX="1.3"
+        android:scaleY="1.3"
+        android:src="@drawable/ic_pending" />
+
+    <TextView
+        android:id="@+id/txt_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/img_avatar"
+        android:layout_toEndOf="@+id/img_avatar"
+        android:layout_toRightOf="@+id/img_avatar"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:minLines="1"
+        android:text="Lorem inspu"
+        android:textColor="@color/md_black_1000"
+        android:textSize="@dimen/font_size_16sp" />
+
+    <TextView
+        android:id="@+id/txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/txt_title"
+        android:layout_alignStart="@id/txt_title"
+        android:layout_below="@id/txt_title"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:text="Số lượng : "
+        android:textSize="@dimen/font_size_14sp" />
+
+    <TextView
+        android:layout_marginHorizontal="4dp"
+        android:id="@+id/txt_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/txt"
+        android:layout_below="@id/txt_title"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:text="FPTddsdsdsds"
+        android:textSize="@dimen/font_size_14sp" />
+
+
+    <TextView
+        android:id="@+id/txt_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/txt_title"
+        android:layout_below="@+id/txt"
+        android:text="15.000Đ"
+        android:textColor="@color/md_red_700"
+        android:textSize="@dimen/font_size_16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txt_order_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/txt_price"
+        android:drawableLeft="@drawable/ic_calendar_dark_gray"
+        android:drawablePadding="5dp"
+        android:drawableStart="@drawable/ic_calendar_dark_gray"
+        android:gravity="center_vertical"
+        android:text="dd/MM/yyyy"
+        android:textColor="@color/md_grey_700"
+        android:textSize="@dimen/font_size_12sp" />
+
+</RelativeLayout>
