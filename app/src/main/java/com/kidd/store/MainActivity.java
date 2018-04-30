@@ -42,6 +42,7 @@ import com.kidd.store.view.account.login.LoginActivity;
 import com.kidd.store.view.account.password.change_password.ChangePasswordActivity;
 import com.kidd.store.view.account.password.reset_password.ForgetPasswordActivity;
 import com.kidd.store.view.account.register.RegisterActivity;
+import com.kidd.store.view.cart.CartActivity;
 import com.kidd.store.view.feedback.FeedbackActivity;
 import com.kidd.store.view.history_order.HistoryOrderActivity;
 import com.kidd.store.view.map.MapsActivity;
@@ -219,7 +220,8 @@ public class MainActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
-            return true;
+            Intent intent= new Intent(MainActivity.this, CartActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

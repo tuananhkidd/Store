@@ -84,4 +84,7 @@
     <string name="message">Chúng tôi sẽ giao hàng sớm nhất có thể !Xin cảm ơn !</string>
     <string name="no_order">Bạn chưa mua sản phẩm nào</string>
     <string name="history_order">Lịch sử mua hàng</string>
+    <string name="cart_clothes">Giỏ hàng sản phẩm</string>
+    <string name="submit">Xác nhận</string>
+    <string name="no_item">Giỏ hàng rỗng !</string>
 </resources>

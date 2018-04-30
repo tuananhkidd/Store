@@ -7,7 +7,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Thanh toán"
+        android:text="Thêm sản phảm"
         android:layout_marginVertical="16dp"
         android:layout_marginHorizontal="8dp"
         android:textStyle="bold"
@@ -115,39 +115,12 @@
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="8dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tổng tiền"
-            android:textColor="#000"
-            android:textStyle="bold" />
-
-
-        <EditText
-            android:id="@+id/edt_total"
-            android:layout_marginVertical="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_weight="6"
-            android:background="@drawable/background_edit_text"
-            android:editable="false"
-            android:gravity="center"
-            android:text="1" />
-
-    </LinearLayout>
-
     <Button
-        android:id="@+id/btn_pay"
+        android:id="@+id/btn_add_cart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:background="@drawable/background_button"
-        android:text="Thanh toán"
+        android:background="@drawable/custom_buttom"
+        android:text="Thêm vào giỏ"
         android:textColor="#fff" />
 </LinearLayout>

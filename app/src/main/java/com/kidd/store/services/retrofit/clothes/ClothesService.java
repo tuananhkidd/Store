@@ -28,11 +28,10 @@ import retrofit2.http.Query;
 
 public interface ClothesService {
     @GET("/api/products/clothes")
-    Observable<Response<ResponseBody<PageList<ClothesPreview>>>> getClothesPreview(
-            @Query(RequestConstants.PAGE_INDEX_QUERY) int pageIndex,
-            @Query(RequestConstants.PAGE_SIZE_QUERY) int pageSize,
-            @Query(RequestConstants.SORT_BY_QUERY) String sortBy,
-            @Query(RequestConstants.SORT_TYPE_QUERY) String sortType);
+    Observable<Response<ResponseBody<PageList<ClothesPreview>>>> getClothesPreview(@Query(RequestConstants.PAGE_INDEX_QUERY) int pageIndex,
+                                                                                   @Query(RequestConstants.PAGE_SIZE_QUERY) int pageSize,
+                                                                                   @Query(RequestConstants.SORT_BY_QUERY) String sortBy,
+                                                                                   @Query(RequestConstants.SORT_TYPE_QUERY) String sortType);
 
     @GET("/api/products/{customerID}/clothes/{id}")
     Observable<Response<ResponseBody<ClothesViewModel>>> getClothesViewModel(@Path("customerID") String customerID,
@@ -44,6 +43,7 @@ public interface ClothesService {
                                                                                           @Query(RequestConstants.PAGE_SIZE_QUERY) int pageSize,
                                                                                           @Query(RequestConstants.SORT_BY_QUERY) String sortBy,
                                                                                           @Query(RequestConstants.SORT_TYPE_QUERY) String sortType);
+
 
     @GET("/api/products/rateClothes/{id}")
     Observable<Response<ResponseBody<List<RateClothesViewModel>>>> getAllRateClothes(@Path("id") String clothesID,

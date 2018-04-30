@@ -29,5 +29,7 @@
     <dimen name="small_avatar_size">56dp</dimen>
     <dimen name="font_size_18sp">18sp</dimen>
     <dimen name="font_size_14sp">14sp</dimen>
+    <dimen name="pading_bottom">8dp</dimen>
+    <dimen name="margin_bottom">8dp</dimen>
 
 </resources>

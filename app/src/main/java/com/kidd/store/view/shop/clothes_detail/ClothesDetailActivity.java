@@ -38,17 +38,21 @@ import com.kidd.store.adapter.RateClothesAdapter;
 import com.kidd.store.adapter.RecyclerViewAdapter;
 import com.kidd.store.adapter.SimilarClothesAdapter;
 import com.kidd.store.common.Constants;
+import com.kidd.store.common.UserAuth;
 import com.kidd.store.common.Utils;
 import com.kidd.store.custom.LoadingDialog;
 import com.kidd.store.custom.RatingDialog;
 import com.kidd.store.models.Clothes;
 import com.kidd.store.models.ClothesPreview;
+import com.kidd.store.models.Item;
 import com.kidd.store.models.body.OrderBody;
 import com.kidd.store.models.body.RateClothesBody;
 import com.kidd.store.models.response.ClothesViewModel;
 import com.kidd.store.models.response.RateClothesViewModel;
 import com.kidd.store.presenter.shop.clothes_detail.ClothesDetailPresenter;
 import com.kidd.store.presenter.shop.clothes_detail.ClothesDetailPresenterImpl;
+import com.kidd.store.services.ManageCart;
+import com.kidd.store.view.cart.CartActivity;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalPayment;
 import com.paypal.android.sdk.payments.PayPalService;
@@ -162,6 +166,10 @@ public class ClothesDetailActivity extends AppCompatActivity implements
         img_rate.setOnClickListener(this);
         btAddCart.setOnClickListener(this);
         btPay.setOnClickListener(this);
+        clothesID= getIntent().getStringExtra(Constants.KEY_CLOTHES_ID);
+        if(clothesID!=null) {
+            clothesDetailPresenter.fetchClothesDetail(clothesID);
+        }
 
 
         //start service paypal
@@ -172,6 +180,7 @@ public class ClothesDetailActivity extends AppCompatActivity implements
 //        if (clothesID != null) {
 //            clothesDetailPresenter.fetchClothesDetail(clothesID);
 //        }
+
         rcClothesSimilar.setVisibility(View.VISIBLE);
         similarClothesAdapter = new SimilarClothesAdapter(this);
         similarClothesAdapter.setLoadingMoreListener(this);
@@ -246,8 +255,13 @@ public class ClothesDetailActivity extends AppCompatActivity implements
         tvNameClothes.setText(clothes.getName());
         tvCostClothes.setText(Utils.formatNumberMoney(clothes.getPrice()) + " đ");
         tvDescriptionCLothes.setText(clothes.getDescription());
+
+        rateClothesAdapter = new RateClothesAdapter(this);
+
+
         tvAcountRate.setText("số lượt đánh giá (" + clothes.getRateClothesViewModels().size() + ")");
         fabSave.setBackgroundResource(clothes.isSaved() ? R.drawable.ic_save : R.drawable.ic_nosave);
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this) {
             @Override
             public boolean canScrollVertically() {
@@ -339,7 +353,7 @@ public class ClothesDetailActivity extends AppCompatActivity implements
         rcClothesSimilar.setVisibility(View.GONE);
     }
 
-    @Override
+
     public void hideRatingDialog() {
         dialogRating.dismiss();
     }
@@ -375,6 +389,11 @@ public class ClothesDetailActivity extends AppCompatActivity implements
 //                processPayment();
                 showPayDialog();
                 break;
+            }
+            case R.id.bt_add_cart:{
+                showCartDialog();
+                break;
+
             }
             case R.id.fab_save: {
                 if (clothesViewModel.isSaved()) {
@@ -416,6 +435,7 @@ public class ClothesDetailActivity extends AppCompatActivity implements
                 });
 
                 dialogRating.show();
+
                 break;
             }
         }
@@ -427,6 +447,75 @@ public class ClothesDetailActivity extends AppCompatActivity implements
     String color = "Đỏ";
     OrderBody orderBody;
 
+    void showCartDialog(){
+        total=1;
+        Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_select_clothes);
+        AppCompatSpinner spinner_color;
+        AppCompatSpinner spinner_size;
+        TextView txt_sub;
+        TextView txt_add;
+        EditText edt_quanlity;
+        Button btn_pay;
+        SpinnerColorAdapter spinnerColorAdapter;
+        SpinnerSizeAdapter spinnerSizeAdapter;
+        spinner_color = dialog.findViewById(R.id.spinner_color);
+        spinner_size = dialog.findViewById(R.id.spinner_size);
+        txt_sub = dialog.findViewById(R.id.txt_sub);
+        txt_add = dialog.findViewById(R.id.txt_add);
+        edt_quanlity = dialog.findViewById(R.id.edt_quanlity);
+        btn_pay = dialog.findViewById(R.id.btn_add_cart);
+        List<String> lsSize = new ArrayList<>();
+        List<String> lsColor = new ArrayList<>();
+        initOrderDialog(lsSize, lsColor);
+        spinnerColorAdapter = new SpinnerColorAdapter(this, -1, lsColor);
+        spinnerSizeAdapter = new SpinnerSizeAdapter(this, -1, lsSize);
+        spinner_color.setAdapter(spinnerColorAdapter);
+        spinner_size.setAdapter(spinnerSizeAdapter);
+        txt_sub.setOnClickListener(v -> {
+            if (total >= 2) {
+                total--;
+                edt_quanlity.setText(total + "");
+            }
+        });
+        txt_add.setOnClickListener(v -> {
+            total++;
+            edt_quanlity.setText(total + "");
+        });
+
+        spinner_color.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                color = lsColor.get(i);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        spinner_size.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                size = lsSize.get(i);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        btn_pay.setOnClickListener(v -> {
+            Item item= new Item(this.clothesViewModel, total, color, size);
+            ManageCart.getCart().plusToCart(item);
+            Intent intent= new Intent(ClothesDetailActivity.this, CartActivity.class);
+            startActivity(intent);
+            finish();
+        });
+        dialog.show();
+    }
     void showPayDialog() {
         total = 1;
         Dialog dialog = new Dialog(this);

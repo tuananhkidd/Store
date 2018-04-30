@@ -169,7 +169,6 @@ public class ClothesDetailInteractorImpl implements ClothesDetailInteractor {
     @Override
     public void saveClothes(String clothesID, OnRequestCompleteListener listener) {
         String customerID = Utils.getSharePreferenceValues(context, Constants.CUSTOMER_ID);
-
         Disposable disposable = ApiClient.getClient().create(ClothesService.class)
                 .saveClothes(customerID, clothesID)
                 .observeOn(AndroidSchedulers.mainThread())

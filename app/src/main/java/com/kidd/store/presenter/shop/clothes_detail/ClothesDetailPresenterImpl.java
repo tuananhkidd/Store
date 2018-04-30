@@ -73,6 +73,7 @@ public class ClothesDetailPresenterImpl implements ClothesDetailPresenter {
 
             @Override
             public void onServerError(String message) {
+                clothesDetailActivityView.hideProgress();
                 Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
             }
         });
