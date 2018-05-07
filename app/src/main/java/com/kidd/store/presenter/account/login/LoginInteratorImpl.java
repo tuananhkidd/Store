@@ -5,8 +5,10 @@ import android.content.Context;
 import com.kidd.store.R;
 import com.kidd.store.common.Base64UtilAccount;
 import com.kidd.store.common.ResponseCode;
+import com.kidd.store.models.body.FacebookLoginBody;
 import com.kidd.store.models.response.HeaderProfile;
 import com.kidd.store.models.response.ResponseBody;
+import com.kidd.store.presenter.OnRequestCompleteListener;
 import com.kidd.store.services.ApiClient;
 import com.kidd.store.services.retrofit.account.LoginServices;
 
@@ -56,6 +58,33 @@ public class LoginInteratorImpl implements LoginInterator {
                         },
                         error -> {
                             listener.onError(context.getString(R.string.server_error));
+                        }
+                );
+        compositeDisposable.add(disposable);
+    }
+
+    @Override
+    public void facebookLogin(String facebookUserID, OnGetFacebookLoginStateListener listener) {
+        Observable<Response<ResponseBody<Object>>> observable =
+                ApiClient.getClient().create(LoginServices.class).facebookLogin(facebookUserID);
+
+        Disposable disposable = observable.subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        response -> {
+                            switch (response.code()){
+                                case ResponseCode.OK:{
+                                    listener.onGetState(response.body().getData());
+                                    break;
+                                }
+                                default:{
+                                    listener.onError(response.message());
+                                    break;
+                                }
+                            }
+                        },
+                        error -> {
+                            listener.onError(error.getMessage());
                         }
                 );
         compositeDisposable.add(disposable);

@@ -34,8 +34,11 @@ public interface ClothesService {
                                                                                    @Query(RequestConstants.SORT_TYPE_QUERY) String sortType);
 
     @GET("/api/products/{customerID}/clothes/{id}")
-    Observable<Response<ResponseBody<ClothesViewModel>>> getClothesViewModel(@Path("customerID") String customerID,
-                                                                             @Path("id") String clothesID);
+    Observable<Response<ResponseBody<ClothesViewModel>>> getClothesViewModelWithAuth(@Path("customerID") String customerID,
+                                                                                     @Path("id") String clothesID);
+
+    @GET("/api/products/clothes/{id}")
+    Observable<Response<ResponseBody<ClothesViewModel>>> getClothesViewModelWithoutAuth(@Path("id") String clothesID);
 
     @GET("/api/products/similarClothes/{id}")
     Observable<Response<ResponseBody<PageList<ClothesPreview>>>> getSimilarClothesPreview(@Path("id") String clothesID,
@@ -61,7 +64,10 @@ public interface ClothesService {
 
     @POST("/api/customers/{customerID}/orders/{clothesID}")
     Observable<Response<ResponseBody<String>>> orderClothes(@Path("customerID") String customerID,
-                                                           @Path("clothesID") String clothesID,
-                                                           @Body OrderBody body);
+                                                            @Path("clothesID") String clothesID,
+                                                            @Body OrderBody body);
 
+    @GET("api/customers/{customerID}/orders/{clothesID}/state")
+    Observable<Response<ResponseBody<Boolean>>> getClothesState(@Path("customerID") String customerID,
+                                                            @Path("clothesID") String clothesID);
 }

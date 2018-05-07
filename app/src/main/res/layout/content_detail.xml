@@ -31,6 +31,7 @@
             android:textStyle="bold" />
 
         <TextView
+            android:layout_below="@+id/tv_name_product"
             android:layout_alignParentRight="true"
             android:id="@+id/fab_save"
             android:layout_width="wrap_content"
@@ -142,12 +143,12 @@
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_heart"/>
+            android:src="@drawable/ic_star"/>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rc_customer_rate"
             android:layout_below="@+id/tv_rate_title"
             android:layout_width="match_parent"
-            android:layout_height="200dp">
+            android:layout_height="180dp">
 
         </android.support.v7.widget.RecyclerView>
     </RelativeLayout>

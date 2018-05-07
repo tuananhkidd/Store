@@ -3,21 +3,45 @@ package com.kidd.store.view.account.login;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookAuthorizationException;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.Profile;
+import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.kidd.store.MainActivity;
 import com.kidd.store.R;
 import com.kidd.store.SQLiteHelper.DBManager;
+import com.kidd.store.common.Config;
 import com.kidd.store.common.Constants;
+import com.kidd.store.common.ToastUtils;
+import com.kidd.store.common.Utils;
 import com.kidd.store.custom.LoadingDialog;
-import com.kidd.store.models.User;
+import com.kidd.store.models.body.FacebookLoginBody;
 import com.kidd.store.models.response.HeaderProfile;
 import com.kidd.store.presenter.account.login.LoginPresenter;
 import com.kidd.store.presenter.account.login.LoginPresenterImpl;
+import com.kidd.store.view.account.login.facebook_login.FaceBookLoginActivity;
 import com.kidd.store.view.account.register.RegisterActivity;
+import com.paypal.android.sdk.payments.PayPalConfiguration;
+import com.paypal.android.sdk.payments.PayPalService;
+
+import org.json.JSONObject;
+import java.util.Arrays;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, LoginView {
 
@@ -29,14 +53,108 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     ProgressBar progressBar;
     LoadingDialog loadingDialog;
     LoginPresenter presenter;
+    Button loginButton;
+    CallbackManager callbackManager;
+    ImageView img;
+    FacebookLoginBody facebookLoginBody;
+    private PayPalConfiguration configuration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        try{
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_login);
 
-        initWidget();
-        getDataFromIntent();
+            presenter = new LoginPresenterImpl(this, this);
+            facebookLoginBody = new FacebookLoginBody();
+            FacebookSdk.sdkInitialize(getApplicationContext());
+            AppEventsLogger.activateApp(this);
+            callbackManager = CallbackManager.Factory.create();
+            configuration = new PayPalConfiguration()
+                    .environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
+                    .clientId(Config.CLIENT_ID);
+
+
+
+            LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+                @Override
+                public void onSuccess(LoginResult loginResult) {
+                    result(loginResult);
+
+                }
+
+                @Override
+                public void onCancel() {
+
+                }
+
+                @Override
+                public void onError(FacebookException error) {
+                    if (error instanceof FacebookAuthorizationException) {
+                        if (AccessToken.getCurrentAccessToken() != null) {
+                            LoginManager loginManager = LoginManager.getInstance();
+                            loginManager.logOut();
+                            loginManager.logInWithReadPermissions(LoginActivity.this,
+                                    Arrays.asList("public_profile", "user_friends", "user_gender", "user_birthday", "email"));
+                        }
+                    } else {
+                        ToastUtils.quickToast(LoginActivity.this, R.string.error_message);
+                    }
+                }
+            });
+            initWidget();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        // getDataFromIntent();
+
+    }
+
+    private void result(LoginResult loginResult) {
+        //chung thuc dang nhap vao facebook
+        GraphRequest graphRequest = GraphRequest.newMeRequest(loginResult.getAccessToken(),
+                new GraphRequest.GraphJSONObjectCallback() {
+                    Profile profile = Profile.getCurrentProfile();
+                    @Override
+                    public void onCompleted(JSONObject object, GraphResponse response) {
+                        try {
+                            Log.i("JSON result", "onCompleted: " + object.toString());
+
+                            String pro = profile.getId() + "  " + profile.getFirstName() + "  " + profile.getMiddleName() + "  " + profile.getLastName()
+                                    + profile.getLinkUri().toString() + "  " + profile.getProfilePictureUri(100, 100).toString();
+                            facebookLoginBody.setAvatarUrl(profile.getProfilePictureUri(100, 100).toString());
+
+                            Log.i("JSON result", "onCompleted: " + Utils.millisecondsFromDate(object.getString("birthday")));
+
+                            facebookLoginBody.setFullname(object.getString("name"));
+                            facebookLoginBody.setEmail(object.getString("email"));
+                            facebookLoginBody.setGender(object.getBoolean("gender"));
+
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        facebookLoginBody.setFacebookUserID(profile.getId());
+                        presenter.validateFacebookLogin(profile.getId());
+
+                    }
+                });
+        try {
+            Bundle bundle = new Bundle();
+            bundle.putString("fields", "name,email,first_name,gender,birthday");
+            graphRequest.setParameters(bundle);
+            graphRequest.executeAsync();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LoginManager.getInstance().logOut();
     }
 
     void initWidget() {
@@ -45,16 +163,30 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         btn_login = findViewById(R.id.btn_login);
         txt_signup = findViewById(R.id.txt_signup);
         progressBar = findViewById(R.id.progress);
+        loginButton = findViewById(R.id.login_button);
+        img = findViewById(R.id.img_logo);
 
         txt_signup.setOnClickListener(this);
         btn_login.setOnClickListener(this);
+        loginButton.setOnClickListener(this);
 
         loadingDialog = new LoadingDialog(this);
-        presenter = new LoginPresenterImpl(this,this);
-
-        db = new DBManager(this);
     }
 
+    @Override
+    public void goToVerifyFacebookAccount() {
+        Intent intent = new Intent(LoginActivity.this, FaceBookLoginActivity.class);
+        intent.putExtra(Constants.FACEBOOK, facebookLoginBody);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void goToHomeScreen() {
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
 
     @Override
     public void onClick(View view) {
@@ -68,39 +200,36 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 startActivityForResult(intent, Constants.REQUEST_CODE_SIGNUP);
                 break;
             }
+            case R.id.login_button: {
+                LoginManager.getInstance().logInWithReadPermissions(this,
+                        Arrays.asList("public_profile", "user_friends", "email"));
+
+                break;
+            }
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case Constants.REQUEST_CODE_SIGNUP: {
                 if (resultCode == Constants.RESULT_CODE_SIGNUP) {
-                    edt_username.setText(data.getStringExtra(Constants.USER));
+                      edt_username.setText(data.getStringExtra(Constants.USER));
                 }
                 break;
             }
         }
     }
 
-    void setupError() {
-        if (edt_username.getText().toString().isEmpty()) {
-            edt_username.setError("Wrong Info !");
-            return;
-        }
-        if (edt_password.getText().toString().isEmpty()) {
-            edt_username.setError("Wrong Info !");
-            return;
-        }
-    }
 
-    void getDataFromIntent() {
-        if (getIntent().getExtras() != null) {
-            User u = (User) getIntent().getSerializableExtra(Constants.USER);
-            edt_username.setText(u.getUsername());
-        }
-    }
+//    void getDataFromIntent() {
+//        if (getIntent().getExtras() != null) {
+//            User u = (User) getIntent().getSerializableExtra(Constants.USER);
+//            edt_username.setText(u.getUsername());
+//        }
+//    }
 
 
     @Override
@@ -124,10 +253,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
-    public void backToHomeScreen(HeaderProfile headerProfile,int resultCode) {
-        Intent intent = new Intent();
-        intent.putExtra(Constants.HEADER_PROFILE,headerProfile);
-        setResult(resultCode,intent);
+    public void backToHomeScreen(HeaderProfile headerProfile, int resultCode) {
+        setResult(resultCode);
         finish();
     }
 }

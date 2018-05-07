@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/background_splash"
     android:scrollbars="none"
     tools:context="com.kidd.store.view.account.register.RegisterActivity">
@@ -10,73 +11,58 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
+        <android.support.v7.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:title="Hoàn thiện đăng nhập Facebook"
+            app:titleTextColor="@color/md_white_1000"
+            android:id="@+id/toolbar"
+            />
         <ImageView
+            android:layout_below="@id/toolbar"
+            android:layout_marginTop="20dp"
             android:id="@+id/img_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:src="@drawable/logoapp" />
 
-        <EditText
-            android:id="@+id/edt_user_name"
+        <TextView
+            android:gravity="center_vertical"
+            android:id="@+id/edt_birthday"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_below="@+id/img_logo"
             android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="30dp"
             android:background="@drawable/background_edittext"
-            android:hint="Tài khoản"
+            android:hint="Ngày sinh"
+            android:editable="false"
+            android:inputType="text"
             android:paddingHorizontal="16dp"
             android:textSize="20sp" />
 
         <EditText
-            android:id="@+id/edt_pass"
+            android:id="@+id/edt_email"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_below="@+id/edt_user_name"
+            android:layout_below="@+id/edt_birthday"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="30dp"
             android:background="@drawable/background_edittext"
-            android:hint="Mật khẩu"
-            android:inputType="textPassword"
+            android:hint="Email"
             android:paddingHorizontal="16dp"
             android:textSize="20sp" />
 
-        <EditText
-            android:id="@+id/edt_fullname"
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/spinner_gender"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_below="@+id/edt_pass"
+            android:layout_below="@+id/edt_email"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="30dp"
-            android:background="@drawable/background_edittext"
-            android:hint="Họ và tên"
-            android:paddingHorizontal="16dp"
-            android:textSize="20sp" />
-
-        <EditText
-            android:id="@+id/edt_address"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_below="@+id/edt_fullname"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/background_edittext"
-            android:hint="Địa chỉ"
-            android:paddingHorizontal="16dp"
-            android:textSize="20sp" />
-
-        <EditText
-            android:id="@+id/edt_phone"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_below="@+id/edt_address"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/background_edittext"
-            android:hint="Số điện thoại"
-            android:inputType="number"
+            android:gravity="center"
+            android:background="@drawable/spinner_background"
             android:paddingHorizontal="16dp"
             android:textSize="20sp" />
 
@@ -85,12 +71,12 @@
             android:id="@+id/btn_register"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_below="@+id/edt_phone"
+            android:layout_below="@+id/spinner_gender"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="30dp"
             android:background="@drawable/background_login_button"
             android:paddingHorizontal="16dp"
-            android:text="Đăng ký"
+            android:text="Hoàn Thành"
             android:textColor="#fff"
             android:textSize="20sp" />
 

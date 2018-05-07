@@ -19,7 +19,6 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.kidd.store.GlideApp;
 import com.kidd.store.R;
@@ -34,7 +33,6 @@ import com.sangcomz.fishbun.adapter.image.impl.GlideAdapter;
 import com.sangcomz.fishbun.define.Define;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -162,7 +160,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                                 String.format("%02d", (monthOfYear + 1))
                                 + "-" +
                                 year;
-                        birthday = Utils.milliseconds(date);
+                        birthday = Utils.millisecondsFromDate(date);
                         edt_birthDay.setText(date);
                     }
                 });

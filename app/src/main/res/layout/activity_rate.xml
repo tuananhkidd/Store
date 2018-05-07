@@ -44,7 +44,7 @@
                 android:rating="0"
                 android:stepSize="1"
                 app:mrb_fillBackgroundStars="true"
-                app:mrb_progressTint="#fcfc06" />
+                app:mrb_progressTint="@android:color/holo_orange_light" />
 
             <LinearLayout
                 android:focusable="true"

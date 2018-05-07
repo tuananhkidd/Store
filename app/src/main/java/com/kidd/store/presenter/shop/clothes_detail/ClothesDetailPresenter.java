@@ -17,4 +17,5 @@ public interface ClothesDetailPresenter extends BasePresenter{
     void rateClothes(String clothesID, RateClothesBody rateClothesBody);
     void getAllRateClothes(String clothesID);
     void orderClothes(String clothesID, OrderBody orderBody);
+    void getClothesState(String clothesID);
 }

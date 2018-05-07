@@ -5,14 +5,15 @@ import android.content.Context;
 import com.kidd.store.R;
 import com.kidd.store.common.Constants;
 import com.kidd.store.common.ResponseCode;
+import com.kidd.store.common.UserAuth;
 import com.kidd.store.common.Utils;
 import com.kidd.store.models.ClothesPreview;
 import com.kidd.store.models.PageList;
 import com.kidd.store.models.body.OrderBody;
 import com.kidd.store.models.body.RateClothesBody;
+import com.kidd.store.models.response.ClothesViewModel;
 import com.kidd.store.models.response.ResponseBody;
 import com.kidd.store.presenter.OnRequestCompleteListener;
-import com.kidd.store.presenter.account.register.OnRegisterCompleteListener;
 import com.kidd.store.services.ApiClient;
 import com.kidd.store.services.retrofit.clothes.ClothesService;
 import com.kidd.store.services.retrofit.following.UnSaveClothesService;
@@ -45,9 +46,15 @@ public class ClothesDetailInteractorImpl implements ClothesDetailInteractor {
     @Override
     public void getClothesDetail(String clothesID, OnGetClothesDetailCompleteListener listener) {
         String customerID = Utils.getSharePreferenceValues(context, Constants.CUSTOMER_ID);
-        Disposable disposable = ApiClient.getClient().create(ClothesService.class)
-                .getClothesViewModel(customerID, clothesID)
-                .observeOn(AndroidSchedulers.mainThread())
+        Observable<Response<ResponseBody<ClothesViewModel>>> observable = null;
+        if(UserAuth.isUserLoggedIn(context)){
+            observable = ApiClient.getClient().create(ClothesService.class)
+                    .getClothesViewModelWithAuth(customerID, clothesID);
+        }else {
+            observable = ApiClient.getClient().create(ClothesService.class)
+                    .getClothesViewModelWithoutAuth(clothesID);
+        }
+        Disposable disposable = observable.observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(
                         response -> {
@@ -261,5 +268,39 @@ public class ClothesDetailInteractorImpl implements ClothesDetailInteractor {
 
         compositeDisposable.add(disposable);
 
+    }
+
+    @Override
+    public void getClothesState(String clothesID, OnGetClothesStateSuccessListener listener) {
+        String customerID = Utils.getSharePreferenceValues(context, Constants.CUSTOMER_ID);
+        Observable<Response<ResponseBody<Boolean>>> observable = ApiClient.getClient().create(ClothesService.class)
+
+                .getClothesState(customerID,clothesID);
+
+        Disposable disposable = observable.subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        response->{
+                            switch (response.code()){
+                                case ResponseCode.OK:{
+                                    listener.onGetStateSuccess(response.body().getData());
+                                    break;
+                                }
+                                case ResponseCode.NOT_FOUND:{
+                                    listener.onError("Not found id");
+                                    break;
+                                }
+                                default:{
+                                    listener.onError(response.message());
+                                    break;
+                                }
+                            }
+                        },
+                        error->{
+                            listener.onError(error.getMessage());
+                        }
+                );
+
+        compositeDisposable.add(disposable);
     }
 }

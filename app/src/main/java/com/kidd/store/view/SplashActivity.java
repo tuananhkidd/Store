@@ -1,9 +1,14 @@
 package com.kidd.store.view;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 import android.widget.ProgressBar;
 
 import com.kidd.store.MainActivity;
@@ -11,6 +16,9 @@ import com.kidd.store.R;
 import com.kidd.store.common.Constants;
 import com.kidd.store.common.Utils;
 import com.kidd.store.view.account.login.LoginActivity;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -21,6 +29,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
         progressBar = findViewById(R.id.progress);
 
         new SplashTimer().execute();

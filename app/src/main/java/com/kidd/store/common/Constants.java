@@ -21,6 +21,8 @@ public class Constants {
     public static final int RESULT_CODE_UPDATE_DESCRIPTION = 4;
     public static final String DES = "DES";
     public static final int REQUEST_CODE_PAYPAL = 10;
+    public static final String FACEBOOK = "FACEBOOK";
+    public static final int REQUEST_CODE_CLOTHES_STATE = 20;
     public static int RESULT_CODE_SIGNUP = 2;
 
     public static final int PAGE_SIZE = 10;

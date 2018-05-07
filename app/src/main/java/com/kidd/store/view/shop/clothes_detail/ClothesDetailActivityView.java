@@ -42,4 +42,6 @@ public interface ClothesDetailActivityView {
     void getAllRateClothes(List<RateClothesViewModel> rateClothesViewModelList);
 
     void payAndBackToHomeScreen();
+
+    void showClothesState(boolean state);
 }

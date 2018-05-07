@@ -202,4 +202,23 @@ public class ClothesDetailPresenterImpl implements ClothesDetailPresenter {
             }
         });
     }
+
+    @Override
+    public void getClothesState(String clothesID) {
+        clothesDetailActivityView.showProgress();
+        clothesDetailInteractor.getClothesState(clothesID, new OnGetClothesStateSuccessListener() {
+            @Override
+            public void onGetStateSuccess(boolean state) {
+                clothesDetailActivityView.showProgress();
+                clothesDetailActivityView.showClothesState(state);
+            }
+
+            @Override
+            public void onError(String msg) {
+                clothesDetailActivityView.hideProgress();
+                Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
 }

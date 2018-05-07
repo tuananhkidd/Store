@@ -93,13 +93,13 @@ public class Utils {
         dpd.setTitle(title);
         dpd.show();
     }
-    public static long milliseconds(String date) {
+    public static long millisecondsFromDate(String date) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         try {
             Date mDate = sdf.parse(date);
             return mDate.getTime();
         } catch (ParseException ignored) {
-            Log.i("timeerro", "milliseconds: "+ignored.toString());
+            Log.i("timeerro", "millisecondsFromDate: "+ignored.toString());
             return 0;
         }
     }
@@ -133,10 +133,7 @@ public class Utils {
 
     public static void rateApp(Context context) {
         Uri uri = Uri.parse("market://details?id=" + context.getPackageName());
-//        Uri uri = Uri.parse("market://details?id=" + "code.android.ngocthai.place" + "&hl=vi");
         Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
-        // To count with Play market backstack, After pressing back button,
-        // to taken back to our application, we need to add following flags to intent.
         goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
                 Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
                 Intent.FLAG_ACTIVITY_MULTIPLE_TASK);

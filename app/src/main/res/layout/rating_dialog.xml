@@ -24,10 +24,11 @@
         android:layout_below="@+id/tv_cost_product"
         android:layout_margin="4dp"
         android:isIndicator="true"
-        android:rating="3"
+        android:rating="2"
         android:focusable="true"
         android:clickable="true"
         android:max="5"
+        app:mrb_fillBackgroundStars="true"
         app:mrb_progressTint="@android:color/holo_orange_light" />
     <EditText
         android:id="@+id/edt_cmt"

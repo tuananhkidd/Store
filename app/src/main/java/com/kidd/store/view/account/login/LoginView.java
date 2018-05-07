@@ -8,5 +8,6 @@ public interface LoginView  {
     void showUserNameError();
     void showPasswordError();
     void backToHomeScreen(HeaderProfile headerProfile,int resultCode);
-
+    void goToVerifyFacebookAccount();
+    void goToHomeScreen();
 }

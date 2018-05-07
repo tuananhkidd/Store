@@ -1,5 +1,6 @@
 package com.kidd.store.view.shop.clothes_detail;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -29,6 +30,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.kidd.store.MainActivity;
 import com.kidd.store.R;
 import com.kidd.store.adapter.SpinnerColorAdapter;
 import com.kidd.store.adapter.SpinnerSizeAdapter;
@@ -52,7 +54,9 @@ import com.kidd.store.models.response.RateClothesViewModel;
 import com.kidd.store.presenter.shop.clothes_detail.ClothesDetailPresenter;
 import com.kidd.store.presenter.shop.clothes_detail.ClothesDetailPresenterImpl;
 import com.kidd.store.services.ManageCart;
+import com.kidd.store.view.account.register.RegisterActivity;
 import com.kidd.store.view.cart.CartActivity;
+import com.paypal.android.sdk.payments.LoginActivity;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalPayment;
 import com.paypal.android.sdk.payments.PayPalService;
@@ -122,14 +126,15 @@ public class ClothesDetailActivity extends AppCompatActivity implements
     private SimilarClothesAdapter similarClothesAdapter;
     String clothesID;
 
-    PayPalConfiguration configuration = new PayPalConfiguration()
-            .environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
-            .clientId(Config.CLIENT_ID);
+    PayPalConfiguration configuration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clothes_detail);
+        configuration = new PayPalConfiguration()
+                .environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
+                .clientId(Config.CLIENT_ID);
         initVariables();
 
     }
@@ -166,8 +171,8 @@ public class ClothesDetailActivity extends AppCompatActivity implements
         img_rate.setOnClickListener(this);
         btAddCart.setOnClickListener(this);
         btPay.setOnClickListener(this);
-        clothesID= getIntent().getStringExtra(Constants.KEY_CLOTHES_ID);
-        if(clothesID!=null) {
+        clothesID = getIntent().getStringExtra(Constants.KEY_CLOTHES_ID);
+        if (clothesID != null) {
             clothesDetailPresenter.fetchClothesDetail(clothesID);
         }
 
@@ -176,11 +181,8 @@ public class ClothesDetailActivity extends AppCompatActivity implements
         Intent intent = new Intent(this, PayPalService.class);
         intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, configuration);
         startService(intent);
-        clothesID = getIntent().getStringExtra(Constants.KEY_CLOTHES_ID);
-//        if (clothesID != null) {
-//            clothesDetailPresenter.fetchClothesDetail(clothesID);
-//        }
 
+        clothesID = getIntent().getStringExtra(Constants.KEY_CLOTHES_ID);
         rcClothesSimilar.setVisibility(View.VISIBLE);
         similarClothesAdapter = new SimilarClothesAdapter(this);
         similarClothesAdapter.setLoadingMoreListener(this);
@@ -196,26 +198,36 @@ public class ClothesDetailActivity extends AppCompatActivity implements
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case Constants.REQUEST_CODE_PAYPAL: {
-                if(data!=null){
+                if (data != null) {
                     PaymentConfirmation confirmation = data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
                     if (confirmation != null) {
                         try {
 
-                            clothesDetailPresenter.orderClothes(clothesID,orderBody);
+                            clothesDetailPresenter.orderClothes(clothesID, orderBody);
                             String paymentDetail = confirmation.toJSONObject().toString();
                             Log.i("onActivityResult: 11", paymentDetail);
                         } catch (Exception e) {
                             e.printStackTrace();
 //                        Log.i("onActivityResult: 11", e.getCause().toString());
-
                         }
                     }
                 }
 
                 break;
             }
+            case Constants.REQUEST_CODE_CLOTHES_STATE: {
+                if (resultCode == Activity.RESULT_OK) {
+                    clothesDetailPresenter.getClothesState(clothesID);
+                }
+                break;
+            }
         }
 
+    }
+
+    @Override
+    public void showClothesState(boolean state) {
+        fabSave.setBackgroundResource(state == true ? R.drawable.ic_save : R.drawable.ic_nosave);
     }
 
     public void processPayment(int value) {
@@ -260,6 +272,9 @@ public class ClothesDetailActivity extends AppCompatActivity implements
 
 
         tvAcountRate.setText("số lượt đánh giá (" + clothes.getRateClothesViewModels().size() + ")");
+        if (clothes.getRateClothesViewModels().size() == 0) {
+            rcCustomerRate.setVisibility(View.GONE);
+        }
         fabSave.setBackgroundResource(clothes.isSaved() ? R.drawable.ic_save : R.drawable.ic_nosave);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this) {
@@ -360,6 +375,7 @@ public class ClothesDetailActivity extends AppCompatActivity implements
 
     @Override
     public void getAllRateClothes(List<RateClothesViewModel> rateClothesViewModelList) {
+        rcCustomerRate.setVisibility(View.VISIBLE);
         rateClothesAdapter.clear();
         rateClothesAdapter.addModels(rateClothesViewModelList, false);
         rateClothesAdapter.notifyDataSetChanged();
@@ -390,51 +406,63 @@ public class ClothesDetailActivity extends AppCompatActivity implements
                 showPayDialog();
                 break;
             }
-            case R.id.bt_add_cart:{
+            case R.id.bt_add_cart: {
                 showCartDialog();
                 break;
 
             }
             case R.id.fab_save: {
-                if (clothesViewModel.isSaved()) {
+                if (UserAuth.isUserLoggedIn(this)) {
+                    if (clothesViewModel.isSaved()) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                        builder.setMessage("Bạn có chắc chắn không theo dõi sản phẩm này nữa ?")
+                                .setTitle("Hủy theo dõi")
+                                .setNegativeButton("Có", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        clothesDetailPresenter.deleteSavedClothes(clothesID);
+                                    }
+                                })
+                                .setPositiveButton("Không", null)
+                                .show();
+                    } else {
+                        clothesDetailPresenter.saveClothes(clothesID);
+                    }
+                } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setMessage("Bạn có chắc chắn không theo dõi sản phẩm này nữa ?")
-                            .setTitle("Hủy theo dõi")
-                            .setNegativeButton("Có", new DialogInterface.OnClickListener() {
+                    builder.setMessage("Bạn chưa đăng nhập . Bạn có muốn đăng nhập ngay để sử dụng chức năng này!")
+                            .setTitle("Đăng nhập")
+                            .setNegativeButton("Đăng nhập", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                    clothesDetailPresenter.deleteSavedClothes(clothesID);
+                                    Intent intent = new Intent(ClothesDetailActivity.this, MainActivity.class);
+                                    startActivityForResult(intent, Constants.REQUEST_CODE_CLOTHES_STATE);
                                 }
                             })
                             .setPositiveButton("Không", null)
                             .show();
-                } else {
-                    clothesDetailPresenter.saveClothes(clothesID);
                 }
+
                 break;
             }
             case R.id.img_rate: {
-//                ratingDialog.show();
-//                ratingDialog.setClickRateButton(this);
-//                ratingDialog.setTitle(getString(R.string.rate));
-                dialogRating = new Dialog(this);
-                dialogRating.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialogRating.setContentView(R.layout.rating_dialog);
-                MaterialRatingBar ratingBar;
-                EditText edt_msg;
-                Button btn_submit;
+                if(UserAuth.isUserLoggedIn(this)){
+                    showRateDialog();
+                }else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setMessage("Bạn chưa đăng nhập . Bạn có muốn đăng nhập ngay để sử dụng chức năng này!")
+                            .setTitle("Đăng nhập")
+                            .setNegativeButton("Đăng nhập", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    Intent intent = new Intent(ClothesDetailActivity.this, LoginActivity.class);
+                                    startActivityForResult(intent, Constants.REQUEST_CODE_CLOTHES_STATE);
+                                }
+                            })
+                            .setPositiveButton("Không", null)
+                            .show();
+                }
 
-                ratingBar = dialogRating.findViewById(R.id.rating_product);
-                edt_msg = dialogRating.findViewById(R.id.edt_cmt);
-                btn_submit = dialogRating.findViewById(R.id.btn_rate);
-
-                btn_submit.setOnClickListener(v1 -> {
-                    clothesDetailPresenter.rateClothes(clothesID, new RateClothesBody(edt_msg.getText().toString(),
-                            (int) ratingBar.getRating()));
-
-                });
-
-                dialogRating.show();
 
                 break;
             }
@@ -442,13 +470,35 @@ public class ClothesDetailActivity extends AppCompatActivity implements
 
     }
 
+    void showRateDialog(){
+        dialogRating = new Dialog(this);
+        dialogRating.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialogRating.setContentView(R.layout.rating_dialog);
+        MaterialRatingBar ratingBar;
+        EditText edt_msg;
+        Button btn_submit;
+
+        ratingBar = dialogRating.findViewById(R.id.rating_product);
+        edt_msg = dialogRating.findViewById(R.id.edt_cmt);
+        btn_submit = dialogRating.findViewById(R.id.btn_rate);
+
+        btn_submit.setOnClickListener(v1 -> {
+            clothesDetailPresenter.rateClothes(clothesID, new RateClothesBody(edt_msg.getText().toString(),
+                    (int) ratingBar.getRating()));
+
+        });
+
+        dialogRating.show();
+    }
+
+
     int total;
     String size = "M";
     String color = "Đỏ";
     OrderBody orderBody;
 
-    void showCartDialog(){
-        total=1;
+    void showCartDialog() {
+        total = 1;
         Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_select_clothes);
@@ -508,14 +558,15 @@ public class ClothesDetailActivity extends AppCompatActivity implements
         });
 
         btn_pay.setOnClickListener(v -> {
-            Item item= new Item(this.clothesViewModel, total, color, size);
+            Item item = new Item(this.clothesViewModel, total, color, size);
             ManageCart.getCart().plusToCart(item);
-            Intent intent= new Intent(ClothesDetailActivity.this, CartActivity.class);
+            Intent intent = new Intent(ClothesDetailActivity.this, CartActivity.class);
             startActivity(intent);
             finish();
         });
         dialog.show();
     }
+
     void showPayDialog() {
         total = 1;
         Dialog dialog = new Dialog(this);
@@ -587,7 +638,7 @@ public class ClothesDetailActivity extends AppCompatActivity implements
 
 
         btn_pay.setOnClickListener(v -> {
-            orderBody = new OrderBody(color,size,total,clothesViewModel.getPrice());
+            orderBody = new OrderBody(color, size, total, clothesViewModel.getPrice());
             processPayment(total * clothesViewModel.getPrice());
 
         });

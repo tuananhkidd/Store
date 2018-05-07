@@ -1,6 +1,8 @@
 package com.kidd.store;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,6 +15,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -57,6 +60,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
@@ -77,6 +82,30 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Log.i("Package Name", "onCreate: ");
+        Toast.makeText(this, getApplicationContext().getPackageName(), Toast.LENGTH_SHORT).show();
+        PackageInfo packageInfo;
+        String key = null;
+        try {
+            String packageName = getApplicationContext().getPackageName();
+            packageInfo = getPackageManager().getPackageInfo(packageName,
+                    PackageManager.GET_SIGNATURES);
+            Log.i("Package Name=", getApplicationContext().getPackageName());
+            for (android.content.pm.Signature signature : packageInfo.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                key = new String(Base64.encode(md.digest(), 0));
+                Log.i("Key Hash=", key);
+            }
+        } catch (PackageManager.NameNotFoundException e1) {
+            Log.i("Name not found", e1.toString());
+        } catch (NoSuchAlgorithmException e) {
+            Log.i("No such an algorithm", e.toString());
+        } catch (Exception e) {
+            Log.i("Exception", e.toString());
+        }
+
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         loadingDialog = new LoadingDialog(this);
@@ -348,8 +377,8 @@ public class MainActivity extends AppCompatActivity
             case Constants.REQUEST_CODE_LOGIN: {
                 if (resultCode == RESULT_OK) {
                     switchNavigationDrawer(true);
-                    HeaderProfile headerProfile = (HeaderProfile) data.getSerializableExtra(Constants.HEADER_PROFILE);
-                    showHeaderProfile(headerProfile);
+//                    HeaderProfile headerProfile = (HeaderProfile) data.getSerializableExtra(Constants.HEADER_PROFILE);
+  //                  showHeaderProfile(headerProfile);
                 }
             }
 
@@ -393,7 +422,8 @@ public class MainActivity extends AppCompatActivity
         if (headerProfile != null) {
             Glide.with(this)
                     .load(headerProfile.getAvatarUrl())
-                    .apply(new RequestOptions().placeholder(R.drawable.avatar_placeholder).error(R.drawable.avatar_placeholder))
+                    .apply(new RequestOptions().placeholder(R.drawable.avatar_placeholder)
+                            .error(R.drawable.avatar_placeholder))
                     .into(imageView);
             txtEmail.setText(headerProfile.getEmail());
             txtFullname.setText(headerProfile.getFullName());

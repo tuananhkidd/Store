@@ -18,4 +18,5 @@ public interface ClothesDetailInteractor extends BaseInteractor{
     void rateClothes(String clothesID, RateClothesBody rateClothesBody, OnRequestCompleteListener listener);
     void getAllRateClothes(String clothesID,OnGetPageRateClothesSuccessListener listener);
     void orderClothes( String clothesID, OrderBody orderBody,OnRequestCompleteListener listener);
+    void getClothesState(String clothesID,OnGetClothesStateSuccessListener listener);
 }
