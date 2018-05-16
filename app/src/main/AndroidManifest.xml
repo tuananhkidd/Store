@@ -87,7 +87,8 @@
         <activity android:name=".view.shop.clothes_detail.ClothesDetailActivity" />
         <activity android:name=".view.cart.CartActivity" />
         <activity android:name=".view.history_order.HistoryOrderActivity" />
-        <activity android:name=".view.account.login.facebook_login.FaceBookLoginActivity"></activity>
+        <activity android:name=".view.account.login.facebook_login.FaceBookLoginActivity" />
+        <activity android:name=".view.chat.ChatActivity"></activity>
     </application>
 
 </manifest>

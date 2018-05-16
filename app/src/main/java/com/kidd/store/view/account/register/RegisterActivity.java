@@ -51,7 +51,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         initWidget();
 
         if(getIntent().getExtras()!=null){
-            if(getIntent().getStringExtra("key").equals("cancel")){
+            if(("cancel").equals(getIntent().getStringExtra("key"))){
                 startActivity(new Intent(this, LoginActivity.class));
                 finish();
             }

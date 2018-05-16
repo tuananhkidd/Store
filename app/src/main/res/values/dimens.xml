@@ -26,10 +26,18 @@
     <dimen name="rating_height">16dp</dimen>
     <dimen name="camera_button_size">38dp</dimen>
     <dimen name="text_margin_right">40dp</dimen>
-    <dimen name="small_avatar_size">56dp</dimen>
+    <dimen name="small_avatar_size">40dp</dimen>
     <dimen name="font_size_18sp">18sp</dimen>
     <dimen name="font_size_14sp">14sp</dimen>
     <dimen name="pading_bottom">8dp</dimen>
     <dimen name="margin_bottom">8dp</dimen>
-
+    <dimen name="item_padding">16dp</dimen>
+    <dimen name="font_size_22sp">22sp</dimen>
+    <dimen name="edit_text_margin_bottom">16dp</dimen>
+    <dimen name="font_size_40sp">40sp</dimen>
+    <dimen name="dot_size">17dp</dimen>
+    <dimen name="edit_text_max_width">180dp</dimen>
+    <dimen name="small_padding">2dp</dimen>
+    <dimen name="font_size_15sp">15sp</dimen>
+    <dimen name="font_size_13sp">13sp</dimen>
 </resources>

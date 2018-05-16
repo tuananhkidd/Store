@@ -173,6 +173,14 @@ public abstract class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
             getRecyclerView().scrollToPosition(index);
         }
     }
+    public void updateModel(int index, Object model,int viewType){
+        ModelWrapper modelWrapper= new ModelWrapper(model, viewType);
+        this.listWrapperModels.set(index, modelWrapper);
+        notifyItemChanged(index);
+    }
+    public void updateModel(int index, Object model){
+        updateModel(index, model, VIEW_TYPE_NORMAL);
+    }
 
     public void removeModel(int index) {
         this.removeModel(index, true);
