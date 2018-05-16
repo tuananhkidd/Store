@@ -20,6 +20,7 @@
     <string name="api_not_found">Tài khoản không tồn tại</string>
     <string name="wrong_password_or_email">Tài khoản hoặc mật khẩu không chính xác</string>
     <string name="main_function">Chức năng chính</string>
+    <string name="support_online">Hỗ trợ trực tuyến</string>
     <string name="other">Khác</string>
     <string name="share">Chia sẻ</string>
     <string name="rate_app">Đánh giá</string>
@@ -88,4 +89,10 @@
     <string name="cart_clothes">Giỏ hàng sản phẩm</string>
     <string name="submit">Xác nhận</string>
     <string name="no_item">Giỏ hàng rỗng !</string>
+    <string name="seen_by">seen by</string>
+    <string name="image_description">Mô tả</string>
+    <string name="type_your_message">Nhập tin nhắn ...</string>
+    <string name="seen">seen</string>
+    <string name="toolbal_state_online">trạng thái Online</string>
+    <string name="toolbal_state_offline">trạng thái Offline</string>
 </resources>

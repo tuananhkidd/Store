@@ -26,6 +26,12 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.kidd.store.adapter.FragmentAdapter;
 import com.kidd.store.common.BottomNavigationViewHelper;
 import com.kidd.store.common.Constants;
@@ -33,6 +39,7 @@ import com.kidd.store.common.UserAuth;
 import com.kidd.store.common.Utils;
 import com.kidd.store.custom.LoadingDialog;
 import com.kidd.store.models.Book;
+import com.kidd.store.models.model_chat.UserChat;
 import com.kidd.store.models.response.HeaderProfile;
 import com.kidd.store.presenter.account.login.LoginPresenter;
 import com.kidd.store.presenter.account.login.LoginPresenterImpl;
@@ -46,6 +53,7 @@ import com.kidd.store.view.account.password.change_password.ChangePasswordActivi
 import com.kidd.store.view.account.password.reset_password.ForgetPasswordActivity;
 import com.kidd.store.view.account.register.RegisterActivity;
 import com.kidd.store.view.cart.CartActivity;
+import com.kidd.store.view.chat.ChatActivity;
 import com.kidd.store.view.feedback.FeedbackActivity;
 import com.kidd.store.view.history_order.HistoryOrderActivity;
 import com.kidd.store.view.map.MapsActivity;
@@ -60,9 +68,12 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.Serializable;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -266,6 +277,7 @@ public class MainActivity extends AppCompatActivity
                 Utils.setSharePreferenceValues(this, Constants.USER_NAME, null);
                 Utils.setSharePreferenceValues(this, Constants.CUSTOMER_ID, null);
                 Utils.saveHeaderProfile(this, null);
+                UserAuth.saveLogoutState(this);
                 EventBus.getDefault().post(new UserAuthorizationChangedEvent());
                 break;
             }
@@ -291,6 +303,12 @@ public class MainActivity extends AppCompatActivity
                 } else {
                     Toast.makeText(this, getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
                 }
+                break;
+            }case R.id.nav_support_online: {
+                UserChat userChat= new UserChat();
+                userChat.setEmail("store@gmail.com");
+                userChat.setFirstName("store@gmail.com");
+                getRoomFriendID(userChat);
                 break;
             }
             case R.id.nav_feedback: {
@@ -367,6 +385,74 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+
+    public void getRoomFriendID(UserChat user) {
+
+        FirebaseFirestore.getInstance().collection(Constants.ROOM_ID)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot documentSnapshots) {
+                        String roomID = null;
+                        for (DocumentSnapshot documentChange : documentSnapshots) {
+//                            switch (documentChange.getType()) {
+//                                case ADDED: {
+                            Log.i("CCC", documentChange.getId());
+                            if (checkRoomID(documentChange.getString("user1"), documentChange.getString("user2"), user.getEmail())) {
+                                roomID = documentChange.getId();
+                                Log.i("roomID", documentChange.getId());
+                            }
+                        }
+                        if(roomID==null){
+                            addRoomFriendID(user);
+                        }else{
+
+                        }
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+
+    public void addRoomFriendID(UserChat user) {
+        Map<String, Object> room = new HashMap<>();
+        room.put("user1", UserAuth.getUserID(this));
+        room.put("user2", user.getEmail());
+        FirebaseFirestore.getInstance().collection(Constants.ROOM_ID)
+                .add(room)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+
+
+                            Intent intent = new Intent(MainActivity.this, ChatActivity.class);
+                            intent.putExtra(Constants.KEY_USER_FRIEND, (Serializable) user);
+                            intent.putExtra(Constants.KEY_ROOM_ID, documentReference.getId());
+                            startActivity(intent);
+
+                        Log.i("roomIDADD", documentReference.getId());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+    }
+
+    public boolean checkRoomID(String user1, String user2, String emailFriend) {
+        if ((UserAuth.getUserID(this).equals(user1) && emailFriend.equals(user2)) || (UserAuth.getUserID(this).equals(user2) && emailFriend.equals(user1))) {
+            return true;
+        }
+        return false;
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

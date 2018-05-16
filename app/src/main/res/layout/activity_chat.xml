@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/tool_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <include layout="@layout/item_friend_toolbal"/>
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/app_bar"
+        android:layout_above="@id/ln_input">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rc_messages"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:background="@color/light_gray"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
+    <RelativeLayout
+        android:id="@+id/ln_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="4dp"
+        android:translationZ="4dp"
+        android:padding="@dimen/edit_text_padding"
+        android:clickable="true"
+        android:layout_alignParentBottom="true">
+
+
+
+
+        <EditText
+            android:id="@+id/edt_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/font_size_16sp"
+            android:hint="@string/type_your_message"
+            android:layout_toLeftOf="@id/btn_send"
+            android:layout_toStartOf="@id/btn_send"
+
+            android:layout_marginRight="@dimen/edit_text_padding"
+            android:layout_marginEnd="@dimen/edit_text_padding"
+            android:layout_marginLeft="@dimen/edit_text_padding"
+            android:layout_marginStart="@dimen/edit_text_padding"
+            android:background="@drawable/background_edit_text"
+            android:padding="8dp"/>
+
+        <ImageButton
+            android:id="@+id/btn_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/image_description"
+            android:src="@drawable/ic_send"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"/>
+    </RelativeLayout>
+</RelativeLayout>

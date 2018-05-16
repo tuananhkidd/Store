@@ -11,6 +11,7 @@ import com.google.gson.internal.LinkedTreeMap;
 import com.kidd.store.R;
 import com.kidd.store.common.Constants;
 import com.kidd.store.common.ToastUtils;
+import com.kidd.store.common.UserAuth;
 import com.kidd.store.common.Utils;
 import com.kidd.store.models.body.FacebookLoginBody;
 import com.kidd.store.models.response.HeaderProfile;
@@ -48,6 +49,7 @@ public class LoginPresenterImpl implements LoginPresenter {
             public void onLoginSuccess(HeaderProfile headerProfile) {
                 Utils.setSharePreferenceValues(context, Constants.STATUS_LOGIN, Constants.LOGIN_TRUE);
                 Utils.setSharePreferenceValues(context, Constants.CUSTOMER_ID, headerProfile.getCustomerID());
+                UserAuth.saveLoginState(context, username);
                 Utils.saveHeaderProfile(context, headerProfile);
                 loginView.hideLoadingDialog();
                 EventBus.getDefault().post(new UserAuthorizationChangedEvent());
@@ -90,6 +92,7 @@ public class LoginPresenterImpl implements LoginPresenter {
                     Utils.setSharePreferenceValues(context, Constants.STATUS_LOGIN, Constants.LOGIN_TRUE);
                     Utils.setSharePreferenceValues(context, Constants.CUSTOMER_ID, headerProfile.getCustomerID());
                     Utils.saveHeaderProfile(context, headerProfile);
+                    UserAuth.saveLoginState(context, email);
                     loginView.backToHomeScreen(headerProfile, Activity.RESULT_OK);
                 } catch (Exception e) {
                     loginView.goToVerifyFacebookAccount();
