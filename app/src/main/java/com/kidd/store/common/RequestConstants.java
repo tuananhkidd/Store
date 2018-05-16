@@ -5,8 +5,10 @@ package com.kidd.store.common;
  */
 
 public class RequestConstants {
+
     public static final String BASE_URL = "http://192.168.1.8:1995";
 //    public static final String BASE_URL = "http://192.168.43.11:1995";
+
 //    public static final String BASE_URL = "http://192.168.0.104:1995";
 
 //    public static final String BASE_URL = "http://192.168.1.115:1995";

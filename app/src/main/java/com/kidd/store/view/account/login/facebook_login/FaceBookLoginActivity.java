@@ -55,6 +55,12 @@ public class FaceBookLoginActivity extends AppCompatActivity implements Facebook
         int month = calendar.get(Calendar.MONTH) + 1;
         int year = calendar.get(Calendar.YEAR);
 
+        if(facebookLoginBody.isGender()){
+            spinner.setSelection(0);
+        }else {
+            spinner.setSelection(1);
+        }
+
         if(facebookLoginBody.getBirthDay() == -1){
             edt_birthday.setText(day+"/"+month+"/"+year);
         }else {

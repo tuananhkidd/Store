@@ -13,8 +13,7 @@ import com.kidd.store.GlideApp;
 import com.kidd.store.R;
 import com.kidd.store.common.Constants;
 import com.kidd.store.common.UserAuth;
-import com.kidd.store.common.Utils;
-import com.kidd.store.models.model_chat.Message;
+import com.kidd.store.common.Utils;import com.kidd.store.models.model_chat.Message;
 import com.kidd.store.models.model_chat.UserChat;
 
 import java.util.List;
@@ -123,7 +122,7 @@ public class ChatMessageAdapter extends EndlessLoadingRecyclerViewAdapter {
     @Override
     public void addModel(Object model, boolean isScroll) {
         Message message=(Message) model;
-        if(Utils.getSharePreferenceValues(getContext(), Constants.CUSTOMER_ID).equals(message.getOwner())) {
+        if(UserAuth.getUserID(getContext()).equals(message.getOwner())) {
             addModel(model, VIEW_TYPE_NORMAL, isScroll, true);
         }else{
             addModel(model, VIEW_TYPE_FRIEND_MESSAGE, isScroll);
@@ -133,7 +132,7 @@ public class ChatMessageAdapter extends EndlessLoadingRecyclerViewAdapter {
     @Override
     public void updateModel(int index, Object model) {
         Message message=(Message) model;
-        if(Utils.getSharePreferenceValues(getContext(), Constants.CUSTOMER_ID).equals(message.getOwner())) {
+        if(UserAuth.getUserID(getContext()).equals(message.getOwner())) {
             updateModel(index, model, VIEW_TYPE_NORMAL);
         }else{
             updateModel(index, model, VIEW_TYPE_FRIEND_MESSAGE);

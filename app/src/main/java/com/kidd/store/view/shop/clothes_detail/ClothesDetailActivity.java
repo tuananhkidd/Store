@@ -435,7 +435,8 @@ public class ClothesDetailActivity extends AppCompatActivity implements
                             .setNegativeButton("Đăng nhập", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                    Intent intent = new Intent(ClothesDetailActivity.this, MainActivity.class);
+                                    Intent intent = new Intent(ClothesDetailActivity.this, RegisterActivity.class);
+                                    intent.putExtra("key","cancel");
                                     startActivityForResult(intent, Constants.REQUEST_CODE_CLOTHES_STATE);
                                 }
                             })
@@ -455,7 +456,8 @@ public class ClothesDetailActivity extends AppCompatActivity implements
                             .setNegativeButton("Đăng nhập", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                    Intent intent = new Intent(ClothesDetailActivity.this, LoginActivity.class);
+                                    Intent intent = new Intent(ClothesDetailActivity.this, RegisterActivity.class);
+                                    intent.putExtra("key","cancel");
                                     startActivityForResult(intent, Constants.REQUEST_CODE_CLOTHES_STATE);
                                 }
                             })
@@ -591,6 +593,7 @@ public class ClothesDetailActivity extends AppCompatActivity implements
         edt_total = dialog.findViewById(R.id.edt_total);
         btn_pay = dialog.findViewById(R.id.btn_pay);
 
+        edt_total.setText(Utils.formatNumberMoney(clothesViewModel.getPrice()));
         List<String> lsSize = new ArrayList<>();
         List<String> lsColor = new ArrayList<>();
         initOrderDialog(lsSize, lsColor);

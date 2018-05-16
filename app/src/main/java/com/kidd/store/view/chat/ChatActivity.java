@@ -25,6 +25,7 @@ import com.kidd.store.adapter.RecyclerViewAdapter;
 import com.kidd.store.common.Constants;
 
 import com.kidd.store.common.UserAuth;
+import com.kidd.store.custom.LoadingDialog;
 import com.kidd.store.models.PageList;
 import com.kidd.store.models.model_chat.Message;
 import com.kidd.store.models.model_chat.UserChat;
@@ -75,16 +76,17 @@ public class ChatActivity extends AppCompatActivity  implements ChatView, View.O
     private UserChat own, userFriend;
     private List<UserMessage> userMessages;
     private ChatPresenter chatPresenter;
+    private LoadingDialog loadingDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         ButterKnife.bind(this);
 
-
+        loadingDialog= new LoadingDialog(this);
         own = new UserChat();
         userFriend = (UserChat) getIntent().getSerializableExtra(Constants.KEY_USER_FRIEND);
-        roomID= userFriend.getEmail();
+        roomID = getIntent().getStringExtra(Constants.KEY_ROOM_ID);
         chatPresenter= new ChatPresenterImpl(this, this,roomID);
 
         initToolBar();
@@ -118,6 +120,7 @@ public class ChatActivity extends AppCompatActivity  implements ChatView, View.O
 
         rlChat.setOnClickListener(this);
         edtMessage.setOnClickListener(this);
+        String userone= UserAuth.getUserID(this);
         messageAdapter = new ChatMessageAdapter(getApplicationContext(), own, userFriend);
         messageAdapter.addOnItemClickListener(this);
         messageAdapter.setLoadingMoreListener(this);
@@ -242,12 +245,12 @@ public class ChatActivity extends AppCompatActivity  implements ChatView, View.O
 
     @Override
     public void showLoadMoreProgress() {
-
+        loadingDialog.show();
     }
 
     @Override
     public void hideLoadMoreProgress() {
-
+        loadingDialog.hide();
     }
 
     @Override

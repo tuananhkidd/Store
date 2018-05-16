@@ -2,10 +2,13 @@ package com.kidd.store.presenter.account.register;
 
 import android.content.Context;
 
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.kidd.store.R;
 import com.kidd.store.common.Base64UtilAccount;
+import com.kidd.store.common.Constants;
 import com.kidd.store.common.ResponseCode;
 import com.kidd.store.models.body.CustomerRegisterBody;
+import com.kidd.store.models.model_chat.UserChat;
 import com.kidd.store.models.response.ResponseBody;
 import com.kidd.store.services.ApiClient;
 import com.kidd.store.services.retrofit.register.RegisterService;
@@ -36,7 +39,12 @@ public class RegisterInteratorImpl implements RegisterInterator {
                         response -> {
                             switch (response.code()) {
                                 case ResponseCode.OK: {
-                                    listener.onRegisterSuccess(response.body().getData());
+                                    FirebaseFirestore.getInstance().collection(Constants.USERS_COLLECTION)
+                                            .document(username)
+                                            .set(new UserChat(username, body.getFullName(), "ABC"))
+                                            .addOnSuccessListener(documentReference -> listener.onRegisterSuccess(response.body().getData()))
+                                            .addOnFailureListener(e -> listener.onError(e.getMessage()));
+                                    ;
                                     break;
                                 }
                                 case ResponseCode.CONFLICT: {

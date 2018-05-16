@@ -43,15 +43,18 @@ public class ChatPresenterImpl implements ChatPresenter {
 
     @Override
     public void registerOnMessageAddedListener() {
+       // chatView.showLoadMoreProgress();
         chatInteractor.registerOnMessageChangedListener(new OnMessageChangedListener() {
             @Override
             public void onMessageAdded(UserMessage message) {
                 chatView.addMessage(message);
+                chatView.hideLoadMoreProgress();
             }
 
             @Override
             public void onMessageModified(UserMessage message) {
                 chatView.modifiedMessage(message);
+                chatView.hideLoadMoreProgress();
             }
         });
     }
@@ -66,6 +69,7 @@ public class ChatPresenterImpl implements ChatPresenter {
         if (message.isEmpty()) {
             return;
         }
+        chatView.showLoadMoreProgress();
         chatInteractor.sendMessage(message, new OnRequestCompleteListener() {
 
             @Override

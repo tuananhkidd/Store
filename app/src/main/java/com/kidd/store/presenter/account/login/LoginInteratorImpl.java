@@ -2,6 +2,7 @@ package com.kidd.store.presenter.account.login;
 
 import android.content.Context;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.kidd.store.R;
 import com.kidd.store.common.Base64UtilAccount;
 import com.kidd.store.common.ResponseCode;
@@ -31,7 +32,8 @@ public class LoginInteratorImpl implements LoginInterator {
     @Override
     public void login(String username, String password, OnLoginSuccessListener listener) {
         Observable<Response<ResponseBody<HeaderProfile>>> observable =
-                ApiClient.getClient().create(LoginServices.class).login(Base64UtilAccount.getBase64Account(username, password));
+                ApiClient.getClient().create(LoginServices.class).login(Base64UtilAccount.getBase64Account(username, password),
+                        FirebaseInstanceId.getInstance().getToken());
         Disposable disposable = observable.observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(
@@ -66,7 +68,8 @@ public class LoginInteratorImpl implements LoginInterator {
     @Override
     public void facebookLogin(String facebookUserID, OnGetFacebookLoginStateListener listener) {
         Observable<Response<ResponseBody<Object>>> observable =
-                ApiClient.getClient().create(LoginServices.class).facebookLogin(facebookUserID);
+                ApiClient.getClient().create(LoginServices.class).facebookLogin(facebookUserID,
+                        FirebaseInstanceId.getInstance().getToken());
 
         Disposable disposable = observable.subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())

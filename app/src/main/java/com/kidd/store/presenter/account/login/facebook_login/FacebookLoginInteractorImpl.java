@@ -2,8 +2,12 @@ package com.kidd.store.presenter.account.login.facebook_login;
 
 import android.content.Context;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.kidd.store.common.Constants;
 import com.kidd.store.common.ResponseCode;
 import com.kidd.store.models.body.FacebookLoginBody;
+import com.kidd.store.models.model_chat.UserChat;
 import com.kidd.store.models.response.HeaderProfile;
 import com.kidd.store.models.response.ResponseBody;
 import com.kidd.store.services.ApiClient;
@@ -29,7 +33,7 @@ public class FacebookLoginInteractorImpl implements FacebookLoginInteractor {
     @Override
     public void facebookLogin(FacebookLoginBody facebookLoginBody,OnFacebookLoginSuccessListener listener) {
         Observable<Response<ResponseBody<HeaderProfile>>> observable = ApiClient.getClient().create(LoginServices.class)
-                .facebookRegister(facebookLoginBody);
+                .facebookRegister(facebookLoginBody, FirebaseInstanceId.getInstance().getToken());
 
         Disposable disposable = observable.subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -37,11 +41,18 @@ public class FacebookLoginInteractorImpl implements FacebookLoginInteractor {
                         response->{
                             switch (response.code()){
                                 case ResponseCode.OK:{
-                                    listener.onLoginSuccess(response.body().getData());
+                                    FirebaseFirestore.getInstance().collection(Constants.USERS_COLLECTION)
+                                            .document(facebookLoginBody.getEmail())
+                                            .set(new UserChat(facebookLoginBody.getEmail(), facebookLoginBody.getFullname(), "ABC",facebookLoginBody.getAvatarUrl()))
+                                            .addOnSuccessListener(documentReference -> listener.onLoginSuccess(response.body().getData()))
+                                            .addOnFailureListener(e -> listener.onLoginError(e.getMessage()));
+                                    ;
+
                                     break;
                                 }
                                 default:{
                                     listener.onLoginError(response.message());
+                                    break;
                                 }
                             }
                         },

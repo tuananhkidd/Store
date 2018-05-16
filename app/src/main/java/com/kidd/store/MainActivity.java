@@ -94,29 +94,6 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Log.i("Package Name", "onCreate: ");
-        Toast.makeText(this, getApplicationContext().getPackageName(), Toast.LENGTH_SHORT).show();
-        PackageInfo packageInfo;
-        String key = null;
-        try {
-            String packageName = getApplicationContext().getPackageName();
-            packageInfo = getPackageManager().getPackageInfo(packageName,
-                    PackageManager.GET_SIGNATURES);
-            Log.i("Package Name=", getApplicationContext().getPackageName());
-            for (android.content.pm.Signature signature : packageInfo.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                key = new String(Base64.encode(md.digest(), 0));
-                Log.i("Key Hash=", key);
-            }
-        } catch (PackageManager.NameNotFoundException e1) {
-            Log.i("Name not found", e1.toString());
-        } catch (NoSuchAlgorithmException e) {
-            Log.i("No such an algorithm", e.toString());
-        } catch (Exception e) {
-            Log.i("Exception", e.toString());
-        }
-
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         loadingDialog = new LoadingDialog(this);
@@ -170,20 +147,17 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onDestroy() {
-        //  Log.i(TAG, "onDestroy: ");
+        Log.i("main", "onDestroy: ");
         super.onDestroy();
-
         EventBus.getDefault().unregister(this);
     }
 
     private SpaceOnClickListener mOnNavigationItemSelectedListener
             = new SpaceOnClickListener() {
-
         @Override
         public void onCentreButtonClick() {
             startActivity(new Intent(MainActivity.this, MapsActivity.class));
         }
-
         @Override
         public void onItemClick(int itemIndex, String itemName) {
             switch (itemIndex) {
@@ -205,40 +179,6 @@ public class MainActivity extends AppCompatActivity
         public void onItemReselected(int itemIndex, String itemName) {
 
         }
-
-//        @Override
-//        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//            switch (item.getItemId()) {
-//                case R.id.item_shopping: {
-//                    toolbar.setTitle(R.string.Shopping);
-//                    viewPager.setCurrentItem(0);
-//                }
-//                break;
-//
-//                case R.id.item_following: {
-//                    toolbar.setTitle(R.string.Following);
-//                    viewPager.setCurrentItem(1);
-//                }
-//                break;
-//
-//                case R.id.item_location:{
-//                    startActivity(new Intent(MainActivity.this, MapsActivity.class));
-//                    break;
-//                }
-//
-////                case R.id.item_card: {
-////                    toolbar.setTitle(R.string.Cart);
-////                    viewPager.setCurrentItem(2);
-////                }
-////                break;
-//
-//
-//                default: {
-//                    return false;
-//                }
-//            }
-//            return true;
-//        }
     };
 
     @Override
@@ -260,7 +200,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
-            Intent intent= new Intent(MainActivity.this, CartActivity.class);
+            Intent intent = new Intent(MainActivity.this, CartActivity.class);
             startActivity(intent);
         }
 
@@ -307,7 +247,7 @@ public class MainActivity extends AppCompatActivity
             }case R.id.nav_support_online: {
                 UserChat userChat= new UserChat();
                 userChat.setEmail("store@gmail.com");
-                userChat.setFirstName("store@gmail.com");
+                userChat.setFirstName("Store Clothes");
                 getRoomFriendID(userChat);
                 break;
             }
@@ -407,6 +347,10 @@ public class MainActivity extends AppCompatActivity
                             addRoomFriendID(user);
                         }else{
 
+                            Intent intent = new Intent(MainActivity.this, ChatActivity.class);
+                            intent.putExtra(Constants.KEY_USER_FRIEND, (Serializable) user);
+                            intent.putExtra(Constants.KEY_ROOM_ID, roomID);
+                            startActivity(intent);
                         }
 
                     }
@@ -463,8 +407,8 @@ public class MainActivity extends AppCompatActivity
             case Constants.REQUEST_CODE_LOGIN: {
                 if (resultCode == RESULT_OK) {
                     switchNavigationDrawer(true);
-//                    HeaderProfile headerProfile = (HeaderProfile) data.getSerializableExtra(Constants.HEADER_PROFILE);
-  //                  showHeaderProfile(headerProfile);
+                    showHeaderProfile(Utils.getHeaderProfile(this));
+                    break;
                 }
             }
 
@@ -478,6 +422,7 @@ public class MainActivity extends AppCompatActivity
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReceivedHeaderUpdateEvent(HeaderProfileEvent headerProfileEvent) {
+        switchNavigationDrawer(true);
         Utils.saveHeaderProfile(MainActivity.this, headerProfileEvent.getHeaderProfile());
         showHeaderProfile(headerProfileEvent.getHeaderProfile());
     }
@@ -489,12 +434,10 @@ public class MainActivity extends AppCompatActivity
         if (isLoggedIn) {
             userHeaderView = navigationView.inflateHeaderView(R.layout.nav_header_auth);
             navigationView.inflateMenu(R.menu.menu_navigation_login);
-
             Utils.setSharePreferenceValues(this, Constants.STATUS_LOGIN, Constants.LOGIN_TRUE);
         } else {
             userHeaderView = navigationView.inflateHeaderView(R.layout.nav_header_no_auth);
             navigationView.inflateMenu(R.menu.menu_navigation_logout);
-
             Utils.setSharePreferenceValues(this, Constants.STATUS_LOGIN, Constants.LOGIN_FAIL);
         }
     }
@@ -505,15 +448,14 @@ public class MainActivity extends AppCompatActivity
         TextView txtFullname = userHeaderView.findViewById(R.id.txt_full_name);
         TextView txtEmail = userHeaderView.findViewById(R.id.txt_email);
 
-        if (headerProfile != null) {
-            Glide.with(this)
-                    .load(headerProfile.getAvatarUrl())
-                    .apply(new RequestOptions().placeholder(R.drawable.avatar_placeholder)
-                            .error(R.drawable.avatar_placeholder))
-                    .into(imageView);
-            txtEmail.setText(headerProfile.getEmail());
-            txtFullname.setText(headerProfile.getFullName());
-        }
+        // if (headerProfile != null) {
+        txtEmail.setText(headerProfile.getEmail());
+        txtFullname.setText(headerProfile.getFullName());
+        GlideApp.with(this)
+                .load(headerProfile.getAvatarUrl())
+                .placeholder(R.drawable.avatar_placeholder)
+                .into(imageView);
+        //}
 
     }
 

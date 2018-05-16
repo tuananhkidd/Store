@@ -36,8 +36,9 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView, V
     CircleImageView img_avt;
     TextView txt_name;
     TextView txt_birthday;
-    TextView txt_gender;
     TextView txt_address;
+    TextView txt_region;
+    TextView txt_gender;
     TextView txt_email;
     TextView txt_phone;
     TextView txt_card;
@@ -65,6 +66,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView, V
         txt_gender = findViewById(R.id.txt_gender);
         txt_address = findViewById(R.id.txt_address);
         txt_email = findViewById(R.id.txt_email);
+        txt_region = findViewById(R.id.txt_region);
         txt_phone = findViewById(R.id.txt_phone);
         txt_card = findViewById(R.id.txt_id_card);
         txt_description = findViewById(R.id.txt_description);
@@ -119,6 +121,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView, V
         txt_birthday.setText(profile.getBirthday() == -1 ? "-" : Utils.getDateFromMilliseconds(profile.getBirthday()));
         txt_gender.setText(profile.getGender() == 1 ? "Nam" : "Nữ");
         txt_address.setText(profile.getAddress() == null ? "-" : profile.getAddress());
+        txt_region.setText(profile.getAddress() == null ? "-" : profile.getAddress());
         txt_phone.setText(profile.getPhone() == null ? "-" : profile.getPhone());
         txt_card.setText(profile.getIdentityCard() == null ? "-" : profile.getIdentityCard());
         txt_description.setText(profile.getDescription() == null ? "-" : profile.getDescription());

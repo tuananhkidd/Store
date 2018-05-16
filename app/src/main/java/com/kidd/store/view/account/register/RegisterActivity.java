@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.login.Login;
 import com.kidd.store.R;
 import com.kidd.store.SQLiteHelper.DBManager;
 import com.kidd.store.common.Constants;
@@ -48,6 +49,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_register);
 
         initWidget();
+
+        if(getIntent().getExtras()!=null){
+            if(("cancel").equals(getIntent().getStringExtra("key"))){
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
+            }
+        }
     }
 
     void initWidget() {

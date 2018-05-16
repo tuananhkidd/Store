@@ -25,6 +25,13 @@ public class UserChat implements Serializable, Parcelable {
         this.lastName = lastName;
     }
 
+    public UserChat(String email, String firstName, String lastName, String avatarUrl) {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.avatarUrl = avatarUrl;
+    }
+
     public UserChat() {
     }
 
