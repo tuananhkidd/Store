@@ -4,6 +4,7 @@ import android.content.Context;
 import android.widget.Toast;
 
 import com.kidd.store.R;
+import com.kidd.store.common.Utils;
 import com.kidd.store.models.body.CustomerRegisterBody;
 import com.kidd.store.view.account.register.RegisterView;
 
@@ -33,6 +34,11 @@ public class RegisterPresenterImpl implements RegisterPresenter {
             registerView.showPasswordError();
             return;
         }
+        if(!Utils.isEmailValid(username)){
+            registerView.showInvalidUser();
+            return;
+        }
+
 
         registerView.showLoadingDialog();
 

@@ -179,6 +179,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
     @Override
+    public void showInvalidUser() {
+        edt_username.setError("Invalid email");
+    }
+
+    @Override
     public void gotoVerifyActivity(String username) {
         Intent intent = new Intent(this, VerifyEmailActivity.class);
         intent.putExtra(Constants.USER_NAME, username);

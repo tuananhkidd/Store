@@ -100,12 +100,7 @@ public class FaceBookLoginActivity extends AppCompatActivity implements Facebook
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(i == 0){
-                    gen = true;
-                }else {
-                    gen = false;
-                }
-                facebookLoginBody.setGender(gen);
+                facebookLoginBody.setGender(i ==0 ? true:false);
             }
 
             @Override

@@ -8,5 +8,6 @@ public interface RegisterView {
     void showFullNameError();
     void showAddressError();
     void showPhoneError();
+    void showInvalidUser();
     void gotoVerifyActivity(String username);
 }
