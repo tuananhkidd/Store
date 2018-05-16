@@ -33,6 +33,19 @@
         <activity android:name=".view.feedback.FeedbackActivity" />
         <activity android:name=".view.profile.ProfileActivity" />
 
+        <service
+            android:name=".services.firebase.FireBaseMessaging"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".services.firebase.FireBaseInstanceID">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />

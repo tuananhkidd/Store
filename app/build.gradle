@@ -70,6 +70,7 @@ dependencies {
     implementation 'me.zhanghai.android.materialratingbar:library:1.2.0'
 
     // firebase
+    implementation 'com.google.firebase:firebase-messaging:11.8.0'
     implementation 'com.google.firebase:firebase-storage:11.8.0'
     implementation 'com.google.firebase:firebase-auth:11.8.0'
     // map

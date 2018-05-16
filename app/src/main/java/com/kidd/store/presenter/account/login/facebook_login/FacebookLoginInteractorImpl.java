@@ -2,6 +2,7 @@ package com.kidd.store.presenter.account.login.facebook_login;
 
 import android.content.Context;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.kidd.store.common.ResponseCode;
 import com.kidd.store.models.body.FacebookLoginBody;
 import com.kidd.store.models.response.HeaderProfile;
@@ -29,7 +30,7 @@ public class FacebookLoginInteractorImpl implements FacebookLoginInteractor {
     @Override
     public void facebookLogin(FacebookLoginBody facebookLoginBody,OnFacebookLoginSuccessListener listener) {
         Observable<Response<ResponseBody<HeaderProfile>>> observable = ApiClient.getClient().create(LoginServices.class)
-                .facebookRegister(facebookLoginBody);
+                .facebookRegister(facebookLoginBody, FirebaseInstanceId.getInstance().getToken());
 
         Disposable disposable = observable.subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -42,6 +43,7 @@ public class FacebookLoginInteractorImpl implements FacebookLoginInteractor {
                                 }
                                 default:{
                                     listener.onLoginError(response.message());
+                                    break;
                                 }
                             }
                         },

@@ -17,12 +17,15 @@ import retrofit2.http.Path;
 
 public interface LoginServices {
     @POST("api/auths/customer/login")
-    Observable<Response<ResponseBody<HeaderProfile>>> login(@Header(RequestConstants.AUTHORIZATION) String base64Account);
+    Observable<Response<ResponseBody<HeaderProfile>>> login(@Header(RequestConstants.AUTHORIZATION) String base64Account,
+                                                            @Body String fcmToken);
 
 
     @POST("api/auths/facebook/login/{facebookUserID}")
-    Observable<Response<ResponseBody<Object>>> facebookLogin(@Path("facebookUserID") String facebookUserID);
+    Observable<Response<ResponseBody<Object>>> facebookLogin(@Path("facebookUserID") String facebookUserID,
+                                                             @Body String fcmToken);
 
-    @PUT("api/auths/facebook/register")
-    Observable<Response<ResponseBody<HeaderProfile>>> facebookRegister(@Body FacebookLoginBody facebookLoginBody);
+    @PUT("api/auths/facebook/register/{fcmToken}")
+    Observable<Response<ResponseBody<HeaderProfile>>> facebookRegister(@Body FacebookLoginBody facebookLoginBody,
+                                                                       @Path("fcmToken") String fcmToken);
 }

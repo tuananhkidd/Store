@@ -3,9 +3,18 @@ package com.kidd.store.presenter.account.login;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 import com.kidd.store.R;
@@ -50,6 +59,7 @@ public class LoginPresenterImpl implements LoginPresenter {
                 Utils.setSharePreferenceValues(context, Constants.CUSTOMER_ID, headerProfile.getCustomerID());
                 Utils.saveHeaderProfile(context, headerProfile);
                 loginView.hideLoadingDialog();
+                EventBus.getDefault().post(new HeaderProfileEvent(headerProfile));
                 EventBus.getDefault().post(new UserAuthorizationChangedEvent());
                 loginView.backToHomeScreen(headerProfile, Activity.RESULT_OK);
             }
@@ -86,25 +96,44 @@ public class LoginPresenterImpl implements LoginPresenter {
                     headerProfile.setFullName(fullName);
                     headerProfile.setEmail(email);
                     headerProfile.setAvatarUrl(avatarUrl);
-                    EventBus.getDefault().post(new HeaderProfileEvent(headerProfile));
                     Utils.setSharePreferenceValues(context, Constants.STATUS_LOGIN, Constants.LOGIN_TRUE);
                     Utils.setSharePreferenceValues(context, Constants.CUSTOMER_ID, headerProfile.getCustomerID());
                     Utils.saveHeaderProfile(context, headerProfile);
+                    EventBus.getDefault().post(new HeaderProfileEvent(headerProfile));
+                    EventBus.getDefault().post(new UserAuthorizationChangedEvent());
                     loginView.backToHomeScreen(headerProfile, Activity.RESULT_OK);
                 } catch (Exception e) {
                     loginView.goToVerifyFacebookAccount();
-
                 }
             }
 
             @Override
             public void onError(String msg) {
-                ToastUtils.quickToast(context, msg
-                );
+                ToastUtils.quickToast(context, msg);
             }
         });
     }
 
+    void saveToFirebaseStorage(String avatarUrl,HeaderProfile headerProfile){
+        FirebaseApp.initializeApp(context);
+        FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+        StorageReference sr = firebaseStorage.getReferenceFromUrl("gs://banhangonline-187609.appspot.com/");
+        StorageReference storageReference = firebaseStorage.getReference().child("Customer/" + headerProfile.getCustomerID());
+        storageReference.putFile(Uri.parse(avatarUrl)).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                headerProfile.setAvatarUrl(taskSnapshot.getDownloadUrl().toString());
+                Log.i("firebaswURI", "onSuccess: " + taskSnapshot.getDownloadUrl().toString());
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.i("firebaswURI", "onSuccess:" + e.getCause().toString());
+                Toast.makeText(context, "Upload Image Fail!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        });
+    }
     @Override
     public void onViewDestroy() {
         loginInterator.onViewDestroy();

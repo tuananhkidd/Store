@@ -41,6 +41,7 @@ import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalService;
 
 import org.json.JSONObject;
+
 import java.util.Arrays;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, LoginView {
@@ -61,7 +62,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        try{
+        try {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_login);
 
@@ -73,7 +74,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             configuration = new PayPalConfiguration()
                     .environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
                     .clientId(Config.CLIENT_ID);
-
 
 
             LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -103,7 +103,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 }
             });
             initWidget();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         // getDataFromIntent();
@@ -114,23 +114,34 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         //chung thuc dang nhap vao facebook
         GraphRequest graphRequest = GraphRequest.newMeRequest(loginResult.getAccessToken(),
                 new GraphRequest.GraphJSONObjectCallback() {
-                    Profile profile = Profile.getCurrentProfile();
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {
+                        Profile profile = Profile.getCurrentProfile();
                         try {
                             Log.i("JSON result", "onCompleted: " + object.toString());
-
-                            String pro = profile.getId() + "  " + profile.getFirstName() + "  " + profile.getMiddleName() + "  " + profile.getLastName()
-                                    + profile.getLinkUri().toString() + "  " + profile.getProfilePictureUri(100, 100).toString();
                             facebookLoginBody.setAvatarUrl(profile.getProfilePictureUri(100, 100).toString());
-
-                            Log.i("JSON result", "onCompleted: " + Utils.millisecondsFromDate(object.getString("birthday")));
-
+                            String dob = object.getString("birthday");
+                            String str[] = dob.split("/");
+                            String birthday = str[1] + "-" + str[0] + "-" + str[2];
+                            Log.i("JSON result", "onCompleted: " + Utils.millisecondsFromDate(birthday));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        try {
                             facebookLoginBody.setFullname(object.getString("name"));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        try {
                             facebookLoginBody.setEmail(object.getString("email"));
-                            facebookLoginBody.setGender(object.getBoolean("gender"));
-
-
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            String gender = object.getString("gender");
+                            if (gender.equalsIgnoreCase("male"))
+                                facebookLoginBody.setGender(true);
+                            else facebookLoginBody.setGender(false);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -144,7 +155,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             bundle.putString("fields", "name,email,first_name,gender,birthday");
             graphRequest.setParameters(bundle);
             graphRequest.executeAsync();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -216,7 +227,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         switch (requestCode) {
             case Constants.REQUEST_CODE_SIGNUP: {
                 if (resultCode == Constants.RESULT_CODE_SIGNUP) {
-                      edt_username.setText(data.getStringExtra(Constants.USER));
+                    edt_username.setText(data.getStringExtra(Constants.USER));
                 }
                 break;
             }
