@@ -26,6 +26,7 @@ public class RegisterPresenterImpl implements RegisterPresenter {
 
     @Override
     public void validateUsernameAndPassword(String username, String password, CustomerRegisterBody customerRegisterBody) {
+        //Xử lý lỗi dữ liệu đầu vào
         if (username.isEmpty()) {
             registerView.showUserNameError();
             return;

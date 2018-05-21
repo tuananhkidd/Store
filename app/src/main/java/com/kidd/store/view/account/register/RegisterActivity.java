@@ -82,28 +82,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_register: {
+                //dong goi đối tượng CustomerRegisterBody mà api cần truyền lên
                 CustomerRegisterBody body = new CustomerRegisterBody(edt_fullname.getText().toString(),
                         edt_phone.getText().toString(), edt_address.getText().toString());
                 presenter.validateUsernameAndPassword(edt_username.getText().toString(), edt_password.getText().toString(), body);
-//                if (!setupError()) {
-//                    return;
-//                }
-//                if (db.check_user(edt_username.getText().toString())) {
-//                    db.register(u);
-//                    progressBar.setVisibility(View.VISIBLE);
-//                    new Handler().postDelayed(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            Intent intent = new Intent();
-//                            intent.putExtra(Constants.USER, u.getUsername());
-//                            setResult(Constants.RESULT_CODE_SIGNUP, intent);
-//                            finish();
-//                        }
-//                    }, 2000);
-//                } else {
-//                    Toast.makeText(this, "Account exist !!", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
                 break;
             }
             case R.id.txt_login: {
@@ -115,29 +97,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
-    boolean setupError() {
-        if (edt_username.getText().toString().isEmpty()) {
-            edt_username.setError("Must not empty!");
-            return false;
-        }
-        if (edt_password.getText().toString().isEmpty()) {
-            edt_username.setError("Must not empty !");
-            return false;
-        }
-
-//        if (!edt_confirm_password.getText().toString().equals(edt_password.getText().toString())) {
-//            edt_confirm_password.setError("Password not match!");
-//            return false;
-//        }
-
-        UUID uuid = UUID.randomUUID();
-        String id = uuid.toString();
-
-        u = new User(id, edt_username.getText().toString(), edt_password.getText().toString());
-
-        Log.i("user123", id);
-        return true;
-    }
 
     @Override
     public void showLoadingDialog() {
@@ -149,6 +108,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         loadingDialog.hide();
     }
 
+    //định nghĩa các hàm kế thừa từ interface ( RegisterView : thông báo các lỗi của dữ liệu đầu vào cho client)
     @Override
     public void showUserNameError() {
         edt_username.setError("Must not empty!");

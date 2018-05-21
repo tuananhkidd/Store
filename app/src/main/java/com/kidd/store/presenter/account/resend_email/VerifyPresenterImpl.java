@@ -34,6 +34,7 @@ public class VerifyPresenterImpl implements VerifyEmailPresenter {
 
             @Override
             public void onError(String message) {
+                verifyEmailView.hideLoadingDialog();
                 Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
             }
         });

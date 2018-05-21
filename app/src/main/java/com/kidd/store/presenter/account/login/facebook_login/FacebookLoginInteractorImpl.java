@@ -42,8 +42,8 @@ public class FacebookLoginInteractorImpl implements FacebookLoginInteractor {
                             switch (response.code()){
                                 case ResponseCode.OK:{
                                     FirebaseFirestore.getInstance().collection(Constants.USERS_COLLECTION)
-                                            .document(facebookLoginBody.getEmail())
-                                            .set(new UserChat(facebookLoginBody.getEmail(), facebookLoginBody.getFullname(), "ABC",facebookLoginBody.getAvatarUrl()))
+                                            .document(facebookLoginBody.getFacebookUserID())
+                                            .set(new UserChat(facebookLoginBody.getFacebookUserID(), facebookLoginBody.getFullname(), "ABC",facebookLoginBody.getAvatarUrl()))
                                             .addOnSuccessListener(documentReference -> listener.onLoginSuccess(response.body().getData()))
                                             .addOnFailureListener(e -> listener.onLoginError(e.getMessage()));
                                     ;

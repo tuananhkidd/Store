@@ -9,6 +9,6 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface VerifyEmailService {
-    @POST("/auths/resend/email/{username}")
+    @POST("api/auths/resend/registration/confirm/{username}")
     Observable<Response<ResponseBody<String>>> verifyEmail(@Path("username") String username);
 }

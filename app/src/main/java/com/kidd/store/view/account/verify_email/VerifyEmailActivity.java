@@ -2,6 +2,7 @@ package com.kidd.store.view.account.verify_email;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -19,6 +20,7 @@ public class VerifyEmailActivity extends AppCompatActivity implements VerifyEmai
     TextView txt_resend;
     VerifyEmailPresenter presenter;
     String username;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +31,12 @@ public class VerifyEmailActivity extends AppCompatActivity implements VerifyEmai
     }
 
     public void initData() {
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_back);
+        toolbar.setNavigationOnClickListener(v->{
+            finish();
+        });
         loadingDialog = new LoadingDialog(this);
         btn_accomplish = findViewById(R.id.btn_accomplish);
         txt_resend = findViewById(R.id.txt_resend_mail);
@@ -67,4 +75,6 @@ public class VerifyEmailActivity extends AppCompatActivity implements VerifyEmai
             }
         }
     }
+
+
 }

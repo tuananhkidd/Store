@@ -1,6 +1,7 @@
 package com.kidd.store.view.account.login;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,15 +24,20 @@ import com.facebook.Profile;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.kidd.store.MainActivity;
 import com.kidd.store.R;
 import com.kidd.store.SQLiteHelper.DBManager;
 import com.kidd.store.common.Config;
 import com.kidd.store.common.Constants;
 import com.kidd.store.common.ToastUtils;
+import com.kidd.store.common.UserAuth;
 import com.kidd.store.common.Utils;
 import com.kidd.store.custom.LoadingDialog;
 import com.kidd.store.models.body.FacebookLoginBody;
+import com.kidd.store.models.model_chat.UserChat;
 import com.kidd.store.models.response.HeaderProfile;
 import com.kidd.store.presenter.account.login.LoginPresenter;
 import com.kidd.store.presenter.account.login.LoginPresenterImpl;
@@ -124,6 +130,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             String str[] = dob.split("/");
                             String birthday = str[1] + "-" + str[0] + "-" + str[2];
                             Log.i("JSON result", "onCompleted: " + Utils.millisecondsFromDate(birthday));
+                            facebookLoginBody.setBirthDay(Utils.millisecondsFromDate(birthday));
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -194,6 +201,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void goToHomeScreen() {
+        FirebaseFirestore.getInstance().collection("users")
+                .document(UserAuth.getUserID(this))
+                .update("online", true)
+                .addOnSuccessListener(this, new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                })
+                .addOnFailureListener(this, new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
@@ -265,6 +287,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void backToHomeScreen(HeaderProfile headerProfile, int resultCode) {
+        FirebaseFirestore.getInstance().collection("users")
+                .document(UserAuth.getUserID(this))
+                .update("online", true)
+                .addOnSuccessListener(this, new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                })
+                .addOnFailureListener(this, new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
         setResult(resultCode);
         finish();
     }

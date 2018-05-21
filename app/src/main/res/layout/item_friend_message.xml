@@ -20,10 +20,11 @@
         android:layout_toRightOf="@id/img_avatar"
         android:layout_toEndOf="@id/img_avatar"
         app:cardUseCompatPadding="true"
-
+        android:background="@drawable/background_splash"
         app:cardCornerRadius="@dimen/small_padding">
 
         <TextView
+            android:backgroundTint="@color/colorPrimaryLight"
             android:id="@+id/txt_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

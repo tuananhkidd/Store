@@ -93,6 +93,12 @@ public class ChatActivity extends AppCompatActivity  implements ChatView, View.O
         EventBus.getDefault().register(this);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        chatPresenter.registerOnMessageAddedListener();
+    }
+
     private void initToolBar() {
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -113,7 +119,6 @@ public class ChatActivity extends AppCompatActivity  implements ChatView, View.O
     }
 
     protected void initData(Bundle savedInstanceState) {
-        chatPresenter.registerOnMessageAddedListener();
         userMessages= new ArrayList<>();
         btnSend.setOnClickListener(this);
 

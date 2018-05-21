@@ -29,13 +29,17 @@ public class VerifyEmailInteractorImpl implements VerifyEmailInteractor {
         Observable<Response<ResponseBody<String>>> observable =
                 ApiClient.getClient().create(VerifyEmailService.class).verifyEmail(username);
 
-        Disposable disposable = observable.observeOn(Schedulers.newThread())
-                .subscribeOn(AndroidSchedulers.mainThread())
+        Disposable disposable = observable.subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         response->{
                             switch (response.code()){
                                 case ResponseCode.OK:{
                                     listener.onSuccess(username);
+                                    break;
+                                }
+                                default:{
+                                    listener.onError(response.message());
                                     break;
                                 }
                             }

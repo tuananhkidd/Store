@@ -3,6 +3,7 @@ package com.kidd.store.view.account.login.facebook_login;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatSpinner;
@@ -13,9 +14,13 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.kidd.store.R;
 import com.kidd.store.adapter.SpinnerGenderAdapter;
 import com.kidd.store.common.Constants;
+import com.kidd.store.common.UserAuth;
 import com.kidd.store.common.Utils;
 import com.kidd.store.custom.LoadingDialog;
 import com.kidd.store.models.body.FacebookLoginBody;
@@ -146,6 +151,21 @@ public class FaceBookLoginActivity extends AppCompatActivity implements Facebook
 
     @Override
     public void backToHomeScreen(HeaderProfile headerProfile, int resultCode) {
+        FirebaseFirestore.getInstance().collection("users")
+                .document(UserAuth.getUserID(this))
+                .update("online", true)
+                .addOnSuccessListener(this, new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                })
+                .addOnFailureListener(this, new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
         setResult(resultCode);
         finish();
     }

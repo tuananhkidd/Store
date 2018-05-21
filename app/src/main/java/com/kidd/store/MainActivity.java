@@ -213,6 +213,21 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         switch (item.getItemId()) {
             case R.id.nav_logout: {
+                FirebaseFirestore.getInstance().collection("users")
+                        .document(UserAuth.getUserID(this))
+                        .update("online", false)
+                        .addOnSuccessListener(this, new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+
+                            }
+                        })
+                        .addOnFailureListener(this, new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+
+                            }
+                        });
                 Utils.setSharePreferenceValues(this, Constants.STATUS_LOGIN, Constants.LOGIN_FAIL);
                 Utils.setSharePreferenceValues(this, Constants.USER_NAME, null);
                 Utils.setSharePreferenceValues(this, Constants.CUSTOMER_ID, null);

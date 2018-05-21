@@ -31,6 +31,7 @@ public class RegisterInteratorImpl implements RegisterInterator {
 
     @Override
     public void register(String username, String password, CustomerRegisterBody body, OnRegisterCompleteListener listener) {
+        //Gọi đến api đăng ký
         Observable<Response<ResponseBody<String>>> observable = ApiClient.getClient().create(RegisterService.class)
                 .CustomerRegister(Base64UtilAccount.getBase64Account(username, password), body);
         Disposable disposable = observable.subscribeOn(Schedulers.newThread())
@@ -38,7 +39,9 @@ public class RegisterInteratorImpl implements RegisterInterator {
                 .subscribe(
                         response -> {
                             switch (response.code()) {
+                                //api trả về các mã code tương ứng. Trong mỗi trương hợp sẽ có kêt quả khác nhau
                                 case ResponseCode.OK: {
+                                    //mã 200 .đăng ký thành công
                                     FirebaseFirestore.getInstance().collection(Constants.USERS_COLLECTION)
                                             .document(username)
                                             .set(new UserChat(username, body.getFullName(), "ABC"))
@@ -48,19 +51,23 @@ public class RegisterInteratorImpl implements RegisterInterator {
                                     break;
                                 }
                                 case ResponseCode.CONFLICT: {
+                                    //mã 409 tài khoản đã tồn tài
                                     listener.onAccountExist();
                                     break;
                                 }
                                 case ResponseCode.FORBIDDEN: {
+                                    //mã 403 mật khẩu không dủ
                                     listener.onError(context.getString(R.string.password_must_be_more_than_six_letter));
                                     break;
                                 }
                                 default:{
-                                    listener.onError(context.getString(R.string.password_must_be_more_than_six_letter));
+                                    //mặc didnh
+                                    listener.onError(context.getString(R.string.server_error));
                                 }
                             }
                         },
                         error -> {
+                            //lỗi server
                             listener.onError(context.getString(R.string.server_error));
                         }
                 );
