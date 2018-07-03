@@ -17,6 +17,7 @@ import android.util.Log;
 import com.kidd.store.MainActivity;
 import com.kidd.store.models.response.HeaderProfile;
 
+import java.text.Normalizer;
 import java.text.ParseException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -25,12 +26,19 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 /**
  * Created by TuanAnhKid on 3/30/2018.
  */
 
 public class Utils {
+    public static String deAccent(String str) {
+        String nfdNormalizedString = Normalizer.normalize(str, Normalizer.Form.NFD);
+        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+        return pattern.matcher(nfdNormalizedString).replaceAll("");
+    }
+
     public static void setSharePreferenceValues(Context context, String key, String value) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("bookstore", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();

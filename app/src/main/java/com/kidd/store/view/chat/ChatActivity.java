@@ -203,7 +203,7 @@ public class ChatActivity extends AppCompatActivity  implements ChatView, View.O
 
 
             case R.id.edt_message:{
-                Toast.makeText(this, "123456", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "123456", Toast.LENGTH_SHORT).show();
                 //     goToSeenByState();
             }
             break;

@@ -184,6 +184,7 @@ public class CartActivity extends AppCompatActivity implements
                         ManageCart.getCart().removeToCart(cartAdapter.getItem(i, Item.class));
                     }
                 }
+                tvCostCart.setText(Utils.formatNumberMoney(ManageCart.getCart().getTotalMoney()) + " đ");
                 deleteAllSelectedClothes();
                 switchToViewMode();
             }

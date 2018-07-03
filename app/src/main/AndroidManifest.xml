@@ -15,23 +15,35 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/logoapp"
         android:supportsRtl="true"
+        android:screenOrientation="portrait"
+        android:windowSoftInputMode="adjustPan"
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme" />
-        <activity android:name=".view.SplashActivity">
+        <activity android:name=".view.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.account.login.LoginActivity" />
-        <activity android:name=".view.account.register.RegisterActivity" />
-        <activity android:name=".view.account.verify_email.VerifyEmailActivity" />
-        <activity android:name=".view.feedback.FeedbackActivity" />
-        <activity android:name=".view.profile.ProfileActivity" />
+        <activity android:name=".view.account.login.LoginActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".view.account.register.RegisterActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".view.account.verify_email.VerifyEmailActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".view.feedback.FeedbackActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".view.profile.ProfileActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
 
         <service
             android:name=".services.firebase.FireBaseMessaging"
@@ -73,22 +85,44 @@
             </intent-filter>
         </activity>
         <activity
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
             android:name=".view.about.AboutActivity"
             android:label="@string/title_activity_about" />
         <activity android:name=".view.rate.RateActivity" />
         <activity
             android:name=".view.map.MapsActivity"
             android:label="@string/title_activity_maps" />
-        <activity android:name=".view.profile.edit.EditProfileActivity" />
-        <activity android:name=".view.profile.update_description.UpdateDescriptionActivity" />
-        <activity android:name=".view.profile.update_profile.UpdateProfileActivity" />
-        <activity android:name=".view.account.password.change_password.ChangePasswordActivity" />
-        <activity android:name=".view.account.password.reset_password.ForgetPasswordActivity" />
-        <activity android:name=".view.shop.clothes_detail.ClothesDetailActivity" />
-        <activity android:name=".view.cart.CartActivity" />
-        <activity android:name=".view.history_order.HistoryOrderActivity" />
-        <activity android:name=".view.account.login.facebook_login.FaceBookLoginActivity" />
-        <activity android:name=".view.chat.ChatActivity"></activity>
+        <activity android:name=".view.profile.edit.EditProfileActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".view.profile.update_description.UpdateDescriptionActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".view.profile.update_profile.UpdateProfileActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".view.account.password.change_password.ChangePasswordActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".view.account.password.reset_password.ForgetPasswordActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".view.shop.clothes_detail.ClothesDetailActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".view.cart.CartActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".view.history_order.HistoryOrderActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".view.account.login.facebook_login.FaceBookLoginActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".view.chat.ChatActivity"
+            android:screenOrientation="portrait"
+           ></activity>
     </application>
 
 </manifest>

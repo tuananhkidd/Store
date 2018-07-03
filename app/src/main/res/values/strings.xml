@@ -55,7 +55,7 @@
     <string name="note">* Chúng tôi mong muốn nhận được những nhận xét từ các bạn để tiếp tục xây dựng và phát triển cửa hàng</string>
     <string name="must_not_empty">Rỗng</string>
 
-    <string name="error_message">Có lỗi xảy ra. Vui lòng thử lại></string>
+    <string name="error_message">Có lỗi xảy ra. Vui lòng thử lại</string>
     <string name="clothes_detail">Chi tiết sản phẩm</string>
 
     <string name="sale">Ưu đãi</string>
@@ -95,4 +95,9 @@
     <string name="seen">seen</string>
     <string name="toolbal_state_online">trạng thái Online</string>
     <string name="toolbal_state_offline">trạng thái Offline</string>
+    <string name="search">Tìm kiếm</string>
+    <string name="server_maintain">Máy chủ bảo trì</string>
+    <string name="server_maintain_message">Máy chủ đang trong thời gian bảo trì.Vui lòng quay lại sau...</string>
+    <string name="exit">Thoát</string>
+    <string name="please_make_sure_the_intenet_connection_is_enable">Vui lòng kiểm tra lại internet</string>
 </resources>

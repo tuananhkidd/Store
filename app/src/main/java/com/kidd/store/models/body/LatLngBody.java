@@ -9,6 +9,12 @@ public class LatLngBody {
     public LatLngBody() {
     }
 
+
+    public LatLngBody(double lat, double lng) {
+        this.lat = lat;
+        this.lng = lng;
+    }
+
     public LatLngBody(LatLng latLng) {
         setLat(latLng.latitude);
         setLng(latLng.longitude);
