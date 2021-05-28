@@ -1,14 +1,12 @@
 package com.kidd.store.view.profile.update_description;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.kidd.store.R;
-import com.kidd.store.common.Constants;
 import com.kidd.store.custom.LoadingDialog;
 import com.kidd.store.presenter.profile.update_description.UpdateDescriptionPresenter;
 import com.kidd.store.presenter.profile.update_description.UpdateDescriptionPresenterImpl;

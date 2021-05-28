@@ -3,8 +3,9 @@ package com.kidd.store.view.splash;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
+import androidx.appcompat.app.AppCompatActivity;
 import android.widget.ProgressBar;
 
 import com.kidd.store.MainActivity;
@@ -12,7 +13,7 @@ import com.kidd.store.R;
 import com.kidd.store.presenter.splash.GetAppVersionPresenter;
 import com.kidd.store.presenter.splash.GetAppVersionPresenterImpl;
 
-public class SplashActivity extends AppCompatActivity implements SplashView{
+public class SplashActivity extends AppCompatActivity implements SplashView {
 
     ProgressBar progressBar;
     private boolean isRequestSuccess = false;
@@ -24,13 +25,22 @@ public class SplashActivity extends AppCompatActivity implements SplashView{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        presenter = new GetAppVersionPresenterImpl(this,this);
+        presenter = new GetAppVersionPresenterImpl(this, this);
         progressBar = findViewById(R.id.progress);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                finish();
+            }
+        }, 2000);
     }
 
     @Override
     public void startProgress() {
-        splashTimer = new SplashTimer().execute();
+//        splashTimer = new SplashTimer().execute();
+
+
 
     }
 
@@ -59,7 +69,7 @@ public class SplashActivity extends AppCompatActivity implements SplashView{
     @Override
     protected void onStart() {
         super.onStart();
-        presenter.startApp();
+//        presenter.startApp();
     }
 
     @Override
@@ -86,7 +96,6 @@ public class SplashActivity extends AppCompatActivity implements SplashView{
     }
 
 
-
     private class SplashTimer extends AsyncTask<Void, Integer, Void> {
         @Override
         protected void onProgressUpdate(Integer... values) {
@@ -97,21 +106,21 @@ public class SplashActivity extends AppCompatActivity implements SplashView{
         protected Void doInBackground(Void... voids) {
             long millisPerProgress = 2500 / 100;
             int progress = 0;
-            try {
-                while (progress <= 80) {
-                    progress++;
-                    publishProgress(progress);
-                    Thread.sleep(millisPerProgress);
-                }
-                while (!isRequestSuccess);
-                while (progress <= 100) {
-                    progress++;
-                    publishProgress(progress);
-                    Thread.sleep(millisPerProgress);
-                }
-            } catch (InterruptedException ignored) {
-
-            }
+//            try {
+//                while (progress <= 80) {
+//                    progress++;
+//                    publishProgress(progress);
+//                    Thread.sleep(millisPerProgress);
+//                }
+//                while (!isRequestSuccess);
+//                while (progress <= 100) {
+//                    progress++;
+//                    publishProgress(progress);
+//                    Thread.sleep(millisPerProgress);
+//                }
+//            } catch (InterruptedException ignored) {
+//
+//            }
             return null;
         }
 

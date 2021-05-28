@@ -36,7 +36,7 @@
                 android:textColor="#000"
                 android:textStyle="bold" />
 
-            <android.support.v7.widget.AppCompatSpinner
+            <androidx.appcompat.widget.AppCompatSpinner
                 android:id="@+id/spinner_color"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -58,7 +58,7 @@
                 android:textColor="#000"
                 android:textStyle="bold" />
 
-            <android.support.v7.widget.AppCompatSpinner
+            <androidx.appcompat.widget.AppCompatSpinner
                 android:id="@+id/spinner_size"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

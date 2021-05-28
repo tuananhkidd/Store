@@ -1,18 +1,15 @@
 package com.kidd.store.view.account.register;
 
 import android.content.Intent;
-import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.facebook.login.Login;
 import com.kidd.store.R;
 import com.kidd.store.SQLiteHelper.DBManager;
 import com.kidd.store.common.Constants;
@@ -23,8 +20,6 @@ import com.kidd.store.presenter.account.register.RegisterPresenter;
 import com.kidd.store.presenter.account.register.RegisterPresenterImpl;
 import com.kidd.store.view.account.login.LoginActivity;
 import com.kidd.store.view.account.verify_email.VerifyEmailActivity;
-
-import java.util.UUID;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener,
         RegisterView {

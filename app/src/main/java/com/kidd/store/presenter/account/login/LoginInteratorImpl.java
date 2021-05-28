@@ -2,10 +2,10 @@ package com.kidd.store.presenter.account.login;
 
 import android.content.Context;
 
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.kidd.store.R;
 import com.kidd.store.common.Base64UtilAccount;
 import com.kidd.store.common.ResponseCode;
+import com.kidd.store.common.Utils;
 import com.kidd.store.models.body.FacebookLoginBody;
 import com.kidd.store.models.response.HeaderProfile;
 import com.kidd.store.models.response.ResponseBody;
@@ -31,9 +31,10 @@ public class LoginInteratorImpl implements LoginInterator {
 
     @Override
     public void login(String username, String password, OnLoginSuccessListener listener) {
+        // FirebaseInstanceId.getInstance().getToken()
         Observable<Response<ResponseBody<HeaderProfile>>> observable =
                 ApiClient.getClient().create(LoginServices.class).login(Base64UtilAccount.getBase64Account(username, password),
-                        FirebaseInstanceId.getInstance().getToken());
+                        Utils.getSharePreferenceValues(context,"firebase_token"));
         Disposable disposable = observable.observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(
@@ -69,7 +70,7 @@ public class LoginInteratorImpl implements LoginInterator {
     public void facebookLogin(String facebookUserID, OnGetFacebookLoginStateListener listener) {
         Observable<Response<ResponseBody<Object>>> observable =
                 ApiClient.getClient().create(LoginServices.class).facebookLogin(facebookUserID,
-                        FirebaseInstanceId.getInstance().getToken());
+                        Utils.getSharePreferenceValues(context,"firebase_token"));
 
         Disposable disposable = observable.subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())

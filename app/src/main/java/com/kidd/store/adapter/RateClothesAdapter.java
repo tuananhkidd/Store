@@ -1,7 +1,7 @@
 package com.kidd.store.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -10,8 +10,6 @@ import com.kidd.store.GlideApp;
 import com.kidd.store.R;
 import com.kidd.store.common.Utils;
 import com.kidd.store.models.response.RateClothesViewModel;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

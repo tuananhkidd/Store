@@ -1,8 +1,9 @@
 package com.kidd.store.adapter;
 
 import android.content.Context;
-import android.support.transition.TransitionManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.transition.TransitionManager;
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;

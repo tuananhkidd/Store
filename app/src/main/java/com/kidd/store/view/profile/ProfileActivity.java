@@ -1,18 +1,16 @@
 package com.kidd.store.view.profile;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.kidd.store.GlideApp;
 import com.kidd.store.R;
 import com.kidd.store.common.Constants;
-import com.kidd.store.common.UserAuth;
 import com.kidd.store.common.Utils;
 import com.kidd.store.custom.LoadingDialog;
 import com.kidd.store.models.response.Profile;
@@ -20,7 +18,6 @@ import com.kidd.store.presenter.profile.ProfilePresenter;
 import com.kidd.store.presenter.profile.ProfilePresenterImpl;
 import com.kidd.store.services.event_bus.DescriptionChangeEvent;
 import com.kidd.store.services.event_bus.ProfileChangeEvent;
-import com.kidd.store.services.event_bus.UserAuthorizationChangedEvent;
 import com.kidd.store.view.profile.update_description.UpdateDescriptionActivity;
 import com.kidd.store.view.profile.update_profile.UpdateProfileActivity;
 

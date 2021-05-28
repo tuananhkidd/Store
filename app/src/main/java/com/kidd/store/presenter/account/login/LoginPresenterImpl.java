@@ -2,10 +2,9 @@ package com.kidd.store.presenter.account.login;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
+import androidx.annotation.NonNull;
+
 import android.util.Log;
 import android.widget.Toast;
 
@@ -15,14 +14,12 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 import com.kidd.store.R;
 import com.kidd.store.common.Constants;
 import com.kidd.store.common.ToastUtils;
 import com.kidd.store.common.UserAuth;
 import com.kidd.store.common.Utils;
-import com.kidd.store.models.body.FacebookLoginBody;
 import com.kidd.store.models.response.HeaderProfile;
 import com.kidd.store.services.event_bus.HeaderProfileEvent;
 import com.kidd.store.services.event_bus.UserAuthorizationChangedEvent;
@@ -126,8 +123,8 @@ public class LoginPresenterImpl implements LoginPresenter {
         storageReference.putFile(Uri.parse(avatarUrl)).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                headerProfile.setAvatarUrl(taskSnapshot.getDownloadUrl().toString());
-                Log.i("firebaswURI", "onSuccess: " + taskSnapshot.getDownloadUrl().toString());
+                headerProfile.setAvatarUrl(taskSnapshot.getUploadSessionUri().toString());
+                Log.i("firebaswURI", "onSuccess: " + taskSnapshot.getUploadSessionUri().toString());
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

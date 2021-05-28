@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context="com.kidd.store.view.profile.update_description.UpdateDescriptionActivity">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:id="@+id/tool_bar"

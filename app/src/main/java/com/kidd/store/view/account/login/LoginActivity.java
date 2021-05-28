@@ -1,8 +1,8 @@
 package com.kidd.store.view.account.login;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -37,14 +37,12 @@ import com.kidd.store.common.UserAuth;
 import com.kidd.store.common.Utils;
 import com.kidd.store.custom.LoadingDialog;
 import com.kidd.store.models.body.FacebookLoginBody;
-import com.kidd.store.models.model_chat.UserChat;
 import com.kidd.store.models.response.HeaderProfile;
 import com.kidd.store.presenter.account.login.LoginPresenter;
 import com.kidd.store.presenter.account.login.LoginPresenterImpl;
 import com.kidd.store.view.account.login.facebook_login.FaceBookLoginActivity;
 import com.kidd.store.view.account.register.RegisterActivity;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
-import com.paypal.android.sdk.payments.PayPalService;
 
 import org.json.JSONObject;
 

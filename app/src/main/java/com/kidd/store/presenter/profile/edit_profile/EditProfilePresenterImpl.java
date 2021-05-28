@@ -2,7 +2,7 @@ package com.kidd.store.presenter.profile.edit_profile;
 
 import android.content.Context;
 import android.net.Uri;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -22,8 +22,6 @@ import com.kidd.store.services.event_bus.ProfileChangeEvent;
 import com.kidd.store.view.profile.update_profile.UpdateProfileView;
 
 import org.greenrobot.eventbus.EventBus;
-
-import java.io.File;
 
 public class EditProfilePresenterImpl implements EditProfilePresenter {
     private Context context;
@@ -78,8 +76,8 @@ public class EditProfilePresenterImpl implements EditProfilePresenter {
             storageReference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    profileBody.setAvatarUrl(taskSnapshot.getDownloadUrl().toString());
-                    Log.i("firebaswURI", "onSuccess: " + taskSnapshot.getDownloadUrl().toString());
+                    profileBody.setAvatarUrl(taskSnapshot.getUploadSessionUri().toString());
+                    Log.i("firebaswURI", "onSuccess: " + taskSnapshot.getUploadSessionUri().toString());
                     updateProfile(profileBody, customerID);
                 }
             }).addOnFailureListener(new OnFailureListener() {

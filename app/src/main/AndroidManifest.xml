@@ -16,6 +16,8 @@
         android:roundIcon="@drawable/logoapp"
         android:supportsRtl="true"
         android:screenOrientation="portrait"
+        android:usesCleartextTraffic="true"
+        android:requestLegacyExternalStorage="true"
         android:windowSoftInputMode="adjustPan"
         android:theme="@style/AppTheme">
         <activity

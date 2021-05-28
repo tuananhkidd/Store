@@ -1,13 +1,13 @@
 package com.kidd.store.view.history_order;
 
 import android.content.Intent;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -15,15 +15,11 @@ import com.kidd.store.R;
 import com.kidd.store.adapter.EndlessLoadingRecyclerViewAdapter;
 import com.kidd.store.adapter.OrderClothesAdapter;
 import com.kidd.store.adapter.RecyclerViewAdapter;
-import com.kidd.store.adapter.SaveClothesAdapter;
 import com.kidd.store.common.Constants;
-import com.kidd.store.common.UserAuth;
 import com.kidd.store.custom.LoadingDialog;
 import com.kidd.store.models.response.OrderViewModel;
-import com.kidd.store.models.response.SaveClothesPreview;
 import com.kidd.store.presenter.history.HistoryOrderPresenter;
 import com.kidd.store.presenter.history.HistoryOrderPresenterImpl;
-import com.kidd.store.view.follow.SaveClothesView;
 import com.kidd.store.view.shop.clothes_detail.ClothesDetailActivity;
 
 import java.util.List;

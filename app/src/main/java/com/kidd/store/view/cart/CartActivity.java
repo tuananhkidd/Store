@@ -1,13 +1,14 @@
 package com.kidd.store.view.cart;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -146,7 +147,8 @@ public class CartActivity extends AppCompatActivity implements
                             item.getClothes().getPrice(),
                             item.getClothes().getId()));
                 }
-                processPayment(ManageCart.getCart().getTotalMoney());
+		presenter.checkout(setOrderBodies);
+               // processPayment(ManageCart.getCart().getTotalMoney());
             }else {
                 ToastUtils.quickToast(this,"Giỏ hàng rỗng !");
                 return;

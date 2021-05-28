@@ -5,21 +5,17 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.NotificationCompat;
+import androidx.core.app.NotificationCompat;
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import com.kidd.store.MainActivity;
 import com.kidd.store.R;
 import com.kidd.store.common.Constants;
-import com.kidd.store.models.response.ClothesViewModel;
 import com.kidd.store.view.shop.clothes_detail.ClothesDetailActivity;
 
 import org.json.JSONObject;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.Map;
 
 public class FireBaseMessaging extends FirebaseMessagingService {
@@ -41,7 +37,7 @@ public class FireBaseMessaging extends FirebaseMessagingService {
 
     public void buildNoti(String clothesID) {
         String contentText = "Store";
-        String contentTitle = "Kidd Store vừa thêm 1 mặt hàng mới";
+        String contentTitle = "Store vừa thêm 1 mặt hàng mới";
         Intent intent = new Intent(this, ClothesDetailActivity.class);
         intent.putExtra(Constants.KEY_CLOTHES_ID,clothesID);
         PendingIntent pendingIntent = PendingIntent.getActivity(
