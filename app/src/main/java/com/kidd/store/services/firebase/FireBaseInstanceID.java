@@ -15,7 +15,7 @@ public class FireBaseInstanceID extends FirebaseMessagingService {
     @Override
     public void onNewToken(@NonNull String s) {
         super.onNewToken(s);
-        Utils.setSharePreferenceValues(this,"firebase_toke",s);
+        Utils.setSharePreferenceValues(this,"firebase_token",s);
         FirebaseMessaging.getInstance().subscribeToTopic(s);
     }
 

@@ -71,7 +71,7 @@ public class EditProfilePresenterImpl implements EditProfilePresenter {
         if (uri != null) {
             FirebaseApp.initializeApp(context);
             FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
-            StorageReference sr = firebaseStorage.getReferenceFromUrl("gs://banhangonline-187609.appspot.com/");
+            StorageReference sr = firebaseStorage.getReferenceFromUrl("gs://store-803c3.appspot.com/");
             StorageReference storageReference = firebaseStorage.getReference().child("Customer/" + customerID);
             storageReference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override

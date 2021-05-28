@@ -143,7 +143,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                         .setCamera(true)
                         .exceptGif(true)
                         .setHomeAsUpIndicatorDrawable(ContextCompat.getDrawable(this, R.drawable.ic_back))
-                        .setOkButtonDrawable(ContextCompat.getDrawable(this, R.drawable.ic_select))
+                        .setDoneButtonDrawable(ContextCompat.getDrawable(this, R.drawable.ic_select))
                         .setAllViewTitle(getResources().getString(R.string.selected))
                         .setActionBarTitle(getResources().getString(R.string.pick_avatar))
                         .textOnNothingSelected(getResources().getString(R.string.must_pick_one_image))

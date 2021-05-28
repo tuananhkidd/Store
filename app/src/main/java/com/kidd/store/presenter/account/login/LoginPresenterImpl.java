@@ -118,7 +118,7 @@ public class LoginPresenterImpl implements LoginPresenter {
     void saveToFirebaseStorage(String avatarUrl,HeaderProfile headerProfile){
         FirebaseApp.initializeApp(context);
         FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
-        StorageReference sr = firebaseStorage.getReferenceFromUrl("gs://banhangonline-187609.appspot.com/");
+        StorageReference sr = firebaseStorage.getReferenceFromUrl("gs://store-803c3.appspot.com/");
         StorageReference storageReference = firebaseStorage.getReference().child("Customer/" + headerProfile.getCustomerID());
         storageReference.putFile(Uri.parse(avatarUrl)).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override

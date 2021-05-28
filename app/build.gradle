@@ -83,7 +83,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:18.0.0'
     implementation 'com.google.gms:google-services:4.3.8'
     //image picker
-    implementation 'com.sangcomz:FishBun:0.8.6'
+    implementation 'com.sangcomz:FishBun:0.11.4'
     implementation 'com.github.armcha:SpaceNavigationView:1.6.0'
     implementation 'org.jetbrains:annotations:15.0'
 

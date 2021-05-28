@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity
         bottomNavigationView.setCentreButtonIcon(R.drawable.ic_location_red);
 //        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
         adapter = new FragmentAdapter(getSupportFragmentManager(), this);
+        viewPager.setOffscreenPageLimit(2);
         viewPager.setCurrentItem(0);
         viewPager.setAdapter(adapter);
 
